@@ -1,0 +1,15 @@
+node_modules
+dist
+.env
+ormconfig.json
+/logs
+/logs/*
+logs
+
+# Mac files
+.DS_Store
+
+# Code editors
+*.code-workspace
+!Linters.code-workspace
+.idea
