@@ -5,6 +5,7 @@ ormconfig.json
 /logs
 /logs/*
 logs
+coverage
 
 # Mac files
 .DS_Store

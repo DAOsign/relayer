@@ -1,4 +1,4 @@
-enum Network {
+export enum Network {
   ETHEREUM = "ethereum",
   ASTAR = "astar",
   SUI = "sui",
@@ -107,15 +107,17 @@ export interface ProofOfAgreementMessage extends MessageMetadata {
   signatureCIDs: Array<string>;
 }
 
+export type ProofTypedMessage = TypedMessage<
+  ProofOfAuthorityTypedMessage |
+  ProofOfSignatureTypedMessage |
+  ProofOfAgreementTypedMessage,
+  ProofOfAuthorityMessage |
+  ProofOfSignatureMessage |
+  ProofOfAgreementMessage
+>;
+
 export interface SignedProof {
-  message: TypedMessage<
-    ProofOfAgreementTypedMessage |
-    ProofOfSignatureTypedMessage |
-    ProofOfAgreementTypedMessage,
-    ProofOfAuthorityMessage |
-    ProofOfSignatureMessage |
-    ProofOfAgreementMessage
-  >;
+  message: ProofTypedMessage;
   signature: string;
   proofCID: string;
 }
@@ -127,7 +129,7 @@ export interface ProofProvider {
   set(proof: SignedProof): Promise<string>;
 }
 
-export class ProofsProvider {
+export class ProofProviders {
   providers: { [key: string]: ProofProvider } = {};
 
   constructor(providers: Array<ProofProvider>) {

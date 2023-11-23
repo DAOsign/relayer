@@ -1,6 +1,6 @@
 import * as express from 'express';
-import helloWorld from "./helloWorld";
+import proof from "./proof";
 
 export const routes = express();
 
-routes.use(helloWorld);
+routes.use(proof);
