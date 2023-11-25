@@ -1,7 +1,18 @@
 import { Request, Response } from "express";
-import { ProofProviders, Network, ProofTypedMessage, SignedProof, ProofOfAuthorityTypedMessage, ProofOfSignatureTypedMessage, ProofOfAgreementTypedMessage, ProofOfAuthorityMessage, ProofOfSignatureMessage, ProofOfAgreementMessage } from "../services/proof_provider";
+import {
+  ProofProviders,
+  Network,
+  ProofTypedMessage,
+  SignedProof,
+  ProofOfAuthorityTypedMessage,
+  ProofOfSignatureTypedMessage,
+  ProofOfAgreementTypedMessage,
+  ProofOfAuthorityMessage,
+  ProofOfSignatureMessage,
+  ProofOfAgreementMessage,
+} from "../services/proof_provider";
 import AppDataSource from "../ormconfig";
-import {Tx} from "../models/Tx";
+import { Tx } from "../models/Tx";
 
 const IPFS_CID_LENGTH = 46;
 const CHAIN_SIG_LENGTH = 132;
@@ -62,28 +73,28 @@ export function parseProofTypedMessage(value: any): ProofTypedMessage {
   let msg: ProofOfAuthorityMessage | ProofOfSignatureMessage | ProofOfAgreementMessage;
   switch (primaryType) {
     case "ProofOfAuthority":
-      if (typeof value.types.Signer !== "object" || typeof value.types.ProofOfAuthority !== "object" ) {
+      if (typeof value.types.Signer !== "object" || typeof value.types.ProofOfAuthority !== "object") {
         throw errMsg;
       }
       types = value.types as ProofOfAuthorityTypedMessage;
       msg = value.message as ProofOfAuthorityMessage;
       break;
     case "ProofOfSignature":
-      if (typeof value.types.ProofOfSignature !== "object" ) {
+      if (typeof value.types.ProofOfSignature !== "object") {
         throw errMsg;
       }
       types = value.types as ProofOfSignatureTypedMessage;
       msg = value.message as ProofOfSignatureMessage;
       break;
     case "ProofOfAgreement":
-      if (typeof value.types.ProofOfAgreement !== "object" ) {
+      if (typeof value.types.ProofOfAgreement !== "object") {
         throw errMsg;
       }
       types = value.types as ProofOfAgreementTypedMessage;
       msg = value.message as ProofOfAgreementMessage;
       break;
     default:
-      throw errMsg
+      throw errMsg;
   }
 
   return {
@@ -105,7 +116,7 @@ export function parseSignedProof(value: any): SignedProof {
   };
 }
 
-export function parseProof(value?: any): { network: Network, message: SignedProof } {
+export function parseProof(value?: any): { network: Network; message: SignedProof } {
   return {
     network: parseNetwork(value.network),
     message: parseSignedProof(value.message)!,

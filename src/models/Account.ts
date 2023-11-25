@@ -1,8 +1,8 @@
-import {BaseEntity, Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
-import {Network} from "./Network";
-import {Tx} from "./Tx";
+import { BaseEntity, Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Network } from "./Network";
+import { Tx } from "./Tx";
 
-@Entity('account')
+@Entity("account")
 export class Account extends BaseEntity {
   @PrimaryGeneratedColumn()
   account_id!: number;
@@ -10,13 +10,13 @@ export class Account extends BaseEntity {
   @ManyToOne(() => Network, (network) => network.accounts)
   network!: Network;
 
-  @Column({ type: 'varchar', nullable: false })
+  @Column({ type: "varchar", nullable: false })
   address!: string;
 
-  @Column({ type: 'varchar', nullable: false })
+  @Column({ type: "varchar", nullable: false })
   hd_path!: string;
 
-  @Column({ type: 'boolean', nullable: false })
+  @Column({ type: "boolean", nullable: false })
   locked!: boolean;
 
   @OneToMany(() => Tx, (tx) => tx.account)

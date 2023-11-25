@@ -15,7 +15,7 @@ describe("params parsers", () => {
     expect(parseCID(cid)).toBe(cid);
     expect(parseCID.bind(null)).toThrow("invalid cid value");
     expect(parseCID.bind(null, "some sid")).toThrow("invalid cid value");
-  })
+  });
 
   test("sig", () => {
     const sig = "0xf4076ad4d3f314a634bdf720a52fcbf94566678040f7896ea70c1f4fd35f81ad4e6e1338a5e503e6189e365a860b7a3f974ef553c77829555e2e621a3975da3b1b";
@@ -23,7 +23,7 @@ describe("params parsers", () => {
     expect(parseSig.bind(null)).toThrow("invalid sig value");
     expect(parseSig.bind(null, "some hash")).toThrow("invalid sig value");
     expect(parseSig.bind(null, "ab" + sig)).toThrow("invalid sig value");
-  })
+  });
 
   test("msg", () => {
     const msg = {
@@ -51,7 +51,7 @@ describe("params parsers", () => {
           { name: "app", type: "string" },
           { name: "timestamp", type: "uint256" },
           { name: "metadata", type: "string" },
-        ]
+        ],
       },
       message: {
         name: "Proof-of-Authority",
@@ -59,11 +59,11 @@ describe("params parsers", () => {
         agreementCID: "",
         signers: [],
         app: "daosign",
-        timestamp: Date.now() / 1000 | 0,
-        metadata: ""
-      }
-    }
-    const json = JSON.parse(JSON.stringify(msg))
-    expect(parseProofTypedMessage(json)).toStrictEqual(msg)
-  })
+        timestamp: (Date.now() / 1000) | 0,
+        metadata: "",
+      },
+    };
+    const json = JSON.parse(JSON.stringify(msg));
+    expect(parseProofTypedMessage(json)).toStrictEqual(msg);
+  });
 });

@@ -1,0 +1,8 @@
+src/migrations/**
+node_modules
+artifacts
+cache
+coverage
+dist
+ci
+src/ormoconfig.ts

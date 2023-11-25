@@ -1,0 +1,33 @@
+{
+  "env": {
+    "browser": false,
+    "es2021": true,
+    "mocha": false,
+    "node": true
+  },
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 12,
+    "project": "./tsconfig.json",
+    "sourceType": "module"
+  },
+  "ignorePatterns": ["ormconfig.js"],
+  "plugins": ["@typescript-eslint", "prettier"],
+  "extends": ["eslint:recommended", "plugin:@typescript-eslint/eslint-recommended", "plugin:@typescript-eslint/recommended", "prettier"],
+  "rules": {
+    "no-console": 1, // Means warning
+    "prettier/prettier": 2, // Means error
+    "no-restricted-syntax": ["off"],
+    "no-await-in-loop": ["off"],
+    "max-len": ["error", 180],
+    "no-plusplus": ["off"],
+    "class-methods-use-this": "off",
+    "import/no-import-module-exports": "off",
+    "import/no-cycle": "off",
+    "@typescript-eslint/no-var-requires": "off",
+    "import/prefer-default-export": "off",
+    "max-classes-per-file": "off",
+    "@typescript-eslint/ban-ts-comment":"off"
+  }
+}

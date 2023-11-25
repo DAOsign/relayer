@@ -28,58 +28,40 @@ export interface TypedMessage<T extends MessageTypes, M> {
 }
 
 export interface ProofOfAuthorityTypedMessage extends MessageTypes {
-  EIP712Domain: [
-    { name: "name", type: "string" },
-    { name: "version", type: "string" },
-    { name: "chainId", type: "uint256" },
-    { name: "verifyingContract", type: "address" },
-  ],
-  Signer: [
-    { name: "addr", type: "address" },
-    { name: "metadata", type: "string" },
-  ],
+  EIP712Domain: [{ name: "name"; type: "string" }, { name: "version"; type: "string" }, { name: "chainId"; type: "uint256" }, { name: "verifyingContract"; type: "address" }];
+  Signer: [{ name: "addr"; type: "address" }, { name: "metadata"; type: "string" }];
   ProofOfAuthority: [
-    { name: "name", type: "string" },
-    { name: "from", type: "address" },
-    { name: "agreementCID", type: "string" },
-    { name: "signers", type: "Signer[]" },
-    { name: "app", type: "string" },
-    { name: "timestamp", type: "uint256" },
-    { name: "metadata", type: "string" },
-  ]
+    { name: "name"; type: "string" },
+    { name: "from"; type: "address" },
+    { name: "agreementCID"; type: "string" },
+    { name: "signers"; type: "Signer[]" },
+    { name: "app"; type: "string" },
+    { name: "timestamp"; type: "uint256" },
+    { name: "metadata"; type: "string" },
+  ];
 }
 
 export interface ProofOfSignatureTypedMessage extends MessageTypes {
-  EIP712Domain: [
-    { name: "name", type: "string" },
-    { name: "version", type: "string" },
-    { name: "chainId", type: "uint256" },
-    { name: "verifyingContract", type: "address" },
-  ],
+  EIP712Domain: [{ name: "name"; type: "string" }, { name: "version"; type: "string" }, { name: "chainId"; type: "uint256" }, { name: "verifyingContract"; type: "address" }];
   ProofOfSignature: [
-    { name: "name", type: "string" },
-    { name: "signer", type: "address" },
-    { name: "agreementCID", type: "string" },
-    { name: "app", type: "string" },
-    { name: "timestamp", type: "uint256" },
-    { name: "metadata", type: "string" },
-  ],
+    { name: "name"; type: "string" },
+    { name: "signer"; type: "address" },
+    { name: "agreementCID"; type: "string" },
+    { name: "app"; type: "string" },
+    { name: "timestamp"; type: "uint256" },
+    { name: "metadata"; type: "string" },
+  ];
 }
 
 export interface ProofOfAgreementTypedMessage extends MessageTypes {
-  EIP712Domain: [
-    { name: "name", type: "string" },
-    { name: "version", type: "string" },
-    { name: "chainId", type: "uint256" },
-    { name: "verifyingContract", type: "address" },
-  ],
+  EIP712Domain: [{ name: "name"; type: "string" }, { name: "version"; type: "string" }, { name: "chainId"; type: "uint256" }, { name: "verifyingContract"; type: "address" }];
   ProofOfAgreement: [
-    { name: "agreementCID", type: "string" },
-    { name: "signatureCIDs", type: "string[]" },
-    { name: "app", type: "string" },
-    { name: "timestamp", type: "uint256" },
-    { name: "metadata", type: "string" },
-  ],
+    { name: "agreementCID"; type: "string" },
+    { name: "signatureCIDs"; type: "string[]" },
+    { name: "app"; type: "string" },
+    { name: "timestamp"; type: "uint256" },
+    { name: "metadata"; type: "string" },
+  ];
 }
 
 export interface MessageMetadata {
@@ -99,7 +81,6 @@ export interface ProofOfSignatureMessage extends MessageMetadata {
   name: "Proof-of-Signature";
   signer: string;
   agreementCID: string;
-
 }
 
 export interface ProofOfAgreementMessage extends MessageMetadata {
@@ -108,12 +89,8 @@ export interface ProofOfAgreementMessage extends MessageMetadata {
 }
 
 export type ProofTypedMessage = TypedMessage<
-  ProofOfAuthorityTypedMessage |
-  ProofOfSignatureTypedMessage |
-  ProofOfAgreementTypedMessage,
-  ProofOfAuthorityMessage |
-  ProofOfSignatureMessage |
-  ProofOfAgreementMessage
+  ProofOfAuthorityTypedMessage | ProofOfSignatureTypedMessage | ProofOfAgreementTypedMessage,
+  ProofOfAuthorityMessage | ProofOfSignatureMessage | ProofOfAgreementMessage
 >;
 
 export interface SignedProof {
@@ -139,7 +116,7 @@ export class ProofProviders {
   }
 
   get(network: Network, proofCID: string): Promise<SignedProof> {
-    return this.providers[network].get(proofCID)
+    return this.providers[network].get(proofCID);
   }
 
   set(network: Network, proof: SignedProof): Promise<string> {
