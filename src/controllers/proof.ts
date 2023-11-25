@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import { ProofProviders, Network, ProofTypedMessage, SignedProof, ProofOfAuthorityTypedMessage, ProofOfSignatureTypedMessage, ProofOfAgreementTypedMessage, ProofOfAuthorityMessage, ProofOfSignatureMessage, ProofOfAgreementMessage } from "../services/proof_provider";
+import AppDataSource from "../ormconfig";
+import {Tx} from "../models/Tx";
 
 const IPFS_CID_LENGTH = 46;
 const CHAIN_SIG_LENGTH = 132;
@@ -125,8 +127,12 @@ export default class Proof {
   }
 
   public async set(req: Request, res: Response) {
-    const data = parseProof(JSON.parse(req.body));
-    const txhash = await this.proofs.set(data.network, data.message);
-    res.status(200).json({ txhash });
+    const data = parseProof(req.body);
+    // const txhash = await this.proofs.set(data.network, data.message);
+
+    const txRepository = AppDataSource.getRepository(Tx);
+    const savedTx = await txRepository.create({ payload: data.message, network: { network_id: data.network } }).save();
+
+    res.status(200).json({ savedTx });
   }
 }

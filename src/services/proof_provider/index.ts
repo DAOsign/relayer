@@ -1,7 +1,7 @@
 export enum Network {
-  ETHEREUM = "ethereum",
-  ASTAR = "astar",
-  SUI = "sui",
+  ETHEREUM = 1,
+  ASTAR = 2,
+  SUI = 3,
 }
 
 export interface MessageTypeProperty {

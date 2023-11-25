@@ -2,7 +2,7 @@ import {
   BaseEntity,
   Column,
   CreateDateColumn,
-  Entity,
+  Entity, JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn
@@ -19,9 +19,11 @@ export class Tx extends BaseEntity {
   payload!: object;
 
   @ManyToOne(() => Network, (network) => network.network_id)
+  @JoinColumn([{ name: "network_id", referencedColumnName: "network_id" }])
   network!: Network;
 
   @ManyToOne(() => Account, (account) => account.transactions)
+  @JoinColumn([{ name: "account_id", referencedColumnName: "account_id" }])
   account!: Account;
 
   @Column({ type: 'varchar', nullable: true })
