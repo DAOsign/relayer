@@ -1,14 +1,19 @@
 {
+  "exclude": ["./coverage", "./dist", "__tests__", "jest.config.js"],
   "compilerOptions": {
-      "target": "es6",
-      "module": "commonjs",
-      "outDir": "./dist",
-      "rootDir": "./src",
-      "strict": true,
+    "target": "es6",
+    "module": "commonjs",
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "removeComments": true,
+    "resolveJsonModule": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strict": true,
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "Node"
   },
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }
