@@ -40,8 +40,15 @@ export class BasicTables1700751166514 implements MigrationInterface {
     ],
   });
 
+  networkTableData = [
+    { id: 1, name: "Ethereum" },
+    { id: 2, name: "SUI" },
+    { id: 3, name: "Polkadot" },
+  ];
+
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(this.networkTable);
+    await queryRunner.manager.createQueryBuilder().insert().into(this.networkTable.name).values(this.networkTableData).execute();
     await queryRunner.createTable(this.accountTable);
     await queryRunner.createTable(this.txTable);
   }
