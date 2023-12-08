@@ -17,4 +17,7 @@ export default envalid.cleanEnv(process.env, {
   TYPEORM_DATABASE: envalid.str(),
   TYPEORM_PORT: envalid.port(),
   TYPEORM_LOGGING: envalid.bool(),
+
+  ETH_RPC_URL: envalid.str(),
+  ETH_PRIVATE_KEY: envalid.str(),
 });

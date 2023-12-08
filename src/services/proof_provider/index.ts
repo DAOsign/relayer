@@ -3,7 +3,12 @@ export enum Network {
   ASTAR = 2,
   SUI = 3,
 }
-
+export enum Tx_Status {
+  NEW = 1,
+  IN_PROGRESS = 2,
+  SUCCESS = 3,
+  ERROR = 4,
+}
 export interface MessageTypeProperty {
   name: string;
   type: string;
