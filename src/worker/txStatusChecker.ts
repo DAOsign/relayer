@@ -4,6 +4,7 @@ import { Tx } from "../models/Tx";
 import { Network, Tx_Status } from "../services/proof_provider";
 import { EthereumService } from "../services/blockchainService/ethereum";
 import env from "../env";
+import { Account } from "../models/Account";
 
 const txStatusChecker = (datasource: DataSource) =>
   new CronJob(
@@ -11,6 +12,8 @@ const txStatusChecker = (datasource: DataSource) =>
     async (onComplete) => {
       console.time("Update transaction statuses");
       const txRepository = datasource.getRepository(Tx);
+      const accountRepository = datasource.getRepository(Account);
+
       const pendingTxs = await txRepository.find({ where: { status: Tx_Status.IN_PROGRESS } });
 
       if (!pendingTxs.length) {
@@ -26,6 +29,7 @@ const txStatusChecker = (datasource: DataSource) =>
           ethService.transactionStatus(tx.tx_hash).then((status) => {
             if (status !== Tx_Status.IN_PROGRESS) {
               txRepository.update({ tx_id: tx.tx_id }, { status: status });
+              accountRepository.update({ account_id: tx.account.account_id }, { locked: false });
             }
           });
         }
