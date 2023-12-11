@@ -1,15 +1,17 @@
 import app from "./app";
 import env from "./env";
 import AppDataSource from "./ormconfig";
-import { BlockchainService } from "./services/blockchainService";
-import { EthereumService } from "./services/blockchainService/ethereum";
 import txStatusChecker from "./worker/txStatusChecker";
+import { debug } from "./services/debug";
 
 const port = env.PORT;
 
 AppDataSource.initialize()
   .then((datasource) => {
     console.log("Data Source has been initialized!");
+
+    // TODO 
+    //debug();
 
     txStatusChecker(datasource).start();
   })

@@ -20,4 +20,5 @@ export default envalid.cleanEnv(process.env, {
 
   ETH_RPC_URL: envalid.str(),
   ETH_PRIVATE_KEY: envalid.str(),
+  ETH_CONTRACT_ADDRESS: envalid.str()
 });

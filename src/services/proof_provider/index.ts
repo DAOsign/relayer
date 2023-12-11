@@ -9,6 +9,13 @@ export enum Tx_Status {
   SUCCESS = 3,
   ERROR = 4,
 }
+
+export enum PROOF_TYPE {
+  PROOF_OF_SIGNATURE,
+  PROOF_OF_AUTHORITY,
+  PROOF_OF_AGREEMENT,
+}
+
 export interface MessageTypeProperty {
   name: string;
   type: string;

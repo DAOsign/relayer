@@ -23,7 +23,7 @@ export default class Proof {
     const txhash = await this.proofs.set(data.network, data.message);
 
     const txRepository = AppDataSource.getRepository(Tx);
-    const savedTx = await txRepository.create({ payload: data.message, network: { network_id: data.network } }).save();
+    const savedTx = await txRepository.create({ payload: data.message, network: { network_id: data.network }, tx_hash: txhash }).save();
 
     res.status(200).json({ savedTx });
   }
