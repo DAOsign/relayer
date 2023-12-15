@@ -16,17 +16,22 @@ export default class ProofController {
   }
 
   public async set(req: Request, res: Response) {
-    const data = parseProof(req.body);
+    try {
+      const data = parseProof(req.body);
 
-    return proofService
-      .set(data.network, data.message)
-      .then((tx) => {
-        res.status(200).json({ tx });
-        return;
-      })
-      .catch((e) => {
-        res.status(400).send(e?.message);
-        return;
-      });
+      return proofService
+        .set(data.network, data.message)
+        .then((tx) => {
+          res.status(200).json({ tx });
+          return;
+        })
+        .catch((e) => {
+          res.status(400).send(e?.message);
+          return;
+        });
+    } catch (e: any) {
+      console.error(e);
+      res.status(500).send(e?.message);
+    }
   }
 }
