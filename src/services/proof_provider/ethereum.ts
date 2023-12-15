@@ -4,6 +4,7 @@ import abi from "./abi.json";
 import { DAOSignApp } from "../../types/DAOSignApp";
 import env from "../../env";
 import { getProofType } from "./utils";
+import { createContractPayload } from "../../utils/transformers";
 
 export class EthereumProofProvider implements ProofProvider {
   network = Network.ETHEREUM;
@@ -19,41 +20,42 @@ export class EthereumProofProvider implements ProofProvider {
     this.contract = new ethers.Contract(env.ETH_CONTRACT_ADDRESS, abi, signer) as unknown as DAOSignApp;
   }
 
-  async get(proofCID: string): Promise<SignedProof> {
+  public async get(proofCID: string): Promise<SignedProof> {
     const [message, signature] = await this.contract.getProofOfAgreement(proofCID);
 
     //@ts-ignore //TODO
     return { message: message, proofCID: proofCID, signature: signature };
   }
 
-  async set(proof: SignedProof): Promise<string> {
+  public async set(derivationPath: string, proof: SignedProof): Promise<string> {
+    console.log("proof", proof);
     const proofType = getProofType(proof);
 
-    const wallet0 = ethers.HDNodeWallet.fromMnemonic(this.mnemonic, "m/44'/60'/0'/0");
+    const wallet0 = ethers.HDNodeWallet.fromMnemonic(this.mnemonic, derivationPath);
     const connectedWallet = wallet0.connect(this.provider);
     const contract = this.getContract(connectedWallet);
 
     let receipt: ethers.ContractTransactionResponse;
 
+    const contractPayload = createContractPayload(proof);
+
     switch (proofType) {
       case PROOF_TYPE.PROOF_OF_SIGNATURE: {
         //@ts-ignore
-        receipt = await contract.storeProofOfSignature(proof);
+        receipt = await contract.storeProofOfSignature(contractPayload);
         break;
       }
       case PROOF_TYPE.PROOF_OF_AGREEMENT: {
         //@ts-ignore
-        receipt = await contract.storeProofOfAgreement(proof);
+        receipt = await contract.storeProofOfAgreement(contractPayload);
         break;
       }
       case PROOF_TYPE.PROOF_OF_AUTHORITY: {
         //@ts-ignore
-        receipt = await contract.storeProofOfAuthority(proof);
+        receipt = await contract.storeProofOfAuthority(contractPayload);
         break;
       }
     }
-
-    console.log("receipt", receipt);
 
     return receipt.hash;
   }

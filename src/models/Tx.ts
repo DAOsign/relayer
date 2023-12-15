@@ -10,11 +10,11 @@ export class Tx extends BaseEntity {
   @Column({ type: "jsonb", nullable: false })
   payload!: object;
 
-  @ManyToOne(() => Network, (network) => network.network_id)
+  @ManyToOne(() => Network, (network) => network.network_id, { eager: true })
   @JoinColumn([{ name: "network_id", referencedColumnName: "network_id" }])
   network!: Network;
 
-  @ManyToOne(() => Account, (account) => account.transactions)
+  @ManyToOne(() => Account, (account) => account.transactions, { eager: true })
   @JoinColumn([{ name: "account_id", referencedColumnName: "account_id" }])
   account!: Account;
 

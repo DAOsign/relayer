@@ -10,9 +10,6 @@ AppDataSource.initialize()
   .then((datasource) => {
     console.log("Data Source has been initialized!");
 
-    // TODO 
-    //debug();
-
     txStatusChecker(datasource).start();
   })
   .catch((err) => {

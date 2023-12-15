@@ -24,10 +24,12 @@ const txStatusChecker = (datasource: DataSource) =>
       const ethPendingTxs = pendingTxs.filter((tx) => tx.network?.network_id === Network.ETHEREUM);
 
       if (ethPendingTxs.length) {
+        console.info(`Found ${ethPendingTxs.length} Ethereum pending transactions`);
         const ethService = new EthereumService(env.ETH_RPC_URL);
         for (const tx of ethPendingTxs) {
           ethService.transactionStatus(tx.tx_hash).then((status) => {
             if (status !== Tx_Status.IN_PROGRESS) {
+              logStatus(tx.tx_hash, status);
               txRepository.update({ tx_id: tx.tx_id }, { status: status });
               accountRepository.update({ account_id: tx.account.account_id }, { locked: false });
             }
@@ -43,4 +45,18 @@ const txStatusChecker = (datasource: DataSource) =>
     true,
   );
 
+function logStatus(txHash: string, status: Tx_Status) {
+  switch (status) {
+    case Tx_Status.ERROR: {
+      console.error(`Tx:${txHash} failed`);
+      break;
+    }
+    case Tx_Status.SUCCESS: {
+      console.info(`Tx:${txHash} successed`);
+      break;
+    }
+    default:
+      return;
+  }
+}
 export default txStatusChecker;

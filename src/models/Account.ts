@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Network } from "./Network";
 import { Tx } from "./Tx";
 
@@ -8,6 +8,7 @@ export class Account extends BaseEntity {
   account_id!: number;
 
   @ManyToOne(() => Network, (network) => network.accounts)
+  @JoinColumn([{ name: 'network_id', referencedColumnName: 'network_id' }])
   network!: Network;
 
   @Column({ type: "varchar", nullable: false })

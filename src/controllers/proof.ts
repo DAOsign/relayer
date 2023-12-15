@@ -1,44 +1,32 @@
 import { Request, Response } from "express";
-import { ProofProviders } from "../services/proof_provider";
 import AppDataSource from "../ormconfig";
-import { Tx } from "../models/Tx";
 import { parseNetwork, parseCID, parseProof } from "../utils/parsers";
-import { Account } from "../models/Account";
 
-export default class Proof {
-  private proofs: ProofProviders;
+import { EthereumProofProvider } from "../services/proof_provider/ethereum";
+import env from "../env";
+import { ProofService } from "../services/proofService";
 
-  constructor(proofs?: ProofProviders) {
-    this.proofs = proofs!;
-  }
-
+const proofService = new ProofService(AppDataSource, [new EthereumProofProvider(env.ETH_RPC_URL)]);
+export default class ProofController {
   public async get(req: Request, res: Response) {
     const network = parseNetwork(req.query.network as string);
     const proofcid = parseCID(req.query.proofcid as string);
-    const data = await this.proofs.get(network, proofcid);
-    res.status(200).json(data);
+    //  const data = await this.proofs.get(network, proofcid);
+    res.status(200).json({});
   }
 
   public async set(req: Request, res: Response) {
     const data = parseProof(req.body);
 
-    const accountRepository = AppDataSource.getRepository(Account);
-    const txRepository = AppDataSource.getRepository(Tx);
-
-    const account = await accountRepository.findOne({ where: { network: { network_id: data.network }, locked: false } });
-    if (!account) {
-      res.status(400).send("No available account");
-      return;
-    }
-
-    const txhash = await this.proofs.set(data.network, data.message);
-
-    if (txhash) {
-      accountRepository.update({ account_id: account.account_id }, { locked: true });
-    }
-
-    const savedTx = await txRepository.create({ payload: data.message, network: { network_id: data.network }, tx_hash: txhash, account: account }).save();
-
-    res.status(200).json({ savedTx });
+    return proofService
+      .set(data.network, data.message)
+      .then((tx) => {
+        res.status(200).json({ tx });
+        return;
+      })
+      .catch((e) => {
+        res.status(400).send(e?.message);
+        return;
+      });
   }
 }

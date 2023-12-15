@@ -1,9 +1,9 @@
 import { Router } from "express";
-import Proof from "../controllers/proof";
+import ProofController from "../controllers/proof";
 
 const router = Router();
 
-const proofController: Proof = new Proof();
+const proofController: ProofController = new ProofController();
 
 router.route("/proof").get(proofController.get).post(proofController.set);
 
