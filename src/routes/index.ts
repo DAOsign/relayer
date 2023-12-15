@@ -1,4 +1,4 @@
-import * as express from "express";
+import express from "express";
 import proof from "./proof";
 
 export const routes = express();

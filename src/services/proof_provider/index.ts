@@ -3,6 +3,18 @@ export enum Network {
   ASTAR = 2,
   SUI = 3,
 }
+export enum Tx_Status {
+  NEW = 1,
+  IN_PROGRESS = 2,
+  SUCCESS = 3,
+  ERROR = 4,
+}
+
+export enum PROOF_TYPE {
+  PROOF_OF_SIGNATURE,
+  PROOF_OF_AUTHORITY,
+  PROOF_OF_AGREEMENT,
+}
 
 export interface MessageTypeProperty {
   name: string;
@@ -103,23 +115,6 @@ export interface ProofProvider {
   network: Network;
 
   get(proofCID: string): Promise<SignedProof>;
-  set(proof: SignedProof): Promise<string>;
+  set(derivationPath: string, proof: SignedProof): Promise<string>;
 }
 
-export class ProofProviders {
-  providers: { [key: string]: ProofProvider } = {};
-
-  constructor(providers: Array<ProofProvider>) {
-    for (const provider of providers) {
-      this.providers[provider.network] = provider;
-    }
-  }
-
-  get(network: Network, proofCID: string): Promise<SignedProof> {
-    return this.providers[network].get(proofCID);
-  }
-
-  set(network: Network, proof: SignedProof): Promise<string> {
-    return this.providers[network].set(proof);
-  }
-}
