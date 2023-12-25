@@ -26,6 +26,7 @@ export function parseNetwork(value?: string): Network {
 }
 
 export function parseCID(value?: string): string {
+  console.log(value?.length, value)
   if (value === undefined || value.length !== IPFS_CID_LENGTH || !value.startsWith("Qm")) {
     throw new Error("invalid cid value");
   }
@@ -62,9 +63,9 @@ export function parseProofTypedMessage(value: any): ProofTypedMessage {
   }
   const primaryType = value.primaryType;
 
-  if (typeof value.types !== "object" || typeof value.types.EIP712Domain !== "object" || typeof value.message !== "object") {
+/*   if (typeof value.types !== "object" || typeof value.types.EIP712Domain !== "object" || typeof value.message !== "object") {
     throw errMsg;
-  }
+  } */
   let types: ProofOfAuthorityTypedMessage | ProofOfSignatureTypedMessage | ProofOfAgreementTypedMessage;
   let msg: ProofOfAuthorityMessage | ProofOfSignatureMessage | ProofOfAgreementMessage;
   switch (primaryType) {

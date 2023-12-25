@@ -53,6 +53,7 @@ export class EthereumProofProvider implements ProofProvider {
       case PROOF_TYPE.PROOF_OF_AUTHORITY: {
         //@ts-ignore
         receipt = await contract.storeProofOfAuthority(contractPayload);
+
         break;
       }
     }
