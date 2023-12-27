@@ -28,7 +28,9 @@ export class EthereumProofProvider implements ProofProvider {
   }
 
   public async set(derivationPath: string, proof: SignedProof): Promise<string> {
-    console.log("proof", proof);
+    console.log("proof");
+    console.dir(proof.message.types);
+    //@ts-ignore
     const proofType = getProofType(proof);
 
     const wallet0 = ethers.HDNodeWallet.fromMnemonic(this.mnemonic, derivationPath);
@@ -42,7 +44,7 @@ export class EthereumProofProvider implements ProofProvider {
     switch (proofType) {
       case PROOF_TYPE.PROOF_OF_SIGNATURE: {
         //@ts-ignore
-        receipt = await contract.storeProofOfSignature(contractPayload);
+        receipt = await contract.storeProofOfSignature.staticCall(contractPayload);
         break;
       }
       case PROOF_TYPE.PROOF_OF_AGREEMENT: {
