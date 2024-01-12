@@ -96,6 +96,7 @@ export interface ProofOfSignatureMessage extends MessageMetadata {
 }
 
 export interface ProofOfAgreementMessage extends MessageMetadata {
+  name: "Proof-of-Agreement";
   agreementCID: string;
   signatureCIDs: Array<string>;
 }

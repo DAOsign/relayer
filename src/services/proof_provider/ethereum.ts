@@ -28,8 +28,6 @@ export class EthereumProofProvider implements ProofProvider {
   }
 
   public async set(derivationPath: string, proof: SignedProof): Promise<string> {
-    console.log("proof");
-    console.dir(proof.message.types);
     //@ts-ignore
     const proofType = getProofType(proof);
 
@@ -44,7 +42,7 @@ export class EthereumProofProvider implements ProofProvider {
     switch (proofType) {
       case PROOF_TYPE.PROOF_OF_SIGNATURE: {
         //@ts-ignore
-        receipt = await contract.storeProofOfSignature.staticCall(contractPayload);
+        receipt = await contract.storeProofOfSignature(contractPayload);
         break;
       }
       case PROOF_TYPE.PROOF_OF_AGREEMENT: {
