@@ -26,7 +26,6 @@ export function parseNetwork(value?: string): Network {
 }
 
 export function parseCID(value?: string): string {
-  console.log(value?.length, value)
   if (value === undefined || value.length !== IPFS_CID_LENGTH || !value.startsWith("Qm")) {
     throw new Error("invalid cid value");
   }
@@ -34,7 +33,7 @@ export function parseCID(value?: string): string {
 }
 
 export function parseSig(value?: string): string {
-  if (value === undefined || value.length !== CHAIN_SIG_LENGTH || !value.startsWith("0x")) {
+  if (value === undefined || /* value.length !== CHAIN_SIG_LENGTH || */ !value.startsWith("0x")) { //TODO
     throw new Error("invalid sig value");
   }
   return value;
@@ -63,7 +62,7 @@ export function parseProofTypedMessage(value: any): ProofTypedMessage {
   }
   const primaryType = value.primaryType;
 
-/*   if (typeof value.types !== "object" || typeof value.types.EIP712Domain !== "object" || typeof value.message !== "object") {
+  /*   if (typeof value.types !== "object" || typeof value.types.EIP712Domain !== "object" || typeof value.message !== "object") {
     throw errMsg;
   } */
   let types: ProofOfAuthorityTypedMessage | ProofOfSignatureTypedMessage | ProofOfAgreementTypedMessage;

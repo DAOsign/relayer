@@ -21,7 +21,7 @@ export class EthereumProofProvider implements ProofProvider {
   }
 
   public async get(proofCID: string): Promise<SignedProof> {
-    const [message, signature] = await this.contract.getProofOfAgreement(proofCID);
+    const [message, signature] = await this.contract.getProofOfAuthority(proofCID);
 
     //@ts-ignore //TODO
     return { message: message, proofCID: proofCID, signature: signature };
@@ -35,29 +35,29 @@ export class EthereumProofProvider implements ProofProvider {
     const connectedWallet = wallet0.connect(this.provider);
     const contract = this.getContract(connectedWallet);
 
-    let receipt: ethers.ContractTransactionResponse;
-
     const contractPayload = createContractPayload(proof);
 
+    let storeProof: typeof contract.storeProofOfSignature | typeof contract.storeProofOfAuthority | typeof contract.storeProofOfAgreement;
     switch (proofType) {
       case PROOF_TYPE.PROOF_OF_SIGNATURE: {
-        //@ts-ignore
-        receipt = await contract.storeProofOfSignature(contractPayload);
+        storeProof = contract.storeProofOfSignature;
+
         break;
       }
       case PROOF_TYPE.PROOF_OF_AGREEMENT: {
-        //@ts-ignore
-        receipt = await contract.storeProofOfAgreement(contractPayload);
+        storeProof = contract.storeProofOfAgreement;
         break;
       }
       case PROOF_TYPE.PROOF_OF_AUTHORITY: {
-        //@ts-ignore
-        receipt = await contract.storeProofOfAuthority(contractPayload);
-
+        storeProof = contract.storeProofOfAuthority;
         break;
       }
     }
+    console.log("contractPayload", contractPayload);
+    //@ts-ignore
+    const receipt = await storeProof(contractPayload).catch(console.error);
 
+    //@ts-ignore
     return receipt.hash;
   }
 

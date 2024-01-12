@@ -2,10 +2,14 @@ import env from "../env";
 import { EthereumProofProvider } from "./proof_provider/ethereum";
 
 const agreementCID = "QmdbCHsCsaMXGw6XVahtqTkbSkCLc8aupiu4hcVMbHpAfX";
+const signatureCID = "QmbetiMECZy4q5mN9VbZ2LejxoA1AjNEeEhBdU9LPDbAX8";
+
 export const debug = () => {
-  //  debugAuthority().then(console.log).catch(console.error);
-  debugSignature().then(console.log).catch(console.error)//.catch((e)=>console.error(JSON.stringify(e, null, 2)));
+  //debugAuthority().then(console.log).catch(console.error);
+  //debugSignature().then(console.log).catch(console.error); //.catch((e)=>console.error(JSON.stringify(e, null, 2)));
   //debugAgreement().then(console.log).catch(console.error);
+  //@ts-ignore
+  // getProofOfAuth('QmdRa839ynpkuRLcMTmZZngzWFXmNMKSUypPijs7Fg2Ygj').then((res) => console.dir(res.message[3])).catch(console.error);
 };
 
 const debugAuthority = () => {
@@ -50,7 +54,7 @@ const debugAuthority = () => {
         metadata: "{}",
       },
     },
-    signature: "0x56ce17b1ebf66ae8520ccc531e3607d2c6d66e1bf89e02f4f78490b15c2472a76f310cf402f10fb1e78b4b3250a374469615461e61a8959a4f965ba2710407d01b",
+    signature: "0xf7e6cdf40a308d8146b0b668913b93268e49ed8cc1d1d46c27b61aa0396203875437b485e27fd63b7ddcfc2f1803a9814e0707e11ee88264dd834556932178f71c",
     proofCID: "QmdRa839ynpkuRLcMTmZZngzWFXmNMKSUypPijs7Fg2Ygj",
   });
 };
@@ -80,13 +84,13 @@ const debugSignature = () => {
       message: {
         name: "Proof-of-Signature",
         signer: "0x4300bc1Ed00706E5386C6B938382d37eDB31d143",
-        agreementCID: agreementCID,
+        agreementCID: "QmdRa839ynpkuRLcMTmZZngzWFXmNMKSUypPijs7Fg2Ygj", //proof of authority CID
         app: "daosign",
         timestamp: 1703580673701,
         metadata: "{}",
       },
     },
-    signature: "0xf7e6cdf40a308d8146b0b668913b93268e49ed8cc1d1d46c27b61aa0396203875437b485e27fd63b7ddcfc2f1803a9814e0707e11ee88264dd834556932178f71c",
+    signature: "0x273b33d4827550693dc69f83803423eeb23d9c2cbe038e76b72aafbb0d09528d5e8a2c67d2447d7b34a28873b486a4d7f2086cb24fd93086fe5e80e9286693771c",
     proofCID: "QmbetiMECZy4q5mN9VbZ2LejxoA1AjNEeEhBdU9LPDbAX8",
   });
 };
@@ -129,14 +133,18 @@ const debugAgreement = () => {
       },
       //@ts-ignore
       message: {
-        agreementCID: "QmSHjHv9CyZVi5evoLKegeyFKqo9Y7PLSAMU4c28GV3ZTp",
-        signatureCIDs: ["QmY32m6B5JFGeQAJFLDjhbrSEpBUErZHCTFrR9tkmwcy6Q", "QmH42m6B5JFGeQAJFLDjhbrSEpBUErZHCTFrR9tkmwcy6Q"],
+        agreementCID: "QmdRa839ynpkuRLcMTmZZngzWFXmNMKSUypPijs7Fg2Ygj",
+        signatureCIDs: ["QmbetiMECZy4q5mN9VbZ2LejxoA1AjNEeEhBdU9LPDbAX8", "QmbetiMECZy4q5mN9VbZ2LejxoA1AjNEeEhBdU9LPDbAX8"],
         app: "daosign",
         timestamp: 1702376820,
         metadata: "metadata",
       },
     },
-    signature: "0x7c75af0f79402ac55516ab79c326995f94777433d45670017c355f18e9e2406626bd89ef949c861940121dceb64cced02baa60cb05dad53ab7adf86f07c2ce721b",
-    proofCID: "QmbetiMECZy4q5mN9VbZ2LejxoA1AjNEeEhBdU9LPDbAX8",
+    signature: "0x48dbff7681bd112283ac4167c5cd91ac133f4bb79a10da7896eac374688c984d4f56a2b10b961520a29ac08392117868638b19ac73611a5f4811967462113c081b",
+    proofCID: "QmbetiMECZy4q5mN9VbZ2LejxoA1AjNEeEhBdU9LPDbAB2",
   });
+};
+
+const getProofOfAuth = (cid: string) => {
+  return new EthereumProofProvider(env.ETH_RPC_URL).get(cid);
 };
