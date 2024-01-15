@@ -33,6 +33,8 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
+    "@mysten/bcs": "^0.10.1",
+    "@mysten/sui.js": "^0.49.1",
     "cors": "^2.8.5",
     "cron": "^3.1.6",
     "envalid": "^8.0.0",
