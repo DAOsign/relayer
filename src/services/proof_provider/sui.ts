@@ -1,22 +1,24 @@
-import { Network, PROOF_TYPE, ProofOfAuthorityMessage, ProofOfSignatureMessage, ProofProvider, ProofTypedMessage, SignedProof } from "./index";
+import { Network, ProofProvider, ProofTypedMessage, SignedProof } from "./index";
 import { getFullnodeUrl, SuiClient } from "@mysten/sui.js/client";
 import { TransactionBlock, Inputs } from "@mysten/sui.js/transactions";
 import { bcs } from "@mysten/sui.js/bcs";
-import { getProofType } from "./utils";
 import { Ed25519Keypair } from "@mysten/sui.js/keypairs/ed25519";
 import { createContractPayload } from "../../utils/transformers";
+import { serializeSigner, SignedMessage } from "./bcs";
+import env from "../../env";
 
 export class SuiProofProvider implements ProofProvider {
   network = Network.SUI;
 
-  rpcUrl = getFullnodeUrl("testnet");
-  bagReference = "0x5d0686f2d961130bcf563d3c94c651258ac7e1b1867bd437946038775a42062c";
+  rpcUrl = getFullnodeUrl(env.SUI_RPC_CHAIN_TYPE);
+  bagReference = env.SUI_BAG_ID;
 
   txb = new TransactionBlock();
+  mnemonic = "stool embrace dentist speed fire hope usual lock car inmate flag orbit";
 
   client: SuiClient;
 
-  constructor(rpcUrl: string) {
+  constructor() {
     this.client = new SuiClient({ url: this.rpcUrl });
   }
 
@@ -33,90 +35,47 @@ export class SuiProofProvider implements ProofProvider {
     console.log("proof");
     console.dir(proof.message.types);
 
-    const proofType = getProofType(proof);
-
-    const Signer = bcs.struct("Signer", {
-      addr: bcs.vector(bcs.u8()),
-      metadata: bcs.string(),
-    });
-
-    const ProofOfAuthority = bcs.struct("ProofOfAuthority", {
-      name: bcs.string(),
-      from: bcs.vector(bcs.u8()),
-      agreementCID: bcs.string(),
-      signers: bcs.vector(Signer),
-      app: bcs.string(),
-      timestamp: bcs.u64(),
-      metadata: bcs.string(),
-    });
-
-    const SignedMessage = bcs.struct("SignedMessage", {
-      message: ProofOfAuthority,
-      signature: bcs.vector(bcs.u8()),
-      proofCID: bcs.string(),
-    });
+    const keypair = Ed25519Keypair.deriveKeypair(this.mnemonic, derivationPath);
+    this.txb.setGasBudget(10000000);
 
     let receipt: any;
 
     const contractPayload = createContractPayload(proof);
-    let message = contractPayload.message as ProofOfAuthorityMessage;
 
-    const serializedSigners = message.signers.map((item) => {
-      return { addr: bcs.string().serialize(item.addr).toBytes(), metadata: item.metadata };
-    });
+    if (contractPayload.message.name === "Proof-of-Authority") {
+      const serializedBcs = SignedMessage.serialize({
+        message: {
+          name: contractPayload.message.name,
+          from: bcs.string().serialize(contractPayload.message.from).toBytes(),
+          agreementCID: contractPayload.message.agreementCID,
+          app: contractPayload.message.app,
+          signers: serializeSigner(contractPayload.message.signers),
+          timestamp: contractPayload.message.timestamp,
+          metadata: contractPayload.message.metadata,
+        },
+        signature: bcs.string().serialize(contractPayload.signature).toBytes(),
+        proofCID: contractPayload.proofCID,
+      }).toBytes();
 
-    const serializedBcs = SignedMessage.serialize({
-      message: {
-        name: message.name,
-        from: bcs.string().serialize(message.from).toBytes(),
-        agreementCID: message.agreementCID,
-        app: message.app,
-        signers: serializedSigners,
-        timestamp: message.timestamp,
-        metadata: message.metadata,
-      },
-      signature: bcs.string().serialize(contractPayload.signature).toBytes(),
-      proofCID: contractPayload.proofCID,
-    });
-
-    // const serializedBcs = SignedMessage.serialize({
-    //   message: {
-    //     name: message.name,
-    //     // from: message.from,
-    //     agreementCID: message.agreementCID,
-    //     signers: message.signers,
-    //     app: message.app,
-    //     timestamp: message.timestamp,
-    //     metadata: message.metadata
-    //   },
-    //   signature: contractPayload.signature,
-    //   proofCID: contractPayload.proofCID
-    // })
-
-    switch (proofType) {
-      case PROOF_TYPE.PROOF_OF_AUTHORITY: {
-        this.txb.moveCall({
-          target: `${"0xab299d88f3a11981baa54cb64a845d1d73c237aab30800a0eb7a58f981308772"}::${"application"}::${"store_proof_of_authority"}`,
-          arguments: [this.txb.object(this.bagReference), serializedBcs],
-        });
-
-        this.txb.setGasBudget(10000000);
-
-        const keypair = Ed25519Keypair.deriveKeypair("stool embrace dentist speed fire hope usual lock car inmate flag orbit", "m/44'/784'/0'/0'/0'");
-
-        await this.client.signAndExecuteTransactionBlock({ signer: keypair, transactionBlock: this.txb });
-        break;
-      }
-      // case PROOF_TYPE.PROOF_OF_AGREEMENT: {
-      //   //@ts-ignore
-      //   receipt = await contract.storeProofOfAgreement(contractPayload);
-      //   break;
-      // }
-      // case PROOF_TYPE.PROOF_OF_AUTHORITY: {
-      //   receipt = await this.client.call("store_proof_of_authority", [this.bagReference, contractPayload]);
-      //   break;
-      // }
+      this.txb.moveCall({
+        target: `${env.SUI_PACKAGE_ID}::${"application"}::${"store_proof_of_authority"}`,
+        arguments: [this.txb.object(this.bagReference), this.txb.pure(serializedBcs)],
+      });
     }
+
+    if (contractPayload.message.name === "Proof-of-Signature") {
+    }
+
+    if (contractPayload.message.name === "Proof-of-Agreement") {
+    }
+
+    const result = await this.client.signAndExecuteTransactionBlock({
+      signer: keypair,
+      transactionBlock: this.txb,
+      options: {
+        showInput: true,
+      },
+    });
 
     return receipt;
   }

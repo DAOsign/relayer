@@ -1,6 +1,6 @@
 import env from "../env";
 import { EthereumProofProvider } from "./proof_provider/ethereum";
-import {SuiProofProvider} from "./proof_provider/sui";
+import { SuiProofProvider } from "./proof_provider/sui";
 
 // export const debug = () => {
 //   new EthereumProofProvider(env.ETH_RPC_URL).set("m/44'/60'/0'/0", {
@@ -38,8 +38,9 @@ import {SuiProofProvider} from "./proof_provider/sui";
 //   }).then(console.log).catch(console.error);
 //   return;
 
-  export const debug = () => {
-    new SuiProofProvider("https://fullnode.testnet.sui.io/").set("m/44'/60'/0'/0", {
+export const debug = () => {
+  new SuiProofProvider()
+    .set("m/44'/784'/0'/0'/0'", {
       message: {
         domain: {
           name: "daosign",
@@ -49,65 +50,65 @@ import {SuiProofProvider} from "./proof_provider/sui";
         },
         primaryType: "ProofOfAuthority",
         //@ts-ignore
-        "types": {
-          "EIP712Domain": [
+        types: {
+          EIP712Domain: [
             {
-              "name": "name",
-              "type": "string"
+              name: "name",
+              type: "string",
             },
             {
-              "name": "version",
-              "type": "string"
+              name: "version",
+              type: "string",
             },
             {
-              "name": "chainId",
-              "type": "uint256"
+              name: "chainId",
+              type: "uint256",
             },
             {
-              "name": "verifyingContract",
-              "type": "address"
-            }
+              name: "verifyingContract",
+              type: "address",
+            },
           ],
-          "ProofOfAgreement": [
+          ProofOfAgreement: [
             {
-              "name": "agreementCID",
-              "type": "string"
+              name: "agreementCID",
+              type: "string",
             },
             {
-              "name": "signatureCIDs",
-              "type": "string[]"
+              name: "signatureCIDs",
+              type: "string[]",
             },
             {
-              "name": "app",
-              "type": "string"
+              name: "app",
+              type: "string",
             },
             {
-              "name": "timestamp",
-              "type": "uint256"
+              name: "timestamp",
+              type: "uint256",
             },
             {
-              "name": "metadata",
-              "type": "string"
-            }
-          ]
+              name: "metadata",
+              type: "string",
+            },
+          ],
         },
-        "message": {
-          "name": "Proof-of-Authority",
-          signers: [
-            { addr: "f39fd6e51aad88f6f4ce6ab8827279cfffb92266", metadata: "f39fd6e51aad88f6f4ce6ab8827279cfffb92266" },
-          ],
+        message: {
+          name: "Proof-of-Authority",
+          signers: [{ addr: "f39fd6e51aad88f6f4ce6ab8827279cfffb92266", metadata: "some metadata" }],
           from: "f39fd6e51aad88f6f4ce6ab8827279cfffb92266",
 
-          "app": "daosign",
-          "timestamp": 1704804210,
+          app: "daosign",
+          timestamp: 1704804210,
           agreementCID: "QmVv2RzVuX7B2xBzPpBxSBSFc7zpJZ6Pgf71YUHNF8dP31",
-          "metadata": "metadata"
-        }
+          metadata: "metadata",
+        },
       },
       signature: "ea491aaa3413bb0980431b770233ac0e0919c685f1277605d021da030d1fff394843496b6742a4c8cb75ea01dc92b18a9608198a5173f8b8078148c2fc07df141b",
       proofCID: "QmbetiMECZy4q5mN9VbZ2LejxoA1AjNEeEhBdU9LPDbAX8",
-    }).then(console.log).catch(console.error);
-    return;
+    })
+    .then(console.log)
+    .catch(console.error);
+  return;
 
   /*   //Authority
   return new EthereumProofProvider(env.ETH_RPC_URL).set({
