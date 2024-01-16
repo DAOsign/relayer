@@ -13,7 +13,7 @@
                         "components": [
                             {
                                 "internalType": "string",
-                                "name": "agreementCID",
+                                "name": "authorityCID",
                                 "type": "string"
                             },
                             {
@@ -159,7 +159,7 @@
                             },
                             {
                                 "internalType": "string",
-                                "name": "agreementCID",
+                                "name": "authorityCID",
                                 "type": "string"
                             },
                             {
@@ -293,7 +293,7 @@
                                 "components": [
                                     {
                                         "internalType": "string",
-                                        "name": "agreementCID",
+                                        "name": "authorityCID",
                                         "type": "string"
                                     },
                                     {
@@ -618,7 +618,7 @@
                                     },
                                     {
                                         "internalType": "string",
-                                        "name": "agreementCID",
+                                        "name": "authorityCID",
                                         "type": "string"
                                     },
                                     {
@@ -668,7 +668,7 @@
                         "components": [
                             {
                                 "internalType": "string",
-                                "name": "agreementCID",
+                                "name": "authorityCID",
                                 "type": "string"
                             },
                             {
@@ -814,7 +814,7 @@
                             },
                             {
                                 "internalType": "string",
-                                "name": "agreementCID",
+                                "name": "authorityCID",
                                 "type": "string"
                             },
                             {

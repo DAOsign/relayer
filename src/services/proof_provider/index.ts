@@ -58,7 +58,7 @@ export interface ProofOfSignatureTypedMessage extends MessageTypes {
   ProofOfSignature: [
     { name: "name"; type: "string" },
     { name: "signer"; type: "address" },
-    { name: "agreementCID"; type: "string" },
+    { name: "authorityCID"; type: "string" },
     { name: "app"; type: "string" },
     { name: "timestamp"; type: "uint256" },
     { name: "metadata"; type: "string" },
@@ -68,7 +68,7 @@ export interface ProofOfSignatureTypedMessage extends MessageTypes {
 export interface ProofOfAgreementTypedMessage extends MessageTypes {
   EIP712Domain: [{ name: "name"; type: "string" }, { name: "version"; type: "string" }, { name: "chainId"; type: "uint256" }, { name: "verifyingContract"; type: "address" }];
   ProofOfAgreement: [
-    { name: "agreementCID"; type: "string" },
+    { name: "authorityCID"; type: "string" },
     { name: "signatureCIDs"; type: "string[]" },
     { name: "app"; type: "string" },
     { name: "timestamp"; type: "uint256" },
@@ -92,12 +92,12 @@ export interface ProofOfAuthorityMessage extends MessageMetadata {
 export interface ProofOfSignatureMessage extends MessageMetadata {
   name: "Proof-of-Signature";
   signer: string;
-  agreementCID: string;
+  authorityCID: string;
 }
 
 export interface ProofOfAgreementMessage extends MessageMetadata {
   name: "Proof-of-Agreement";
-  agreementCID: string;
+  authorityCID: string;
   signatureCIDs: Array<string>;
 }
 

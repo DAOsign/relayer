@@ -75,7 +75,7 @@ const debugSignature = () => {
         ProofOfSignature: [
           { name: "name", type: "string" },
           { name: "signer", type: "address" },
-          { name: "agreementCID", type: "string" },
+          { name: "authorityCID", type: "string" },
           { name: "app", type: "string" },
           { name: "timestamp", type: "uint256" },
           { name: "metadata", type: "string" },
@@ -84,7 +84,7 @@ const debugSignature = () => {
       message: {
         name: "Proof-of-Signature",
         signer: "0x4300bc1Ed00706E5386C6B938382d37eDB31d143",
-        agreementCID: "QmdRa839ynpkuRLcMTmZZngzWFXmNMKSUypPijs7Fg2Ygj", //proof of authority CID
+        authorityCID: "QmdRa839ynpkuRLcMTmZZngzWFXmNMKSUypPijs7Fg2Ygj", //proof of authority CID
         app: "daosign",
         timestamp: 1703580673701,
         metadata: "{}",
@@ -110,7 +110,7 @@ const debugAgreement = () => {
       types: {
         ProofOfAgreement: [
           {
-            name: "agreementCID",
+            name: "authorityCID",
             type: "string",
           },
           {
@@ -133,7 +133,7 @@ const debugAgreement = () => {
       },
       //@ts-ignore
       message: {
-        agreementCID: "QmdRa839ynpkuRLcMTmZZngzWFXmNMKSUypPijs7Fg2Ygj",
+        authorityCID: "QmdRa839ynpkuRLcMTmZZngzWFXmNMKSUypPijs7Fg2Ygj",
         signatureCIDs: ["QmbetiMECZy4q5mN9VbZ2LejxoA1AjNEeEhBdU9LPDbAX8", "QmbetiMECZy4q5mN9VbZ2LejxoA1AjNEeEhBdU9LPDbAX8"],
         app: "daosign",
         timestamp: 1702376820,

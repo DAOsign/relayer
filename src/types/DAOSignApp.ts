@@ -24,7 +24,7 @@ import type {
 } from "./common";
 
 export type ProofOfAgreementStruct = {
-  agreementCID: string;
+  authorityCID: string;
   signatureCIDs: string[];
   app: string;
   timestamp: BigNumberish;
@@ -32,13 +32,13 @@ export type ProofOfAgreementStruct = {
 };
 
 export type ProofOfAgreementStructOutput = [
-  agreementCID: string,
+  authorityCID: string,
   signatureCIDs: string[],
   app: string,
   timestamp: bigint,
   metadata: string
 ] & {
-  agreementCID: string;
+  authorityCID: string;
   signatureCIDs: string[];
   app: string;
   timestamp: bigint;
@@ -115,7 +115,7 @@ export type SignedProofOfAuthorityStructOutput = [
 export type ProofOfSignatureStruct = {
   name: string;
   signer: AddressLike;
-  agreementCID: string;
+  authorityCID: string;
   app: string;
   timestamp: BigNumberish;
   metadata: string;
@@ -124,14 +124,14 @@ export type ProofOfSignatureStruct = {
 export type ProofOfSignatureStructOutput = [
   name: string,
   signer: string,
-  agreementCID: string,
+  authorityCID: string,
   app: string,
   timestamp: bigint,
   metadata: string
 ] & {
   name: string;
   signer: string;
-  agreementCID: string;
+  authorityCID: string;
   app: string;
   timestamp: bigint;
   metadata: string;
