@@ -1,0 +1,86 @@
+name: Build & Push
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  DO_CONTAINER_REGISTRY: "daosign-container-registry"
+
+jobs:
+  build:
+    name: Run docker build
+    runs-on: ubuntu-latest
+    outputs:
+      image_tag: ${{steps.vars.outputs.tag}}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Get the version
+        id: vars
+        run: echo "tag=$(echo ${GITHUB_SHA:0:7})" >> $GITHUB_OUTPUT
+      - name: Build the Docker image
+        run: docker build -t dev-relayer:${{ steps.vars.outputs.tag }} .
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DO_ACCESS_TOKEN }}
+      - name: Log in to DigitalOcean Container Registry
+        run: doctl registry login --expiry-seconds 600
+      - name: Tag image
+        run: |
+          docker tag dev-relayer:${{ steps.vars.outputs.tag }} \
+          registry.digitalocean.com/${{ env.DO_CONTAINER_REGISTRY }}/dev-relayer:${{ steps.vars.outputs.tag }}
+      - name: Push to DigitalOcean Container Registry
+        run: |
+          docker push registry.digitalocean.com/${{ env.DO_CONTAINER_REGISTRY }}/dev-relayer:${{ steps.vars.outputs.tag }}
+  deploy:
+    name: Run helm upgrade
+    runs-on: ubuntu-latest
+    needs: [build]
+    env:
+      # Ingress
+      HOST: 'relayer.dev.daosign.org'
+      # Secrets
+      DB_PORT: '25060'
+      DATABASE: 'daosign'
+      LOGGING: 'false'
+      ETH_RPC_URL: 'https://rpc.ankr.com/eth_goerli'
+    steps:
+      - uses: actions/checkout@v3
+      - name: Create & View .env.yaml file
+        id: create-env
+        run: |
+          cat << EOF > .env.yaml
+          {
+            "ingress": {
+              "host": "${{ env.HOST }}"
+            },
+            "secrets": {
+              "dbPort": "${{ env.DB_PORT }}",
+              "database": "${{ env.DATABASE }}",
+              "host": "${{ secrets.DO_DB_HOST_DEV }}",
+              "username": "${{ secrets.DO_DB_USERNAME_DEV }}",
+              "password": "${{ secrets.DO_DB_PASSWORD_DEV }}",
+              "logging": "${{ env.LOGGING }}",
+              "ethRpcUrl": "${{ env.ETH_RPC_URL }}",
+              "ethPrivateKey": "${{ secrets.ETH_PRIVATE_KEY_DEV }}",
+              "ethContractAddress": "${{ secrets.ETH_CONTRACT_ADDRESS_DEV }}"
+            }
+          }
+          EOF
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DO_ACCESS_TOKEN }}
+      - name: Save DigitalOcean kubeconfig
+        run: doctl kubernetes cluster kubeconfig save daosign-kubernetes-cluster-dev
+      - name: Helm deploy the latest image
+        env:
+          HELM_VERSION: 1.0.0
+        run: |
+          doctl registry login --expiry-seconds 600 && \
+          kubectl get pods && helm ls && \
+          helm upgrade helm-relayer -i --atomic -f .env.yaml oci://registry.digitalocean.com/${{ env.DO_CONTAINER_REGISTRY }}/helm-relayer --version $HELM_VERSION \
+          --set=relayer.image.repository=registry.digitalocean.com/${{ env.DO_CONTAINER_REGISTRY }}/dev-relayer,relayer.image.tag=${{needs.build.outputs.image_tag}} && \
+          helm ls && kubectl get pods
