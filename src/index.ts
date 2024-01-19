@@ -11,8 +11,8 @@ AppDataSource.initialize()
   .then((datasource) => {
     console.log("Data Source has been initialized!");
 
-    //txStatusChecker(datasource).start();
-    //proofQueue(datasource).start();
+    txStatusChecker(datasource).start();
+    proofQueue(datasource).start();
   })
   .catch((err) => {
     console.error("Error during Data Source initialization:", err);
