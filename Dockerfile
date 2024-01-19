@@ -3,14 +3,14 @@ FROM node:18
 # Create app directory
 WORKDIR /app
 
-RUN npm install -g typescript ts-node ethers@latest
+RUN npm install -g typescript ts-node
 
 COPY package.json ./
 COPY yarn.lock ./
 COPY tsconfig.json ./
 
 RUN yarn
-COPY src ./src
+COPY . .
 
 RUN yarn build
 EXPOSE 3000
