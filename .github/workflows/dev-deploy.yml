@@ -44,7 +44,7 @@ jobs:
       HOST: 'relayer.dev.daosign.org'
       # Secrets
       DB_PORT: '25060'
-      DATABASE: 'daosign'
+      DATABASE: 'daosign-relayer-dev'
       LOGGING: 'false'
       ETH_RPC_URL: 'https://rpc.ankr.com/eth_goerli'
     steps:
