@@ -20,7 +20,9 @@ export class ProofService {
     const account = await this.accountRepository.findOne({ where: { network: { network_id: network }, locked: false } });
 
     if (!account) {
-      throw new Error("No available account");
+      await this.txRepository.create({ payload: data, network: { network_id: network }, status: Tx_Status.NEW }).save();
+      return null;
+      //throw new Error("No available account");
     }
 
     const txHash = await this.providers[network].set(account.hd_path, data);
@@ -29,9 +31,7 @@ export class ProofService {
       this.accountRepository.update({ account_id: account.account_id }, { locked: true });
     }
 
-    const savedTx = await this.txRepository
-      .create({ payload: data.message, network: { network_id: network }, tx_hash: txHash, account: account, status: Tx_Status.IN_PROGRESS })
-      .save();
+    const savedTx = await this.txRepository.create({ payload: data, network: { network_id: network }, tx_hash: txHash, account: account, status: Tx_Status.IN_PROGRESS }).save();
 
     return savedTx;
   }
