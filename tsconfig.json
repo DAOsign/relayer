@@ -16,6 +16,5 @@
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "Node"
   },
-  "include": ["src/**/*.ts", "__tests__/**/*.ts"],
   "exclude": ["node_modules"]
 }
