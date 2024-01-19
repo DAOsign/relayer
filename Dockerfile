@@ -10,7 +10,7 @@ COPY yarn.lock ./
 COPY tsconfig.json ./
 
 RUN yarn
-COPY . .
+COPY src ./src
 
 RUN yarn build
 EXPOSE 3000
