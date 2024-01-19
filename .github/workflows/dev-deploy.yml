@@ -78,7 +78,7 @@ jobs:
         run: doctl kubernetes cluster kubeconfig save daosign-kubernetes-cluster-dev
       - name: Helm deploy the latest image
         env:
-          HELM_VERSION: 1.0.0
+          HELM_VERSION: 0.1.0
         run: |
           doctl registry login --expiry-seconds 600 && \
           kubectl get pods && helm ls && \
