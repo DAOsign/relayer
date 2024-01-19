@@ -3,7 +3,7 @@ FROM node:18
 # Create app directory
 WORKDIR /app
 
-RUN npm install -g typescript ts-node
+RUN npm install -g typescript ts-node ethers@latest
 
 COPY package.json ./
 COPY yarn.lock ./
