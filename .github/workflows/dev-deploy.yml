@@ -78,11 +78,10 @@ jobs:
         run: doctl kubernetes cluster kubeconfig save daosign-kubernetes-cluster-dev
       - name: Helm deploy the latest image
         env:
-          HELM_VERSION: 0.1.0
+          HELM_VERSION: 0.1.1
         run: |
           doctl registry login --expiry-seconds 600 && \
           kubectl get pods && helm ls && \
           helm upgrade helm-relayer -i --atomic -f .env.yaml oci://registry.digitalocean.com/${{ env.DO_CONTAINER_REGISTRY }}/helm-relayer --version $HELM_VERSION \
           --set=relayer.image.repository=registry.digitalocean.com/${{ env.DO_CONTAINER_REGISTRY }}/dev-relayer,relayer.image.tag=${{needs.build.outputs.image_tag}} && \
-          --set=backend.startupCommand="NODE_ENV=production npm exec node ./dist/index.js" && \
           helm ls && kubectl get pods
