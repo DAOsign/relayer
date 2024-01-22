@@ -46,6 +46,8 @@ export class EthereumProofProvider implements ProofProvider {
       }
       case PROOF_TYPE.PROOF_OF_AGREEMENT: {
         storeProof = contract.storeProofOfAgreement;
+        //@ts-ignore
+        delete contractPayload.signature;
         break;
       }
       case PROOF_TYPE.PROOF_OF_AUTHORITY: {
@@ -58,7 +60,7 @@ export class EthereumProofProvider implements ProofProvider {
     const receipt = await storeProof(contractPayload).catch(console.error);
 
     //@ts-ignore
-    return receipt.hash;
+    return receipt?.hash;
   }
 
   getContract(signer: ethers.ContractRunner) {

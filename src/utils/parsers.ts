@@ -104,17 +104,21 @@ export function parseProofTypedMessage(value: any): ProofTypedMessage {
 
 export function parseSignedProof(value: any): SignedProof {
   const proofCID = parseCID(value.proofCID);
-  const signature = parseSig(value.signature);
   const message = parseProofTypedMessage(value.message)!;
-  return {
+
+  const signedProof: SignedProof = {
     message: message,
-    signature: signature,
     proofCID: proofCID,
   };
+
+  if ("signature" in value) {
+    signedProof.signature = parseSig(value?.signature);
+  }
+
+  return signedProof;
 }
 
 export function parseProof(value?: any): { network: Network; message: SignedProof } {
-  console.log("parseProof", value);
   return {
     network: parseNetwork(value.network),
     message: parseSignedProof(value.message)!,
