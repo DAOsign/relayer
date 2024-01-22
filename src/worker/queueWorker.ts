@@ -16,7 +16,7 @@ const proofQueue = (datasource: DataSource) =>
 
         //take queued proofs
         // process them if accounts available
-        console.time("Transaction queue processor statuses");
+        console.time("Proof queue processor");
         const txRepository = datasource.getRepository(Tx);
         const accountRepository = datasource.getRepository(Account);
 
@@ -51,8 +51,8 @@ const proofQueue = (datasource: DataSource) =>
       }
     },
     () => {
-      console.timeEnd("Update transaction statuses");
-      console.info("Transaction status updater finished");
+      console.timeEnd("Proof queue processor");
+      console.info("Proof processor queue finished");
     },
     true,
   );
