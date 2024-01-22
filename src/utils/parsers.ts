@@ -33,7 +33,8 @@ export function parseCID(value?: string): string {
 }
 
 export function parseSig(value?: string): string {
-  if (value === undefined || /* value.length !== CHAIN_SIG_LENGTH || */ !value.startsWith("0x")) { //TODO
+  if (value === undefined || /* value.length !== CHAIN_SIG_LENGTH || */ !value.startsWith("0x")) {
+    //TODO
     throw new Error("invalid sig value");
   }
   return value;
@@ -113,6 +114,7 @@ export function parseSignedProof(value: any): SignedProof {
 }
 
 export function parseProof(value?: any): { network: Network; message: SignedProof } {
+  console.log("parseProof", value);
   return {
     network: parseNetwork(value.network),
     message: parseSignedProof(value.message)!,
