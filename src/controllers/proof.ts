@@ -34,4 +34,16 @@ export default class ProofController {
       res.status(500).send(e?.message);
     }
   }
+
+  public async check(req: Request, res: Response) {
+    const refId = req?.query?.refId;
+    const tx = await proofService.getTxById(Number(refId));
+    if (!tx) {
+      return res.status(404).end();
+    } else if (tx.tx_hash) {
+      return res.status(200).send(tx.tx_hash);
+    }
+
+    return res.status(500).end();
+  }
 }

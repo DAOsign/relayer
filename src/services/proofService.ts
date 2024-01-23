@@ -35,4 +35,9 @@ export class ProofService {
 
     return savedTx;
   }
+
+  async getTxById(refId: number) {
+    const tx = await this.txRepository.findOneBy({ tx_id: refId });
+    return tx;
+  }
 }
