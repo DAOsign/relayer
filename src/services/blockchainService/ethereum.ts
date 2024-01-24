@@ -17,4 +17,11 @@ export class EthereumService implements BlockchainService {
     }
     return Tx_Status.IN_PROGRESS;
   }
+
+  async createWallet(hdPath: string, mnemonicPhrase = "test test test test test test test test test test test junk") {
+    const mnemonic = ethers.Mnemonic.fromPhrase(mnemonicPhrase);
+
+    const wallet0 = ethers.HDNodeWallet.fromMnemonic(mnemonic, hdPath);
+    return wallet0.address;
+  }
 }
