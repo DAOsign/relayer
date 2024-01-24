@@ -55,7 +55,7 @@ export class EthereumProofProvider implements ProofProvider {
         break;
       }
     }
-    console.log("contractPayload", contractPayload);
+
     //@ts-ignore
     const receipt = await storeProof(contractPayload).catch(console.error);
 

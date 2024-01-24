@@ -16,24 +16,22 @@ export class ProofService {
     this.txRepository = dataSource.getRepository(Tx);
   }
 
-  async set(network: Network, data: SignedProof) {
+  async set(network: Network, data: SignedProof, existingTx?: Tx) {
     const account = await this.accountRepository.findOne({ where: { network: { network_id: network }, locked: false } });
 
-    if (!account) {
-      await this.txRepository.create({ payload: data, network: { network_id: network }, status: Tx_Status.NEW }).save();
-      return null;
-      //throw new Error("No available account");
+    const tx = existingTx || this.txRepository.create({ payload: data, network: { network_id: network }, status: Tx_Status.NEW });
+
+    if (account) {
+      const txHash = await this.providers[network].set(account.hd_path, data);
+
+      if (txHash) {
+        await this.accountRepository.update({ account_id: account.account_id }, { locked: true });
+        return await this.txRepository.save({ ...tx, payload: data, network: { network_id: network }, tx_hash: txHash, account: account, status: Tx_Status.IN_PROGRESS });
+      } else {
+        return await tx.save();
+      }
     }
-
-    const txHash = await this.providers[network].set(account.hd_path, data);
-
-    if (txHash) {
-      this.accountRepository.update({ account_id: account.account_id }, { locked: true });
-    }
-
-    const savedTx = await this.txRepository.create({ payload: data, network: { network_id: network }, tx_hash: txHash, account: account, status: Tx_Status.IN_PROGRESS }).save();
-
-    return savedTx;
+    return await tx.save();
   }
 
   async getTxById(refId: number) {
