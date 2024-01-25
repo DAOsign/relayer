@@ -39,7 +39,6 @@ const proofQueue = (datasource: DataSource) =>
             for (const tx of txToProcess) {
               await proofService.set(Network.ETHEREUM, tx.payload as SignedProof);
             }
-            await txRepository.remove(txToProcess);
 
             console.info(`${txToProcess.length} proofs processed`);
           }
@@ -47,7 +46,7 @@ const proofQueue = (datasource: DataSource) =>
 
         return onComplete();
       } catch (e) {
-        console.log(e);
+        console.error("QUEUE ERROR:", e);
       }
     },
     () => {
