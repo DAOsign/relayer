@@ -83,5 +83,5 @@ jobs:
           doctl registry login --expiry-seconds 600 && \
           kubectl get pods -n ${{ env.NAMESPACE }} && helm ls -n ${{ env.NAMESPACE }} && \
           helm upgrade helm-relayer -i -n ${{ env.NAMESPACE }} --atomic -f .env.yaml oci://registry.digitalocean.com/${{ env.DO_CONTAINER_REGISTRY }}/helm-relayer --version $HELM_VERSION \
-          --set=backend.image.repository=registry.digitalocean.com/${{ env.DO_CONTAINER_REGISTRY }}/tradefi-relayer-dev,backend.image.tag=${{needs.build.outputs.image_tag}} && \
+          --set=relayer.image.repository=registry.digitalocean.com/${{ env.DO_CONTAINER_REGISTRY }}/tradefi-relayer-dev,relayer.image.tag=${{needs.build.outputs.image_tag}} && \
           helm ls -n ${{ env.NAMESPACE }} && kubectl get pods -n ${{ env.NAMESPACE }}
