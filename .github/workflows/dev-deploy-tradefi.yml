@@ -1,4 +1,4 @@
-name: Build & Push (DaoSign)
+name: Build & Push (TradeFi)
 
 on:
   push:
@@ -20,7 +20,7 @@ jobs:
         id: vars
         run: echo "tag=$(echo ${GITHUB_SHA:0:7})" >> $GITHUB_OUTPUT
       - name: Build the Docker image
-        run: docker build -t dev-relayer:${{ steps.vars.outputs.tag }} .
+        run: docker build -t tradefi-relayer-dev:${{ steps.vars.outputs.tag }} .
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
         with:
@@ -29,21 +29,21 @@ jobs:
         run: doctl registry login --expiry-seconds 600
       - name: Tag image
         run: |
-          docker tag dev-relayer:${{ steps.vars.outputs.tag }} \
-          registry.digitalocean.com/${{ env.DO_CONTAINER_REGISTRY }}/dev-relayer:${{ steps.vars.outputs.tag }}
+          docker tag tradefi-relayer-dev:${{ steps.vars.outputs.tag }} \
+          registry.digitalocean.com/${{ env.DO_CONTAINER_REGISTRY }}/tradefi-relayer-dev:${{ steps.vars.outputs.tag }}
       - name: Push to DigitalOcean Container Registry
         run: |
-          docker push registry.digitalocean.com/${{ env.DO_CONTAINER_REGISTRY }}/dev-relayer:${{ steps.vars.outputs.tag }}
+          docker push registry.digitalocean.com/${{ env.DO_CONTAINER_REGISTRY }}/tradefi-relayer-dev:${{ steps.vars.outputs.tag }}
   deploy:
     name: Run helm upgrade
     runs-on: ubuntu-latest
     needs: [build]
     env:
       # Ingress
-      HOST: 'relayer.dev.daosign.org'
+      HOST: 'relayer.dev.tradefi.daosign.org'
       # Secrets
       DB_PORT: '25060'
-      DATABASE: 'daosign-relayer-dev'
+      DATABASE: 'tradefi-relayer-dev'
       LOGGING: 'false'
       ETH_RPC_URL: 'https://rpc.ankr.com/eth_goerli'
     steps:
@@ -77,10 +77,11 @@ jobs:
         run: doctl kubernetes cluster kubeconfig save daosign-kubernetes-cluster-dev
       - name: Helm deploy the latest image
         env:
+          NAMESPACE: "tradefi-dev"
           HELM_VERSION: 0.1.1
         run: |
           doctl registry login --expiry-seconds 600 && \
-          kubectl get pods && helm ls && \
-          helm upgrade helm-relayer -i --atomic -f .env.yaml oci://registry.digitalocean.com/${{ env.DO_CONTAINER_REGISTRY }}/helm-relayer --version $HELM_VERSION \
-          --set=relayer.image.repository=registry.digitalocean.com/${{ env.DO_CONTAINER_REGISTRY }}/dev-relayer,relayer.image.tag=${{needs.build.outputs.image_tag}} && \
-          helm ls && kubectl get pods
+          kubectl get pods -n ${{ env.NAMESPACE }} && helm ls -n ${{ env.NAMESPACE }} && \
+          helm upgrade helm-relayer -i -n ${{ env.NAMESPACE }} --atomic -f .env.yaml oci://registry.digitalocean.com/${{ env.DO_CONTAINER_REGISTRY }}/helm-relayer --version $HELM_VERSION \
+          --set=backend.image.repository=registry.digitalocean.com/${{ env.DO_CONTAINER_REGISTRY }}/tradefi-relayer-dev,backend.image.tag=${{needs.build.outputs.image_tag}} && \
+          helm ls -n ${{ env.NAMESPACE }} && kubectl get pods -n ${{ env.NAMESPACE }}
