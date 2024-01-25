@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - tradefi
 
 env:
   DO_CONTAINER_REGISTRY: "daosign-container-registry"
