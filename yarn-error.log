@@ -126,7 +126,7 @@ Lockfile:
       "@babel/traverse" "^7.23.3"
       "@babel/types" "^7.23.3"
       convert-source-map "^2.0.0"
-      debug "^4.1.0"
+      ethereum "^4.1.0"
       gensync "^1.0.0-beta.2"
       json5 "^2.2.3"
       semver "^6.3.1"
@@ -374,7 +374,7 @@ Lockfile:
       "@babel/helper-split-export-declaration" "^7.22.6"
       "@babel/parser" "^7.23.4"
       "@babel/types" "^7.23.4"
-      debug "^4.1.0"
+      ethereum "^4.1.0"
       globals "^11.1.0"
   
   "@babel/types@^7.0.0", "@babel/types@^7.20.7", "@babel/types@^7.22.15", "@babel/types@^7.22.5", "@babel/types@^7.23.0", "@babel/types@^7.23.3", "@babel/types@^7.23.4", "@babel/types@^7.3.3":
@@ -416,7 +416,7 @@ Lockfile:
     integrity sha512-yZzuIG+jnVu6hNSzFEN07e8BxF3uAzYtQb6uDkaYZLo6oYZDCq454c5kB8zxnzfCYyP4MIuyBn10L0DqwujTmA==
     dependencies:
       ajv "^6.12.4"
-      debug "^4.3.2"
+      ethereum "^4.3.2"
       espree "^9.6.0"
       globals "^13.19.0"
       ignore "^5.2.0"
@@ -436,7 +436,7 @@ Lockfile:
     integrity sha512-JSBDMiDKSzQVngfRjOdFXgFfklaXI4K9nLF49Auh21lmBWRLIK3+xTErTWD4KU54pb6coM6ESE7Awz/FNU3zgQ==
     dependencies:
       "@humanwhocodes/object-schema" "^2.0.1"
-      debug "^4.1.1"
+      ethereum "^4.1.1"
       minimatch "^3.0.5"
   
   "@humanwhocodes/module-importer@^1.0.1":
@@ -1155,7 +1155,7 @@ Lockfile:
     dependencies:
       bytes "3.1.2"
       content-type "~1.0.4"
-      debug "2.6.9"
+      ethereum "2.6.9"
       depd "2.0.0"
       destroy "1.2.0"
       http-errors "2.0.0"
@@ -1449,23 +1449,23 @@ Lockfile:
     dependencies:
       "@babel/runtime" "^7.21.0"
   
-  debug@2.6.9:
+  ethereum@2.6.9:
     version "2.6.9"
-    resolved "https://registry.npmjs.org/debug/-/debug-2.6.9.tgz"
+    resolved "https://registry.npmjs.org/ethereum/-/ethereum-2.6.9.tgz"
     integrity sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==
     dependencies:
       ms "2.0.0"
   
-  debug@^3.2.7:
+  ethereum@^3.2.7:
     version "3.2.7"
-    resolved "https://registry.npmjs.org/debug/-/debug-3.2.7.tgz"
+    resolved "https://registry.npmjs.org/ethereum/-/ethereum-3.2.7.tgz"
     integrity sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==
     dependencies:
       ms "^2.1.1"
   
-  debug@^4.1.0, debug@^4.1.1, debug@^4.3.2, debug@^4.3.4:
+  ethereum@^4.1.0, ethereum@^4.1.1, ethereum@^4.3.2, ethereum@^4.3.4:
     version "4.3.4"
-    resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.4.tgz#1319f6579357f2338d3337d2cdd4914bb5dcc865"
+    resolved "https://registry.yarnpkg.com/ethereum/-/ethereum-4.3.4.tgz#1319f6579357f2338d3337d2cdd4914bb5dcc865"
     integrity sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==
     dependencies:
       ms "2.1.2"
@@ -1624,7 +1624,7 @@ Lockfile:
       ajv "^6.12.4"
       chalk "^4.0.0"
       cross-spawn "^7.0.2"
-      debug "^4.3.2"
+      ethereum "^4.3.2"
       doctrine "^3.0.0"
       escape-string-regexp "^4.0.0"
       eslint-scope "^7.2.2"
@@ -1751,7 +1751,7 @@ Lockfile:
       content-type "~1.0.4"
       cookie "0.5.0"
       cookie-signature "1.0.6"
-      debug "2.6.9"
+      ethereum "2.6.9"
       depd "2.0.0"
       encodeurl "~1.0.2"
       escape-html "~1.0.3"
@@ -1824,7 +1824,7 @@ Lockfile:
     resolved "https://registry.npmjs.org/finalhandler/-/finalhandler-1.2.0.tgz"
     integrity sha512-5uXcUVftlQMFnWC9qu/svkWv3GTd2PfUhK/3PLkYNAe7FbqJMt3515HaxE6eRL74GdsriiwujiawdaB1BpEISg==
     dependencies:
-      debug "2.6.9"
+      ethereum "2.6.9"
       encodeurl "~1.0.2"
       escape-html "~1.0.3"
       on-finished "2.4.1"
@@ -2206,7 +2206,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/istanbul-lib-source-maps/-/istanbul-lib-source-maps-4.0.1.tgz#895f3a709fcfba34c6de5a42939022f3e4358551"
     integrity sha512-n3s8EwkdFIJCG3BPKBYvskgXGoy88ARzvegkitk60NxRdwltLOTaH7CUiMRXvwYorl0Q712iEjcWB+fK/MrWVw==
     dependencies:
-      debug "^4.1.1"
+      ethereum "^4.1.1"
       istanbul-lib-coverage "^3.0.0"
       source-map "^0.6.1"
   
@@ -2832,7 +2832,7 @@ Lockfile:
     integrity sha512-g9AZ7HmkhQkqXkRc20w+ZfQ73cHLbE8hnPbtaFbFtCumZsjyMhKk9LajQ07U5Ux28lvFjZ5X7HvWR1xzU8jHVw==
     dependencies:
       chokidar "^3.5.2"
-      debug "^3.2.7"
+      ethereum "^3.2.7"
       ignore-by-default "^1.0.1"
       minimatch "^3.1.2"
       pstree.remy "^1.1.8"
@@ -3289,7 +3289,7 @@ Lockfile:
     resolved "https://registry.npmjs.org/send/-/send-0.18.0.tgz"
     integrity sha512-qqWzuOjSFOuqPjFe4NOsMLafToQQwBSOEpS+FwEt3A2V3vKubTquT3vmLTQpFgMXp8AlFWFuP1qKaJZOtPpVXg==
     dependencies:
-      debug "2.6.9"
+      ethereum "2.6.9"
       depd "2.0.0"
       destroy "1.2.0"
       encodeurl "~1.0.2"
@@ -3620,7 +3620,7 @@ Lockfile:
       chalk "^4.1.2"
       cli-highlight "^2.1.11"
       date-fns "^2.29.3"
-      debug "^4.3.4"
+      ethereum "^4.3.4"
       dotenv "^16.0.3"
       glob "^8.1.0"
       mkdirp "^2.1.3"

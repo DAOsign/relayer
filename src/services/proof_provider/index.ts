@@ -118,4 +118,3 @@ export interface ProofProvider {
   get(proofCID: string): Promise<SignedProof>;
   set(derivationPath: string, proof: SignedProof): Promise<string>;
 }
-

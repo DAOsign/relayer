@@ -1,20 +1,18 @@
-import env from "../env";
-import { EthereumProofProvider } from "./proof_provider/ethereum";
+import env from "../../env";
+import { SuiProofProvider } from "../proof_provider/sui";
 
-const agreementCID = "QmdbCHsCsaMXGw6XVahtqTkbSkCLc8aupiu4hcVMbHpAfX";
+const agreementCID = "agreement file cid                            ";
 const signatureCID = "QmbetiMECZy4q5mN9VbZ2LejxoA1AjNEeEhBdU9LPDbAX8";
 
-export const debug = () => {
-  //debugAuthority().then(console.log).catch(console.error);
-  //debugSignature().then(console.log).catch(console.error); //.catch((e)=>console.error(JSON.stringify(e, null, 2)));
-  debugAgreement().then(console.log).catch(console.error);
-  //@ts-ignore
-  // getProofOfAuth('QmdRa839ynpkuRLcMTmZZngzWFXmNMKSUypPijs7Fg2Ygj').then((res) => console.dir(res.message[3])).catch(console.error);
+export const debugSui = () => {
+  debugAuthority().then(console.log).catch(console.error);
+  // debugSignature().then(console.log).catch(console.error);
+  // debugAgreement().then(console.log).catch(console.error);
 };
 
 const debugAuthority = () => {
   //Authority
-  return new EthereumProofProvider(env.ETH_RPC_URL).set("m/44'/60'/0'/0", {
+  return new SuiProofProvider().set("m/44'/784'/0'/0'/0'", {
     message: {
       domain: {
         name: "daosign",
@@ -41,27 +39,27 @@ const debugAuthority = () => {
       },
       message: {
         name: "Proof-of-Authority",
-        from: "0x4300bc1ed00706e5386c6b938382d37edb31d143",
+        from: "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
         agreementCID: agreementCID,
         signers: [
           {
-            addr: "0x4300bc1Ed00706E5386C6B938382d37eDB31d143",
-            metadata: "{}",
+            addr: "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+            metadata: "some metadata",
           },
         ],
         app: "daosign",
-        timestamp: 1705055133954,
-        metadata: "{}",
+        timestamp: 1706195505,
+        metadata: "proof metadata",
       },
     },
-    signature: "0xf7e6cdf40a308d8146b0b668913b93268e49ed8cc1d1d46c27b61aa0396203875437b485e27fd63b7ddcfc2f1803a9814e0707e11ee88264dd834556932178f71c",
-    proofCID: "QmdRa839ynpkuRLcMTmZZngzWFXmNMKSUypPijs7Fg2Ygj",
+    signature: "0xfa3a4d4426243566a8c65ec42a41a38a0fe8e673fe9c7ba0deb09e487c180f5e7d9973b89e2db107b32412be728d3f45b5d75b64446efb0693a24b2a0e0557221b",
+    proofCID: "QmdRa839ynpkuRLcMTmZZngzWFXmNMKSUypPijs7Fg1117",
   });
 };
 
 const debugSignature = () => {
   // SIGNATURE
-  return new EthereumProofProvider(env.ETH_RPC_URL).set("m/44'/60'/0'/0", {
+  return new SuiProofProvider().set("m/44'/784'/0'/0'/0'", {
     message: {
       domain: {
         name: "daosign",
@@ -83,21 +81,21 @@ const debugSignature = () => {
       },
       message: {
         name: "Proof-of-Signature",
-        signer: "0x4300bc1Ed00706E5386C6B938382d37eDB31d143",
-        authorityCID: "QmdRa839ynpkuRLcMTmZZngzWFXmNMKSUypPijs7Fg2Ygj", //proof of authority CID
+        signer: "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        authorityCID: "QmdRa839ynpkuRLcMTmZZngzWFXmNMKSUypPijs7Fg1116", //proof of authority CID
         app: "daosign",
-        timestamp: 1703580673701,
-        metadata: "{}",
+        timestamp: 1706193686,
+        metadata: "proof metadata",
       },
     },
-    signature: "0x273b33d4827550693dc69f83803423eeb23d9c2cbe038e76b72aafbb0d09528d5e8a2c67d2447d7b34a28873b486a4d7f2086cb24fd93086fe5e80e9286693771c",
-    proofCID: "QmbetiMECZy4q5mN9VbZ2LejxoA1AjNEeEhBdU9LPDbAX8",
+    signature: "0x18f8cb5dd9fcdf3c2cdbb88eda3772c1004eafa75645346fe8231c5def26371817355d1a8f59f3908009b71120da9b64202341356fec0dd3094c20c9e75518fb1b",
+    proofCID: "QmbetiMECZy4q5mN9VbZ2LejxoA1AjNEeEhBdU9LPD1116",
   });
 };
 
 const debugAgreement = () => {
   // AGREEMENT
-  return new EthereumProofProvider(env.ETH_RPC_URL).set("m/44'/60'/0'/0", {
+  return new SuiProofProvider().set("m/44'/784'/0'/0'/0'", {
     message: {
       domain: {
         name: "daosign",
@@ -133,18 +131,15 @@ const debugAgreement = () => {
       },
       //@ts-ignore
       message: {
+        name: "Proof-of-Agreement",
         app: "daosign",
-        metadata: "{}",
-        timestamp: 1705932865834,
-        authorityCID: "QmZ6SFuANGA4pEydXeVmM4RzRhdijpfa1aMHGWHDapY17S",
-        signatureCIDs: ["QmWCrNGzYwfpZu2AozftkWYcZs1ZQ5PbPMrCc2f5Yy4hsg"],
+        metadata: "proof metadata",
+        timestamp: 1706193686,
+        authorityCID: "QmdRa839ynpkuRLcMTmZZngzWFXmNMKSUypPijs7Fg1116",
+        signatureCIDs: ["QmbetiMECZy4q5mN9VbZ2LejxoA1AjNEeEhBdU9LPD1116"],
       },
     },
-    signature: "0x",
-    proofCID: "QmWCrNGzYwfpZu2AozftkWYcZs1ZQ5PbPMrCc2f5Yy4hsg",
+    // signature: "0x",
+    proofCID: "QmWCrNGzYwfpZu2AozftkWYcZs1ZQ5PbPMrCc2f5Yy1116",
   });
-};
-
-const getProofOfAuth = (cid: string) => {
-  return new EthereumProofProvider(env.ETH_RPC_URL).get(cid);
 };
