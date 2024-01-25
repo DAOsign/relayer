@@ -7,7 +7,7 @@ const signatureCID = "QmbetiMECZy4q5mN9VbZ2LejxoA1AjNEeEhBdU9LPDbAX8";
 export const debug = () => {
   //debugAuthority().then(console.log).catch(console.error);
   //debugSignature().then(console.log).catch(console.error); //.catch((e)=>console.error(JSON.stringify(e, null, 2)));
-  //debugAgreement().then(console.log).catch(console.error);
+  debugAgreement().then(console.log).catch(console.error);
   //@ts-ignore
   // getProofOfAuth('QmdRa839ynpkuRLcMTmZZngzWFXmNMKSUypPijs7Fg2Ygj').then((res) => console.dir(res.message[3])).catch(console.error);
 };
@@ -133,15 +133,15 @@ const debugAgreement = () => {
       },
       //@ts-ignore
       message: {
-        authorityCID: "QmdRa839ynpkuRLcMTmZZngzWFXmNMKSUypPijs7Fg2Ygj",
-        signatureCIDs: ["QmbetiMECZy4q5mN9VbZ2LejxoA1AjNEeEhBdU9LPDbAX8", "QmbetiMECZy4q5mN9VbZ2LejxoA1AjNEeEhBdU9LPDbAX8"],
         app: "daosign",
-        timestamp: 1702376820,
-        metadata: "metadata",
+        metadata: "{}",
+        timestamp: 1705932865834,
+        authorityCID: "QmZ6SFuANGA4pEydXeVmM4RzRhdijpfa1aMHGWHDapY17S",
+        signatureCIDs: ["QmWCrNGzYwfpZu2AozftkWYcZs1ZQ5PbPMrCc2f5Yy4hsg"],
       },
     },
-    signature: "0x48dbff7681bd112283ac4167c5cd91ac133f4bb79a10da7896eac374688c984d4f56a2b10b961520a29ac08392117868638b19ac73611a5f4811967462113c081b",
-    proofCID: "QmbetiMECZy4q5mN9VbZ2LejxoA1AjNEeEhBdU9LPDbAB2",
+    signature: "0x",
+    proofCID: "QmWCrNGzYwfpZu2AozftkWYcZs1ZQ5PbPMrCc2f5Yy4hsg",
   });
 };
 

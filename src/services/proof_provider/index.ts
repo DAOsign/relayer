@@ -108,7 +108,7 @@ export type ProofTypedMessage = TypedMessage<
 
 export interface SignedProof {
   message: ProofTypedMessage;
-  signature: string;
+  signature?: string;
   proofCID: string;
 }
 
