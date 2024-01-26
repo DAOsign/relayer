@@ -35,7 +35,7 @@ export class SuiProofProvider implements ProofProvider {
     console.log("proof");
     console.dir(proof.message.types);
 
-    const keypair = Ed25519Keypair.deriveKeypair(this.mnemonic, "m/44'/784'/1'/0'/0'");
+    const keypair = Ed25519Keypair.deriveKeypair(this.mnemonic, derivationPath);
     this.txb.setGasBudget(50000000);
 
     const contractPayload = createContractPayload(proof);
