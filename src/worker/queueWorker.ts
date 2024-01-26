@@ -37,7 +37,7 @@ const proofQueue = (datasource: DataSource) =>
             console.info(`${txToProcess.length} proofs to process`);
             //TODO REFACTOR duplitation/removing
             for (const tx of txToProcess) {
-              await proofService.set(Network.ETHEREUM, tx.payload as SignedProof);
+              await proofService.set(Network.ETHEREUM, tx.payload as SignedProof, tx);
             }
 
             console.info(`${txToProcess.length} proofs processed`);
