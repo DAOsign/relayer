@@ -44,6 +44,26 @@ const proofQueue = (datasource: DataSource) =>
           }
         }
 
+        const suiQueuedProofs = queuedTxs.filter((tx) => tx.network?.network_id === Network.SUI);
+
+        if (suiQueuedProofs) {
+          console.info(`Found ${suiQueuedProofs.length} Ethereum queued proofs`);
+
+          const accounts = await accountRepository.findBy({ locked: false, network: { network_id: Network.SUI } });
+          if (!accounts.length) {
+            console.info(`No unlocked Sui account was found. Skipping Ethereum queue processing`);
+          } else {
+            const txToProcess = suiQueuedProofs.slice(0, accounts.length);
+            console.info(`${txToProcess.length} proofs to process`);
+            //TODO REFACTOR duplitation/removing
+            for (const tx of txToProcess) {
+              await proofService.set(Network.ETHEREUM, tx.payload as SignedProof);
+            }
+
+            console.info(`${txToProcess.length} proofs processed`);
+          }
+        }
+
         return onComplete();
       } catch (e) {
         console.error("QUEUE ERROR:", e);
