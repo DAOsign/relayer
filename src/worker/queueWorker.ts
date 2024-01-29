@@ -6,13 +6,14 @@ import env from "../env";
 import { Account } from "../models/Account";
 import { ProofService } from "../services/proofService";
 import { EthereumProofProvider } from "../services/proof_provider/ethereum";
+import { SuiProofProvider } from "../services/proof_provider/sui";
 
 const proofQueue = (datasource: DataSource) =>
   new CronJob(
     "*/1 * * * *",
     async (onComplete) => {
       try {
-        const proofService = new ProofService(datasource, [new EthereumProofProvider(env.ETH_RPC_URL)]);
+        const proofService = new ProofService(datasource, [new EthereumProofProvider(env.ETH_RPC_URL), new SuiProofProvider("testnet")]);
 
         //take queued proofs
         // process them if accounts available
@@ -47,17 +48,17 @@ const proofQueue = (datasource: DataSource) =>
         const suiQueuedProofs = queuedTxs.filter((tx) => tx.network?.network_id === Network.SUI);
 
         if (suiQueuedProofs) {
-          console.info(`Found ${suiQueuedProofs.length} Ethereum queued proofs`);
+          console.info(`Found ${suiQueuedProofs.length} Sui queued proofs`);
 
           const accounts = await accountRepository.findBy({ locked: false, network: { network_id: Network.SUI } });
           if (!accounts.length) {
-            console.info(`No unlocked Sui account was found. Skipping Ethereum queue processing`);
+            console.info(`No unlocked Sui account was found. Skipping Sui queue processing`);
           } else {
             const txToProcess = suiQueuedProofs.slice(0, accounts.length);
             console.info(`${txToProcess.length} proofs to process`);
             //TODO REFACTOR duplitation/removing
             for (const tx of txToProcess) {
-              await proofService.set(Network.SUI, tx.payload as SignedProof);
+              await proofService.set(Network.SUI, tx.payload as SignedProof, tx);
             }
 
             console.info(`${txToProcess.length} proofs processed`);

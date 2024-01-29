@@ -1,7 +1,7 @@
 export enum Network {
   ETHEREUM = 1,
-  ASTAR = 2,
-  SUI = 3,
+  SUI = 2,
+  ASTAR = 3,
 }
 export enum Tx_Status {
   NEW = 1,

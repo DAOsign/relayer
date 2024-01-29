@@ -9,8 +9,6 @@ import { BCS } from "@mysten/bcs";
 
 export class SuiProofProvider implements ProofProvider {
   network = Network.SUI;
-
-  rpcUrl = getFullnodeUrl("testnet");
   bagReference = env.SUI_BAG_ID;
 
   txb = new TransactionBlock();
@@ -18,8 +16,8 @@ export class SuiProofProvider implements ProofProvider {
 
   client: SuiClient;
 
-  constructor() {
-    this.client = new SuiClient({ url: this.rpcUrl });
+  constructor(netType: "mainnet" | "testnet" | "devnet" | "localnet") {
+    this.client = new SuiClient({ url: getFullnodeUrl(netType) });
   }
 
   public async get(proofCID: string): Promise<SignedProof> {
@@ -101,6 +99,9 @@ export class SuiProofProvider implements ProofProvider {
     const receipt = await this.client.signAndExecuteTransactionBlock({
       signer: keypair,
       transactionBlock: this.txb,
+      options: {
+        showEffects: true,
+      },
     });
 
     return receipt.digest;

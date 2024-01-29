@@ -5,6 +5,7 @@ import { Network, Tx_Status } from "../services/proof_provider";
 import { EthereumService } from "../services/blockchainService/ethereum";
 import env from "../env";
 import { Account } from "../models/Account";
+import { SuiService } from "../services/blockchainService/sui";
 
 const txStatusChecker = (datasource: DataSource) =>
   new CronJob(
@@ -29,6 +30,27 @@ const txStatusChecker = (datasource: DataSource) =>
           const ethService = new EthereumService(env.ETH_RPC_URL);
           for (const tx of ethPendingTxs) {
             await ethService
+              .transactionStatus(tx.tx_hash)
+              .then((status) => {
+                if (status !== Tx_Status.IN_PROGRESS) {
+                  logStatus(tx.tx_hash, status);
+                  txRepository.update({ tx_id: tx.tx_id }, { status: status });
+                  accountRepository.update({ account_id: tx.account.account_id }, { locked: false });
+                }
+              })
+              .catch((e) => {
+                txRepository.update({ tx_id: tx.tx_id }, { status: Tx_Status.ERROR });
+                accountRepository.update({ account_id: tx.account.account_id }, { locked: false });
+              });
+          }
+        }
+
+        const suiPendingTxs = pendingTxs.filter((tx) => tx.network?.network_id === Network.SUI);
+        if (suiPendingTxs.length) {
+          console.info(`Found ${suiPendingTxs.length} Sui pending transactions`);
+          const suiService = new SuiService(env.SUI_RPC_TYPE);
+          for (const tx of suiPendingTxs) {
+            suiService
               .transactionStatus(tx.tx_hash)
               .then((status) => {
                 if (status !== Tx_Status.IN_PROGRESS) {

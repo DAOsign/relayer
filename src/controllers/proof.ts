@@ -5,8 +5,9 @@ import { parseNetwork, parseCID, parseProof } from "../utils/parsers";
 import { EthereumProofProvider } from "../services/proof_provider/ethereum";
 import env from "../env";
 import { ProofService } from "../services/proofService";
+import { SuiProofProvider } from "../services/proof_provider/sui";
 
-const proofService = new ProofService(AppDataSource, [new EthereumProofProvider(env.ETH_RPC_URL)]);
+const proofService = new ProofService(AppDataSource, [new EthereumProofProvider(env.ETH_RPC_URL), new SuiProofProvider("testnet")]);
 export default class ProofController {
   public async get(req: Request, res: Response) {
     const network = parseNetwork(req.query.network as string);
