@@ -12,7 +12,7 @@ export const debugSui = () => {
 
 const debugAuthority = () => {
   //Authority
-  return new SuiProofProvider().set("m/44'/784'/0'/0'/0'", {
+  return new SuiProofProvider("testnet").set("m/44'/784'/0'/0'/0'", {
     message: {
       domain: {
         name: "daosign",
@@ -59,7 +59,7 @@ const debugAuthority = () => {
 
 const debugSignature = () => {
   // SIGNATURE
-  return new SuiProofProvider().set("m/44'/784'/0'/0'/0'", {
+  return new SuiProofProvider("testnet").set("m/44'/784'/0'/0'/0'", {
     message: {
       domain: {
         name: "daosign",
@@ -95,7 +95,7 @@ const debugSignature = () => {
 
 const debugAgreement = () => {
   // AGREEMENT
-  return new SuiProofProvider().set("m/44'/784'/0'/0'/0'", {
+  return new SuiProofProvider("testnet").set("m/44'/784'/0'/0'/0'", {
     message: {
       domain: {
         name: "daosign",
