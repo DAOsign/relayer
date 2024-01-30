@@ -21,7 +21,7 @@ const proofQueue = (datasource: DataSource) =>
         const txRepository = datasource.getRepository(Tx);
         const accountRepository = datasource.getRepository(Account);
 
-        const queuedTxs = await txRepository.find({ where: { status: Tx_Status.NEW } });
+        const queuedTxs = await txRepository.find({ where: { status: Tx_Status.NEW }, order: { tx_id: "ASC" } });
 
         console.info(`Found ${queuedTxs.length} total queued proofs`);
 

@@ -12,7 +12,7 @@ export class SuiProofProvider implements ProofProvider {
   bagReference = env.SUI_BAG_ID;
 
   txb = new TransactionBlock();
-  mnemonic = "stool embrace dentist speed fire hope usual lock car inmate flag orbit";
+  mnemonic = env.SUI_MNEMONIC;
 
   client: SuiClient;
 

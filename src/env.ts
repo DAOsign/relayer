@@ -25,4 +25,5 @@ export default envalid.cleanEnv(process.env, {
   SUI_PACKAGE_ID: envalid.str(),
   SUI_BAG_ID: envalid.str(),
   SUI_RPC_TYPE: envalid.str(),
+  SUI_MNEMONIC: envalid.str(),
 });

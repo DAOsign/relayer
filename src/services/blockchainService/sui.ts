@@ -18,10 +18,16 @@ export class SuiService implements BlockchainService {
         },
       });
 
-      if (transactionBlock?.effects?.status.status) {
-        return Tx_Status.SUCCESS;
+      switch (transactionBlock.effects?.status.status) {
+        case "success":
+          return Tx_Status.SUCCESS;
+
+        case "failure":
+          return Tx_Status.ERROR;
+
+        default:
+          return Tx_Status.IN_PROGRESS;
       }
-      return Tx_Status.IN_PROGRESS;
     } catch (e) {
       return Tx_Status.ERROR;
     }
