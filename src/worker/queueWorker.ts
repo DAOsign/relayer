@@ -1,5 +1,5 @@
 import { CronJob } from "cron";
-import { DataSource } from "typeorm";
+import { DataSource, In } from "typeorm";
 import { Tx } from "../models/Tx";
 import { Network, SignedProof, Tx_Status } from "../services/proof_provider";
 import env from "../env";
@@ -21,7 +21,7 @@ const proofQueue = (datasource: DataSource) =>
         const txRepository = datasource.getRepository(Tx);
         const accountRepository = datasource.getRepository(Account);
 
-        const queuedTxs = await txRepository.find({ where: { status: Tx_Status.NEW }, order: { tx_id: "ASC" } });
+        const queuedTxs = await txRepository.find({ where: { status: In([Tx_Status.NEW, Tx_Status.ERROR]) }, order: { tx_id: "ASC" } });
 
         console.info(`Found ${queuedTxs.length} total queued proofs`);
 

@@ -3,7 +3,6 @@ import env from "./env";
 import AppDataSource from "./ormconfig";
 import txStatusChecker from "./worker/txStatusChecker";
 import proofQueue from "./worker/queueWorker";
-import { debugSui } from "./services/debug/sui";
 
 const port = env.PORT;
 
