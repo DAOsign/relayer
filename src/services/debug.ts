@@ -12,7 +12,7 @@ export const debug = () => {
   // getProofOfAuth('QmdRa839ynpkuRLcMTmZZngzWFXmNMKSUypPijs7Fg2Ygj').then((res) => console.dir(res.message[3])).catch(console.error);
 };
 
-const debugAuthority = () => {
+export const debugAuthority = () => {
   //Authority
   return new EthereumProofProvider(env.ETH_RPC_URL).set("m/44'/60'/0'/0", {
     message: {

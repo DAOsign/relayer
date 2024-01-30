@@ -2,6 +2,7 @@ import { DataSource, Repository } from "typeorm";
 import { Network, ProofProvider, SignedProof, Tx_Status } from "./proof_provider";
 import { Tx } from "../models/Tx";
 import { Account } from "../models/Account";
+import { CallExceptionError } from "ethers";
 
 export class ProofService {
   providers: Record<Network, ProofProvider>;
@@ -30,9 +31,11 @@ export class ProofService {
         await this.accountRepository.update({ account_id: account.account_id }, { locked: true });
         return await this.txRepository.save({ ...tx, payload: data, network: { network_id: network }, tx_hash: txHash, account: account, status: Tx_Status.IN_PROGRESS });
       } catch (e) {
+        const providerError = e as CallExceptionError;
         console.error(e);
         // error happened
         tx.status = Tx_Status.ERROR;
+        tx.error = providerError.reason || providerError.code;
         return await tx.save();
       }
     }
