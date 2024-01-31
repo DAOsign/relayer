@@ -6,6 +6,7 @@ import env from "../env";
 import { Account } from "../models/Account";
 import { ProofService } from "../services/proofService";
 import { EthereumProofProvider } from "../services/proof_provider/ethereum";
+import Logger from "../services/logger";
 import { SuiProofProvider } from "../services/proof_provider/sui";
 
 const proofQueue = (datasource: DataSource) =>
@@ -23,25 +24,25 @@ const proofQueue = (datasource: DataSource) =>
 
         const queuedTxs = await txRepository.find({ where: { status: In([Tx_Status.NEW, Tx_Status.ERROR]) }, order: { tx_id: "ASC" } });
 
-        console.info(`Found ${queuedTxs.length} total queued proofs`);
+        Logger.info(`Found ${queuedTxs.length} total queued proofs`);
 
         const ethQueuedProofs = queuedTxs.filter((tx) => tx.network?.network_id === Network.ETHEREUM);
 
         if (ethQueuedProofs.length) {
-          console.info(`Found ${ethQueuedProofs.length} Ethereum queued proofs`);
+          Logger.info(`Found ${ethQueuedProofs.length} Ethereum queued proofs`);
 
           const accounts = await accountRepository.findBy({ locked: false, network: { network_id: Network.ETHEREUM } });
           if (!accounts.length) {
-            console.info(`No unlocked Ethereum account was found. Skipping Ethereum queue processing`);
+            Logger.info(`No unlocked Ethereum account was found. Skipping Ethereum queue processing`);
           } else {
             const txToProcess = ethQueuedProofs.slice(0, accounts.length);
-            console.info(`${txToProcess.length} proofs to process`);
+            Logger.info(`${txToProcess.length} proofs to process`);
             //TODO REFACTOR duplitation/removing
             for (const tx of txToProcess) {
               await proofService.set(Network.ETHEREUM, tx.payload as SignedProof, tx);
             }
 
-            console.info(`${txToProcess.length} proofs processed`);
+            Logger.info(`${txToProcess.length} proofs processed`);
           }
         }
 
@@ -67,7 +68,7 @@ const proofQueue = (datasource: DataSource) =>
 
         return onComplete();
       } catch (e) {
-        console.error("QUEUE ERROR:", e);
+        Logger.error("QUEUE ERROR:", e);
       }
     },
     () => {
