@@ -1,12 +1,12 @@
-import env from "../env";
-import { EthereumProofProvider } from "./proof_provider/ethereum";
+import env from "../../env";
+import { EthereumProofProvider } from "../proof_provider/ethereum";
 
 const agreementCID = "QmdbCHsCsaMXGw6XVahtqTkbSkCLc8aupiu4hcVMbHpAfX";
 const signatureCID = "QmbetiMECZy4q5mN9VbZ2LejxoA1AjNEeEhBdU9LPDbAX8";
 
-export const debug = () => {
-  //debugAuthority().then(console.log).catch(console.error);
-  //debugSignature().then(console.log).catch(console.error); //.catch((e)=>console.error(JSON.stringify(e, null, 2)));
+export const debugEthereum = () => {
+  // debugAuthority().then(console.log).catch(console.error);
+  // debugSignature().then(console.log).catch(console.error); //.catch((e)=>console.error(JSON.stringify(e, null, 2)));
   debugAgreement().then(console.log).catch(console.error);
   //@ts-ignore
   // getProofOfAuth('QmdRa839ynpkuRLcMTmZZngzWFXmNMKSUypPijs7Fg2Ygj').then((res) => console.dir(res.message[3])).catch(console.error);

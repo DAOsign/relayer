@@ -40,12 +40,12 @@ jobs:
     needs: [build]
     env:
       # Ingress
-      HOST: 'relayer.dev.tradefi.daosign.org'
+      HOST: "relayer.dev.tradefi.daosign.org"
       # Secrets
-      DB_PORT: '25060'
-      DATABASE: 'tradefi-relayer-dev'
-      LOGGING: 'false'
-      ETH_RPC_URL: 'https://rpc.ankr.com/eth_goerli'
+      DB_PORT: "25060"
+      DATABASE: "tradefi-relayer-dev"
+      LOGGING: "false"
+      ETH_RPC_URL: "https://rpc.ankr.com/eth_goerli"
     steps:
       - uses: actions/checkout@v3
       - name: Create & View .env.yaml file

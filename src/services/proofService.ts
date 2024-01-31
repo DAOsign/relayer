@@ -3,6 +3,7 @@ import { Network, ProofProvider, SignedProof, Tx_Status } from "./proof_provider
 import { Tx } from "../models/Tx";
 import { Account } from "../models/Account";
 import { CallExceptionError } from "ethers";
+import * as net from "net";
 
 export class ProofService {
   providers: Record<Network, ProofProvider>;
