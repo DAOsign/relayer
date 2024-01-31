@@ -11,7 +11,6 @@ export class SuiProofProvider implements ProofProvider {
   network = Network.SUI;
   bagReference = env.SUI_BAG_ID;
 
-  txb = new TransactionBlock();
   mnemonic = env.SUI_MNEMONIC;
 
   client: SuiClient;
@@ -29,12 +28,13 @@ export class SuiProofProvider implements ProofProvider {
     return { message: mock, proofCID: proofCID, signature: "" };
   }
 
-  public async set(derivationPath: string = "m/44'/784'/1'/0'/0'", proof: SignedProof): Promise<string> {
+  public async set(derivationPath: string, proof: SignedProof): Promise<string> {
     console.log("proof");
     console.dir(proof.message.types);
+    const txb = new TransactionBlock();
 
     const keypair = Ed25519Keypair.deriveKeypair(this.mnemonic, derivationPath);
-    this.txb.setGasBudget(50000000);
+    txb.setGasBudget(50000000);
 
     const contractPayload = createContractPayload(proof);
 
@@ -49,13 +49,13 @@ export class SuiProofProvider implements ProofProvider {
         metadata: contractPayload.message.metadata,
       });
 
-      this.txb.moveCall({
+      txb.moveCall({
         target: `${env.SUI_PACKAGE_ID}::${"application"}::${"store_proof_of_authority"}`,
         arguments: [
-          this.txb.object(env.SUI_BAG_ID),
-          this.txb.pure(data.toString("hex"), BCS.HEX),
-          this.txb.pure(contractPayload.signature, BCS.HEX),
-          this.txb.pure(str2hex(contractPayload.proofCID), BCS.HEX),
+          txb.object(env.SUI_BAG_ID),
+          txb.pure(data.toString("hex"), BCS.HEX),
+          txb.pure(contractPayload.signature, BCS.HEX),
+          txb.pure(str2hex(contractPayload.proofCID), BCS.HEX),
         ],
       });
     }
@@ -70,13 +70,13 @@ export class SuiProofProvider implements ProofProvider {
         metadata: contractPayload.message.metadata,
       });
 
-      this.txb.moveCall({
+      txb.moveCall({
         target: `${env.SUI_PACKAGE_ID}::${"application"}::${"store_proof_of_signature"}`,
         arguments: [
-          this.txb.object(env.SUI_BAG_ID),
-          this.txb.pure(data.toString("hex"), BCS.HEX),
-          this.txb.pure(contractPayload.signature, BCS.HEX),
-          this.txb.pure(str2hex(contractPayload.proofCID), BCS.HEX),
+          txb.object(env.SUI_BAG_ID),
+          txb.pure(data.toString("hex"), BCS.HEX),
+          txb.pure(contractPayload.signature, BCS.HEX),
+          txb.pure(str2hex(contractPayload.proofCID), BCS.HEX),
         ],
       });
     }
@@ -90,15 +90,15 @@ export class SuiProofProvider implements ProofProvider {
         metadata: contractPayload.message.metadata,
       });
 
-      this.txb.moveCall({
+      txb.moveCall({
         target: `${env.SUI_PACKAGE_ID}::${"application"}::${"store_proof_of_agreement"}`,
-        arguments: [this.txb.object(env.SUI_BAG_ID), this.txb.pure(data.toString("hex"), BCS.HEX), this.txb.pure(str2hex(contractPayload.proofCID), BCS.HEX)],
+        arguments: [txb.object(env.SUI_BAG_ID), txb.pure(data.toString("hex"), BCS.HEX), txb.pure(str2hex(contractPayload.proofCID), BCS.HEX)],
       });
     }
 
     const receipt = await this.client.signAndExecuteTransactionBlock({
       signer: keypair,
-      transactionBlock: this.txb,
+      transactionBlock: txb,
       options: {
         showEffects: true,
       },
