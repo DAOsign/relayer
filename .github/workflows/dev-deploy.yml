@@ -52,8 +52,7 @@ jobs:
       - name: Create & View .env.yaml file
         id: create-env
         run: |
-          cat << EOF > .env.yaml
-          {
+          echo -n '{
             "ingress": {
               "host": "${{ env.HOST }}"
             },
@@ -72,8 +71,7 @@ jobs:
               "suiBagId": "${{ secrets.SUI_BAG_ID_DEV }}",
               "suiMnemonic": "${{ secrets.SUI_MNEMONIC_DEV }}"
             }
-          }
-          EOF
+          }' > .env.yaml
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
         with:
