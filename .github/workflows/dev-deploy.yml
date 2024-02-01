@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - helm-relayer/0.1.2
 
 env:
   DO_CONTAINER_REGISTRY: "daosign-container-registry"
@@ -71,7 +70,7 @@ jobs:
               "suiRpcType": "${{ env.SUI_RPC_TYPE }}",
               "suiPackageId": "${{ secrets.SUI_PACKAGE_ID_DEV }}",
               "suiBagId": "${{ secrets.SUI_BAG_ID_DEV }}",
-              "suiMnemonic": "toJson(${{ secrets.SUI_MNEMONIC_DEV }})"
+              "suiMnemonic": "${{ secrets.SUI_MNEMONIC_DEV }}"
             }
           }
           EOF
