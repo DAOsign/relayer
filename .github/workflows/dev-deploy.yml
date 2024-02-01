@@ -71,7 +71,7 @@ jobs:
               "suiRpcType": "${{ env.SUI_RPC_TYPE }}",
               "suiPackageId": "${{ secrets.SUI_PACKAGE_ID_DEV }}",
               "suiBagId": "${{ secrets.SUI_BAG_ID_DEV }}",
-              "suiMnemonic": "${{ secrets.SUI_MNEMONIC_DEV.replace("\"", "\\\"") }}"
+              "suiMnemonic": "${{ secrets.SUI_MNEMONIC_DEV }}".replace("\"", "\\\"")"
             }
           }
           EOF
