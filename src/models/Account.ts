@@ -8,7 +8,7 @@ export class Account extends BaseEntity {
   account_id!: number;
 
   @ManyToOne(() => Network, (network) => network.accounts)
-  @JoinColumn([{ name: 'network_id', referencedColumnName: 'network_id' }])
+  @JoinColumn([{ name: "network_id", referencedColumnName: "network_id" }])
   network!: Network;
 
   @Column({ type: "varchar", nullable: false })

@@ -2,6 +2,8 @@ import { DataSource, Repository } from "typeorm";
 import { Network, ProofProvider, SignedProof, Tx_Status } from "./proof_provider";
 import { Tx } from "../models/Tx";
 import { Account } from "../models/Account";
+import { CallExceptionError } from "ethers";
+import * as net from "net";
 
 export class ProofService {
   providers: Record<Network, ProofProvider>;
@@ -19,18 +21,26 @@ export class ProofService {
   async set(network: Network, data: SignedProof, existingTx?: Tx) {
     const account = await this.accountRepository.findOne({ where: { network: { network_id: network }, locked: false } });
 
+    //create new tx
     const tx = existingTx || this.txRepository.create({ payload: data, network: { network_id: network }, status: Tx_Status.NEW });
 
     if (account) {
-      const txHash = await this.providers[network].set(account.hd_path, data);
+      try {
+        const txHash = await this.providers[network].set(account.hd_path, data);
 
-      if (txHash) {
+        // tx have hash
         await this.accountRepository.update({ account_id: account.account_id }, { locked: true });
         return await this.txRepository.save({ ...tx, payload: data, network: { network_id: network }, tx_hash: txHash, account: account, status: Tx_Status.IN_PROGRESS });
-      } else {
+      } catch (e) {
+        const providerError = e as CallExceptionError;
+        console.error(e);
+        // error happened
+        tx.status = Tx_Status.ERROR;
+        tx.error = providerError.reason || providerError.code;
         return await tx.save();
       }
     }
+    // QUEUE new tx
     return await tx.save();
   }
 

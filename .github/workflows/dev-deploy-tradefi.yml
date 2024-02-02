@@ -40,12 +40,13 @@ jobs:
     needs: [build]
     env:
       # Ingress
-      HOST: 'relayer.dev.tradefi.daosign.org'
+      HOST: "relayer.dev.tradefi.daosign.org"
       # Secrets
-      DB_PORT: '25060'
-      DATABASE: 'tradefi-relayer-dev'
-      LOGGING: 'false'
-      ETH_RPC_URL: 'https://rpc.ankr.com/eth_goerli'
+      DB_PORT: "25060"
+      DATABASE: "tradefi-relayer-dev"
+      LOGGING: "false"
+      ETH_RPC_URL: "https://rpc.ankr.com/eth_goerli"
+      SUI_RPC_TYPE: "testnet"
     steps:
       - uses: actions/checkout@v3
       - name: Create & View .env.yaml file
@@ -65,7 +66,11 @@ jobs:
               "logging": "${{ env.LOGGING }}",
               "ethRpcUrl": "${{ env.ETH_RPC_URL }}",
               "ethPrivateKey": "${{ secrets.ETH_PRIVATE_KEY_DEV }}",
-              "ethContractAddress": "${{ secrets.ETH_CONTRACT_ADDRESS_DEV }}"
+              "ethContractAddress": "${{ secrets.ETH_CONTRACT_ADDRESS_DEV }}",
+              "suiRpcType": "${{ env.SUI_RPC_TYPE }}",
+              "suiPackageId": "${{ secrets.SUI_PACKAGE_ID_DEV }}",
+              "suiBagId": "${{ secrets.SUI_BAG_ID_DEV }}",
+              "suiMnemonic": "${{ secrets.SUI_MNEMONIC_DEV }}"
             }
           }
           EOF
@@ -78,7 +83,7 @@ jobs:
       - name: Helm deploy the latest image
         env:
           NAMESPACE: "tradefi-dev"
-          HELM_VERSION: 0.1.1
+          HELM_VERSION: 0.1.2
         run: |
           doctl registry login --expiry-seconds 600 && \
           kubectl get pods -n ${{ env.NAMESPACE }} && helm ls -n ${{ env.NAMESPACE }} && \

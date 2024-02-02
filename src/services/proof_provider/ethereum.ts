@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { CallExceptionError, ethers } from "ethers";
 import { Network, PROOF_TYPE, ProofProvider, SignedProof } from ".";
 import abi from "./abi.json";
 import { DAOSignApp } from "../../types/DAOSignApp";
@@ -57,7 +57,9 @@ export class EthereumProofProvider implements ProofProvider {
     }
 
     //@ts-ignore
-    const receipt = await storeProof(contractPayload).catch(console.error);
+    const receipt = await storeProof(contractPayload).catch((e: CallExceptionError) => {
+      throw e;
+    });
 
     //@ts-ignore
     return receipt?.hash;
