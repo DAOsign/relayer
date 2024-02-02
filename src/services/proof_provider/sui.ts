@@ -1,4 +1,11 @@
-import { Network, ProofProvider, ProofTypedMessage, SignedProof } from "./index";
+import {
+  Network, ProofOfAgreementMessage,
+  ProofOfAuthorityMessage,
+  ProofOfSignatureMessage,
+  ProofProvider,
+  ProofTypedMessage,
+  SignedProof
+} from "./index";
 import { getFullnodeUrl, SuiClient } from "@mysten/sui.js/client";
 import { TransactionBlock, Inputs } from "@mysten/sui.js/transactions";
 import { Ed25519Keypair } from "@mysten/sui.js/keypairs/ed25519";
@@ -39,15 +46,7 @@ export class SuiProofProvider implements ProofProvider {
     const contractPayload = createContractPayload(proof);
 
     if (contractPayload.message.name === "Proof-of-Authority") {
-      const data = bcs.ser("ProofOfAuthority", {
-        name: contractPayload.message.name,
-        from: hex2vec(contractPayload.message.from),
-        agreementCID: contractPayload.message.agreementCID,
-        signers: serializeSigner(contractPayload.message.signers),
-        app: contractPayload.message.app,
-        timestamp: contractPayload.message.timestamp,
-        metadata: contractPayload.message.metadata,
-      });
+      const data = this.serializeProofOfAuthority(contractPayload.message);
 
       txb.moveCall({
         target: `${env.SUI_PACKAGE_ID}::${"application"}::${"store_proof_of_authority"}`,
@@ -61,14 +60,7 @@ export class SuiProofProvider implements ProofProvider {
     }
 
     if (contractPayload.message.name === "Proof-of-Signature") {
-      const data = bcs.ser("ProofOfSignature", {
-        name: contractPayload.message.name,
-        signer: hex2vec(contractPayload.message.signer),
-        authorityCID: contractPayload.message.authorityCID,
-        app: contractPayload.message.app,
-        timestamp: contractPayload.message.timestamp,
-        metadata: contractPayload.message.metadata,
-      });
+      const data = this.serializeProofOfSignature(contractPayload.message);
 
       txb.moveCall({
         target: `${env.SUI_PACKAGE_ID}::${"application"}::${"store_proof_of_signature"}`,
@@ -82,13 +74,7 @@ export class SuiProofProvider implements ProofProvider {
     }
 
     if (contractPayload.message.name === "Proof-of-Agreement") {
-      const data = bcs.ser("ProofOfAgreement", {
-        authorityCID: contractPayload.message.authorityCID,
-        signatureCIDs: contractPayload.message.signatureCIDs,
-        app: contractPayload.message.app,
-        timestamp: contractPayload.message.timestamp,
-        metadata: contractPayload.message.metadata,
-      });
+      const data = this.serializeProofOfAgreement(contractPayload.message)
 
       txb.moveCall({
         target: `${env.SUI_PACKAGE_ID}::${"application"}::${"store_proof_of_agreement"}`,
@@ -105,5 +91,38 @@ export class SuiProofProvider implements ProofProvider {
     });
 
     return receipt.digest;
+  }
+
+  private serializeProofOfAuthority(message: ProofOfAuthorityMessage) {
+    return bcs.ser("ProofOfAuthority", {
+      name: message.name,
+      from: hex2vec(message.from),
+      agreementCID: message.agreementCID,
+      signers: serializeSigner(message.signers),
+      app: message.app,
+      timestamp: message.timestamp,
+      metadata: message.metadata,
+    });
+  }
+
+  private serializeProofOfSignature(message: ProofOfSignatureMessage) {
+    return bcs.ser("ProofOfSignature", {
+      name: message.name,
+      signer: hex2vec(message.signer),
+      authorityCID: message.authorityCID,
+      app: message.app,
+      timestamp: message.timestamp,
+      metadata: message.metadata,
+    });
+  }
+
+  private serializeProofOfAgreement(message: ProofOfAgreementMessage) {
+    return bcs.ser("ProofOfAgreement", {
+      authorityCID: message.authorityCID,
+      signatureCIDs: message.signatureCIDs,
+      app: message.app,
+      timestamp: message.timestamp,
+      metadata: message.metadata,
+    });
   }
 }
