@@ -2,6 +2,8 @@ import { FindManyOptions, In, Repository, Not } from "typeorm";
 import { Proof } from "../models/Proof";
 import { Account } from "../models/Account";
 import { CronJob } from "cron";
+import {Network, ProofProvider, SignedProof} from "../services/proof_provider";
+import {Tx} from "../models/Tx";
 
 export enum Tx_Status {
   NEW = 1,
@@ -16,22 +18,20 @@ export enum ProofType {
   DOCUMENT = 3,
 }
 interface RelayerService {
-  set(proof: Proof, account: Account): Promise<string>;
+  set(derivationPath: string, proof: SignedProof): Promise<string>;
 }
 
 export class QueueService {
-  private networkName = "Ethereum";
+  private networkName: string;
   private logger = { info: (text: string) => console.log(text) };
   cron: CronJob;
 
   constructor(
-    //private relayerService: RelayerService,
     private readonly accountRepository: Repository<Account>,
     private readonly proofRepository: Repository<Proof>,
-    private readonly network: number,
+    private relayerService: ProofProvider,
   ) {
-    const networkName = "Ethereum";
-    this.networkName = networkName;
+    this.networkName = Network[relayerService.network];
     //this.logger = new Logger(`${this.networkName} ${QueueService.name}`);
     this.cron = new CronJob("*/1 * * * *", () => this.processQueue(), null, true, "", null, true);
   }
@@ -68,7 +68,7 @@ export class QueueService {
 
   async getUnlockedAccounts() {
     return this.accountRepository.find({
-      where: { network: { network_id: this.network }, locked: false },
+      where: { network: { network_id: this.relayerService.network }, locked: false },
     });
   }
 
@@ -96,8 +96,8 @@ export class QueueService {
     const findOptions: FindManyOptions<Proof> = {
       ...options,
       where: {
-        status: In[Tx_Status.NEW],
-        network: this.network,
+        status: In([Tx_Status.NEW]),
+        network: this.relayerService.network,
         ...options?.where,
       },
       order: { created_at: "ASC", ...options?.order },
@@ -143,8 +143,9 @@ export class QueueService {
 
   async processProof(proof: Proof, account: Account) {
     try {
-      const txHash = "0x"; // await this.relayerService.set(proof, account);
+      const txHash = await this.relayerService.set(account.hd_path, proof.payload as SignedProof);
       proof.txHash = txHash;
+      proof.status = Tx_Status.IN_PROGRESS;
       return await this.proofRepository.save(proof);
     } catch (e) {
       proof.status = Tx_Status.ERROR;
