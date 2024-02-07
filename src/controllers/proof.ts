@@ -41,8 +41,8 @@ export default class ProofController {
     const tx = await proofService.getTxById(Number(refId));
     if (!tx) {
       return res.status(404).end();
-    } else if (tx.tx_hash) {
-      return res.status(200).send(tx.tx_hash);
+    } else if (tx.txHash) {
+      return res.status(200).send(tx.txHash);
     }
 
     return res.status(500).end();

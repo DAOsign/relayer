@@ -27,15 +27,19 @@ const graylogConfig: Graylog.TransportOptions = {
   staticMeta: { env: "staging" },
 };
 
-const Logger = createLogger({
-  exitOnError: false,
-  transports: [
-    new transports.Console(),
-    //new Graylog(graylogConfig)
-  ],
-  level: "debug",
-  levels: levels,
-  format: format.combine(format.errors({ stack: true }), format.colorize({ all: true }), format.splat(), format.timestamp({ format: "YYYY-MM-DD HH:mm:ss:ms" })),
-});
-Logger.info({})
+export const initLogger = () => {
+  return createLogger({
+    exitOnError: false,
+    transports: [
+      new transports.Console(),
+      //new Graylog(graylogConfig)
+    ],
+    level: "debug",
+    levels: levels,
+    format: format.combine(format.errors({ stack: true }), format.colorize({ all: true }), format.splat(), format.timestamp({ format: "YYYY-MM-DD HH:mm:ss:ms" })),
+  });
+};
+
+const Logger = initLogger();
+
 export default Logger;
