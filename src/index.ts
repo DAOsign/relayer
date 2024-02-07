@@ -7,7 +7,7 @@ import { Account } from "./models/Account";
 import { Proof } from "./models/Proof";
 import { QueueService } from "./worker/queue.service";
 import { Network } from "./services/proof_provider";
-import {SuiProofProvider} from "./services/proof_provider/sui";
+import { SuiProofProvider } from "./services/proof_provider/sui";
 
 const port = env.PORT;
 

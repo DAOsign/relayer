@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Account } from "./Account";
 
 @Entity("proof")
 export class Proof {
@@ -40,4 +41,7 @@ export class Proof {
     default: () => "CURRENT_TIMESTAMP",
   })
   updated_at!: Date;
+
+  @OneToOne(() => Account, (account) => account.currentProof)
+  processingBy: Account;
 }

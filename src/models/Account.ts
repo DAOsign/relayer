@@ -1,6 +1,7 @@
-import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Network } from "./Network";
 import { Tx } from "./Tx";
+import { Proof } from "./Proof";
 
 @Entity("account")
 export class Account extends BaseEntity {
@@ -17,9 +18,10 @@ export class Account extends BaseEntity {
   @Column({ type: "varchar", nullable: false })
   hd_path!: string;
 
-  @Column({ type: "boolean", nullable: false })
-  locked!: boolean;
-
   @OneToMany(() => Tx, (tx) => tx.account)
   transactions?: Tx[];
+
+  @OneToOne(() => Proof, (proof) => proof.id, { eager: true })
+  @JoinColumn([{ name: "current_proof", referencedColumnName: "id" }])
+  currentProof: Proof;
 }
