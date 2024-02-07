@@ -107,15 +107,22 @@ export class QueueService {
 
     const authorityProofRefs = authorityProofs.map((p) => p.refId);
 
+    const signatureProofs = await this.getNewProofs({
+      where: { type: ProofType.SIGNATURE, refId: Not(In(authorityProofRefs)) },
+      take: take,
+    });
+
+    const signatureProofRefs = signatureProofs.map((p) => p.refId);
+
     const restProofs = await this.getNewProofs({
       where: {
-        type: Not(ProofType.AUTHORITY),
-        refId: Not(In(authorityProofRefs)),
+        type: ProofType.DOCUMENT,
+        refId: Not(In([...signatureProofRefs, authorityProofRefs])),
       },
       take: take - authorityProofs.length,
     });
 
-    return [...authorityProofs, ...restProofs];
+    return [...authorityProofs, ...signatureProofs, ...restProofs];
   }
 
   async getProcessingProofs() {
@@ -131,8 +138,6 @@ export class QueueService {
         refId: Not(In(authorityProofRefs)),
       },
     });
-
-    console.log(authorityProofs);
 
     return [...authorityProofs, ...restProofs];
   }
@@ -197,6 +202,18 @@ export class QueueService {
     return !!authorityProof.txHash;
   }
 
+  async isSignatureProofsProcessed(refId: string) {
+    const signatureProofs = await this.proofRepository.find({ where: { refId, type: ProofType.SIGNATURE } });
+
+    const result = signatureProofs
+      .map((proof) => {
+        return !!proof.txHash;
+      })
+      .some((value) => value === false);
+
+    return !result;
+  }
+
   async processProofs(proofs: Proof[], accounts: Account[]) {
     const processedProofs: Proof[] = [];
 
@@ -207,12 +224,24 @@ export class QueueService {
           processedProofs.push(processed);
           break;
         }
-        default: {
+        case ProofType.SIGNATURE: {
           const authorityProcessed = await this.isAuthorityProofProcessed(proof.refId);
 
           if (!authorityProcessed) {
             // if authority not processed - skip
             this.logger.info(`${proof.refId} proof have no processed authority proof. Skipping.`);
+            break;
+          }
+          const processed = await this.processProof(proof, accounts.shift());
+          processedProofs.push(processed);
+          break;
+        }
+        case ProofType.DOCUMENT: {
+          const signatureProcessed = await this.isSignatureProofsProcessed(proof.refId);
+
+          if (!signatureProcessed) {
+            // if authority not processed - skip
+            this.logger.info(`${proof.refId} proof have no processed signatures proof. Skipping.`);
             break;
           }
           const processed = await this.processProof(proof, accounts.shift());
@@ -232,6 +261,7 @@ export class QueueService {
       await this.accountRepository.save({ ...account, currentProof: proof });
       return await this.proofRepository.save(proof);
     } catch (e) {
+      this.logger.info(e);
       proof.status = Tx_Status.ERROR;
       //Error handling
       return await this.proofRepository.save(proof);
