@@ -47,6 +47,8 @@ jobs:
       LOGGING: "false"
       ETH_RPC_URL: "https://rpc.ankr.com/eth_goerli"
       SUI_RPC_TYPE: "testnet"
+      GRAYLOG_HOST: "45.55.98.77"
+      GRAYLOG_PORT: "12201"
     steps:
       - uses: actions/checkout@v3
       - name: Create & View .env.yaml file
@@ -70,7 +72,9 @@ jobs:
               "suiRpcType": "${{ env.SUI_RPC_TYPE }}",
               "suiPackageId": "${{ secrets.SUI_PACKAGE_ID_DEV }}",
               "suiBagId": "${{ secrets.SUI_BAG_ID_DEV }}",
-              "suiMnemonic": "${{ secrets.SUI_MNEMONIC_DEV }}"
+              "suiMnemonic": "${{ secrets.SUI_MNEMONIC_DEV }}",
+              "graylogHost": "${{ env.GRAYLOG_HOST }}",
+              "graylogPort": "${{ env.GRAYLOG_PORT }}"
             }
           }
           EOF
@@ -82,7 +86,7 @@ jobs:
         run: doctl kubernetes cluster kubeconfig save daosign-kubernetes-cluster-dev
       - name: Helm deploy the latest image
         env:
-          HELM_VERSION: 0.1.2
+          HELM_VERSION: 0.1.3
         run: |
           doctl registry login --expiry-seconds 600 && \
           kubectl get pods && helm ls && \
