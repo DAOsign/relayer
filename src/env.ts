@@ -26,4 +26,5 @@ export default envalid.cleanEnv(process.env, {
   SUI_BAG_ID: envalid.str(),
   SUI_RPC_TYPE: envalid.str(),
   SUI_MNEMONIC: envalid.str(),
+  GRAYLOG_HOST: envalid.str("localhost"),
 });

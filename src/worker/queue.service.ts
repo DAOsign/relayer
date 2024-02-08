@@ -7,6 +7,7 @@ import { BlockchainService } from "../services/blockchainService";
 import { SuiService } from "../services/blockchainService/sui";
 import env from "../env";
 import { EthereumService } from "../services/blockchainService/ethereum";
+import Logger from "../services/logger";
 
 export enum Tx_Status {
   NEW = 1,
@@ -26,7 +27,7 @@ interface RelayerService {
 
 export class QueueService {
   private networkName: string;
-  private logger = { info: (text: string) => console.log(text) };
+  private logger = Logger || { info: (text: string) => console.log(text) };
   processQueueCron: CronJob;
   checkStatusCron: CronJob;
   blockchainService: BlockchainService;
@@ -37,7 +38,7 @@ export class QueueService {
     private relayerService: ProofProvider,
   ) {
     this.networkName = Network[relayerService.network];
-    //this.logger = new Logger(`${this.networkName} ${QueueService.name}`);
+    //this.logger = Logger; //new Logger(`${this.networkName} ${QueueService.name}`);
     this.checkStatusCron = new CronJob("*/1 * * * *", () => this.checkTransactionStatus(), null, true, "", null, true);
     this.processQueueCron = new CronJob("*/1 * * * *", () => this.processQueue(), null, true, "", null, true);
 
