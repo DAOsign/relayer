@@ -12,7 +12,6 @@
     "emitDecoratorMetadata": true,
     "outDir": "./dist",
     "rootDir": "./src",
-    "strict": true,
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "Node"
   },
