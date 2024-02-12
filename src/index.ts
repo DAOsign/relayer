@@ -6,6 +6,8 @@ import { Proof } from "./models/Proof";
 import { QueueService } from "./worker/queue.service";
 import { SuiProofProvider } from "./services/proof_provider/sui";
 import { EthereumProofProvider } from "./services/proof_provider/ethereum";
+import { TxStatusService } from "./worker/txStatus.service";
+import { Network } from "./services/proof_provider";
 
 const port = env.PORT;
 
@@ -15,6 +17,8 @@ AppDataSource.initialize()
 
     const accountRepository = datasource.getRepository(Account);
     const proofRepository = datasource.getRepository(Proof);
+    new TxStatusService(accountRepository, proofRepository, Network.SUI);
+    new TxStatusService(accountRepository, proofRepository, Network.ETHEREUM);
     new QueueService(accountRepository, proofRepository, new SuiProofProvider("testnet")).start();
     new QueueService(accountRepository, proofRepository, new EthereumProofProvider(env.ETH_RPC_URL)).start();
   })
