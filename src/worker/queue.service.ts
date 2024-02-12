@@ -200,7 +200,7 @@ export class QueueService {
       where: { refId, type: ProofType.AUTHORITY },
     });
 
-    return !!authorityProof.txHash;
+    return !!authorityProof?.txHash;
   }
 
   async isSignatureProofsProcessed(refId: string) {
