@@ -1,11 +1,4 @@
-import {
-  Network, ProofOfAgreementMessage,
-  ProofOfAuthorityMessage,
-  ProofOfSignatureMessage,
-  ProofProvider,
-  ProofTypedMessage,
-  SignedProof
-} from "./index";
+import { Network, ProofOfAgreementMessage, ProofOfAuthorityMessage, ProofOfSignatureMessage, ProofProvider, ProofTypedMessage, SignedProof } from "./index";
 import { getFullnodeUrl, SuiClient } from "@mysten/sui.js/client";
 import { TransactionBlock, Inputs } from "@mysten/sui.js/transactions";
 import { Ed25519Keypair } from "@mysten/sui.js/keypairs/ed25519";
@@ -74,7 +67,7 @@ export class SuiProofProvider implements ProofProvider {
     }
 
     if (contractPayload.message.name === "Proof-of-Agreement") {
-      const data = this.serializeProofOfAgreement(contractPayload.message)
+      const data = this.serializeProofOfAgreement(contractPayload.message);
 
       txb.moveCall({
         target: `${env.SUI_PACKAGE_ID}::${"application"}::${"store_proof_of_agreement"}`,
