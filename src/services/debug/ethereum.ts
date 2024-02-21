@@ -16,13 +16,6 @@ export const debugAuthority = () => {
   //Authority
   return new EthereumProofProvider(env.ETH_RPC_URL).set("m/44'/60'/0'/0", {
     message: {
-      domain: {
-        name: "daosign",
-        version: "0.1.0",
-        chainId: 1,
-        verifyingContract: "0x0000000000000000000000000000000000000000",
-      },
-      primaryType: "ProofOfAuthority",
       //@ts-ignore
       types: {
         Signer: [
@@ -39,23 +32,20 @@ export const debugAuthority = () => {
           { name: "metadata", type: "string" },
         ],
       },
+      domain: { name: "daosign", chainId: 1, version: "0.1.0", verifyingContract: "0x0000000000000000000000000000000000000000" },
       message: {
-        name: "Proof-of-Authority",
-        from: "0x4300bc1ed00706e5386c6b938382d37edb31d143",
-        agreementCID: agreementCID,
-        signers: [
-          {
-            addr: "0x4300bc1Ed00706E5386C6B938382d37eDB31d143",
-            metadata: "{}",
-          },
-        ],
         app: "daosign",
-        timestamp: 1705055133954,
+        from: "0x8a7aa629fd80492b33650d17fe96b1f60083201f",
+        name: "Proof-of-Authority",
+        signers: [{ addr: "0x8a7aa629fd80492b33650d17fe96b1f60083201f", metadata: "{}" }],
         metadata: "{}",
+        timestamp: 1707315859337,
+        agreementCID: "QmRhBMrsMXBEbMNRWLrjhmdCPaY4qc6kxGuwfLm1PhWUZj",
       },
+      primaryType: "ProofOfAuthority",
     },
-    signature: "0xf7e6cdf40a308d8146b0b668913b93268e49ed8cc1d1d46c27b61aa0396203875437b485e27fd63b7ddcfc2f1803a9814e0707e11ee88264dd834556932178f71c",
-    proofCID: "QmdRa839ynpkuRLcMTmZZngzWFXmNMKSUypPijs7Fg2Ygj",
+    proofCID: "QmaKzoizE2bRzCxKVFf6vNAF2yPG66bwuxqe2Lh6GA4cgU",
+    signature: "0x1682f2788aef801d23ae997aa81faf5b528b1558417402beb24e1018a3f6712b684757470e96d866a457d6e349731320b046eab4096fcf4be08c6bc71ba29ce01b",
   });
 };
 
@@ -72,10 +62,6 @@ export const debugVoid = () => {
       primaryType: "ProofOfVoid",
       //@ts-ignore
       types: {
-        Signer: [
-          { name: "addr", type: "address" },
-          { name: "metadata", type: "string" },
-        ],
         ProofOfVoid: [
           { name: "authorityCID", type: "string" },
           { name: "app", type: "string" },
@@ -85,17 +71,16 @@ export const debugVoid = () => {
       },
       //@ts-ignore
       message: {
-        authorityCID: agreementCID,
+        authorityCID: 'QmaKzoizE2bRzCxKVFf6vNAF2yPG66bwuxqe2Lh6GA4cgU',
         app: "daosign",
         timestamp: 1705055133954,
         metadata: "{}",
       },
     },
-    signature: "0xf7e6cdf40a308d8146b0b668913b93268e49ed8cc1d1d46c27b61aa0396203875437b485e27fd63b7ddcfc2f1803a9814e0707e11ee88264dd834556932178f71c",
+    signature: "0xd74c95a151d07d5d69915e5bfc5070768c4ef336cf19b419cf562b7f134e360265960ca9beaf2a2ee5d893bcdd2f1a064e4fb9ddabe457c53b5ef6fd298b64dd1b",
     proofCID: "QmdRa839ynpkuRLcMTmZZngzWFXmNMKSUypPijs7Fg2Ygj",
   });
 };
-
 const debugSignature = () => {
   // SIGNATURE
   return new EthereumProofProvider(env.ETH_RPC_URL).set("m/44'/60'/0'/0", {

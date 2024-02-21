@@ -36,7 +36,6 @@ export class EthereumProofProvider implements ProofProvider {
     const connectedWallet = wallet0.connect(this.provider);
 
     const contract = this.getContract(connectedWallet);
-    contract.getAddress().then(console.log);
 
     const contractPayload = createContractPayload(proof);
 
@@ -57,7 +56,7 @@ export class EthereumProofProvider implements ProofProvider {
         storeProof = contract.storeProofOfAuthority;
         break;
       }
-      case PROOF_TYPE.PROOF_OF_VOID:{
+      case PROOF_TYPE.PROOF_OF_VOID: {
         storeProof = contract.storeProofOfVoid;
       }
     }
