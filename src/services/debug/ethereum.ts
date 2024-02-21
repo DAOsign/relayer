@@ -59,6 +59,43 @@ export const debugAuthority = () => {
   });
 };
 
+export const debugVoid = () => {
+  //VOID
+  return new EthereumProofProvider(env.ETH_RPC_URL).set("m/44'/60'/0'/0", {
+    message: {
+      domain: {
+        name: "daosign",
+        version: "0.1.0",
+        chainId: 1,
+        verifyingContract: "0x0000000000000000000000000000000000000000",
+      },
+      primaryType: "ProofOfVoid",
+      //@ts-ignore
+      types: {
+        Signer: [
+          { name: "addr", type: "address" },
+          { name: "metadata", type: "string" },
+        ],
+        ProofOfVoid: [
+          { name: "authorityCID", type: "string" },
+          { name: "app", type: "string" },
+          { name: "timestamp", type: "uint256" },
+          { name: "metadata", type: "string" },
+        ],
+      },
+      //@ts-ignore
+      message: {
+        authorityCID: agreementCID,
+        app: "daosign",
+        timestamp: 1705055133954,
+        metadata: "{}",
+      },
+    },
+    signature: "0xf7e6cdf40a308d8146b0b668913b93268e49ed8cc1d1d46c27b61aa0396203875437b485e27fd63b7ddcfc2f1803a9814e0707e11ee88264dd834556932178f71c",
+    proofCID: "QmdRa839ynpkuRLcMTmZZngzWFXmNMKSUypPijs7Fg2Ygj",
+  });
+};
+
 const debugSignature = () => {
   // SIGNATURE
   return new EthereumProofProvider(env.ETH_RPC_URL).set("m/44'/60'/0'/0", {

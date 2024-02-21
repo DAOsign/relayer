@@ -3,10 +3,7 @@ import { Proof } from "../models/Proof";
 import { Account } from "../models/Account";
 import { CronJob } from "cron";
 import { Network, ProofProvider, SignedProof } from "../services/proof_provider";
-import { BlockchainService } from "../services/blockchainService";
-import { SuiService } from "../services/blockchainService/sui";
-import env from "../env";
-import { EthereumService } from "../services/blockchainService/ethereum";
+
 import Logger from "../services/logger";
 
 export enum Tx_Status {
@@ -20,6 +17,7 @@ export enum ProofType {
   AUTHORITY = 1,
   SIGNATURE = 2,
   DOCUMENT = 3,
+  VOID
 }
 interface RelayerService {
   set(derivationPath: string, proof: SignedProof): Promise<string>;

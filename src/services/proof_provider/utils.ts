@@ -8,6 +8,8 @@ export function getProofType(proof: SignedProof): PROOF_TYPE {
       return PROOF_TYPE.PROOF_OF_SIGNATURE;
     case "ProofOfAgreement":
       return PROOF_TYPE.PROOF_OF_AGREEMENT;
+    case "ProofOfVoid":
+      return PROOF_TYPE.PROOF_OF_VOID;
     default:
       throw new Error("Unrecognized Proof type");
   }

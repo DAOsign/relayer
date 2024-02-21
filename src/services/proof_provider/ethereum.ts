@@ -17,6 +17,7 @@ export class EthereumProofProvider implements ProofProvider {
   constructor(rpcUrl: string) {
     this.provider = new ethers.JsonRpcProvider(rpcUrl);
     const signer = new ethers.Wallet(env.ETH_PRIVATE_KEY, this.provider);
+
     this.contract = new ethers.Contract(env.ETH_CONTRACT_ADDRESS, abi, signer) as unknown as DAOSignApp;
   }
 
@@ -33,7 +34,9 @@ export class EthereumProofProvider implements ProofProvider {
 
     const wallet0 = ethers.HDNodeWallet.fromMnemonic(this.mnemonic, derivationPath);
     const connectedWallet = wallet0.connect(this.provider);
+
     const contract = this.getContract(connectedWallet);
+    contract.getAddress().then(console.log);
 
     const contractPayload = createContractPayload(proof);
 
@@ -53,6 +56,9 @@ export class EthereumProofProvider implements ProofProvider {
       case PROOF_TYPE.PROOF_OF_AUTHORITY: {
         storeProof = contract.storeProofOfAuthority;
         break;
+      }
+      case PROOF_TYPE.PROOF_OF_VOID:{
+        storeProof = contract.storeProofOfVoid;
       }
     }
 

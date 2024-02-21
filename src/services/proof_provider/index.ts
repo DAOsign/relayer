@@ -14,6 +14,7 @@ export enum PROOF_TYPE {
   PROOF_OF_SIGNATURE,
   PROOF_OF_AUTHORITY,
   PROOF_OF_AGREEMENT,
+  PROOF_OF_VOID,
 }
 
 export interface MessageTypeProperty {
@@ -76,6 +77,18 @@ export interface ProofOfAgreementTypedMessage extends MessageTypes {
   ];
 }
 
+export interface ProofOfVoidTypedMessage extends MessageTypes {
+  EIP712Domain: [{ name: "name"; type: "string" }, { name: "version"; type: "string" }, { name: "chainId"; type: "uint256" }, { name: "verifyingContract"; type: "address" }];
+  ProofOfVoid: [
+    { name: "authorityCID"; type: "string" },
+    { name: "app"; type: "string" },
+    { name: "timestamp"; type: "uint256" },
+    { name: "metadata"; type: "string" },
+
+    //{ name: "signatureCIDs"; type: "string[]" },
+  ];
+}
+
 export interface MessageMetadata {
   app: "daosign";
   timestamp: number;
@@ -100,10 +113,15 @@ export interface ProofOfAgreementMessage extends MessageMetadata {
   authorityCID: string;
   signatureCIDs: Array<string>;
 }
+export interface ProofOfVoidMessage extends MessageMetadata {
+  name: "Proof-of-Void";
+  authorityCID: string;
+  //signatureCIDs: Array<string>;
+}
 
 export type ProofTypedMessage = TypedMessage<
-  ProofOfAuthorityTypedMessage | ProofOfSignatureTypedMessage | ProofOfAgreementTypedMessage,
-  ProofOfAuthorityMessage | ProofOfSignatureMessage | ProofOfAgreementMessage
+  ProofOfAuthorityTypedMessage | ProofOfSignatureTypedMessage | ProofOfAgreementTypedMessage | ProofOfVoidTypedMessage,
+  ProofOfAuthorityMessage | ProofOfSignatureMessage | ProofOfAgreementMessage | ProofOfVoidMessage
 >;
 
 export interface SignedProof {
