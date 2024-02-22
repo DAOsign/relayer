@@ -35,17 +35,17 @@ export const debugAuthority = () => {
       domain: { name: "daosign", chainId: 1, version: "0.1.0", verifyingContract: "0x0000000000000000000000000000000000000000" },
       message: {
         app: "daosign",
-        from: "0x8a7aa629fd80492b33650d17fe96b1f60083201f",
+        from: "0xd405aebF7b60eD2cb2Ac4497Bddd292DEe534E82",
         name: "Proof-of-Authority",
-        signers: [{ addr: "0x8a7aa629fd80492b33650d17fe96b1f60083201f", metadata: "{}" }],
+        signers: [{ addr: "0xd405aebF7b60eD2cb2Ac4497Bddd292DEe534E82", metadata: "{}" }],
         metadata: "{}",
         timestamp: 1707315859337,
-        agreementCID: "QmRhBMrsMXBEbMNRWLrjhmdCPaY4qc6kxGuwfLm1PhWUZj",
+        agreementCID: "QmRhBMrsMXBEbMNRWLrjhmdCPaY4qc6kxGuwfLm1PhWUZf",
       },
       primaryType: "ProofOfAuthority",
     },
-    proofCID: "QmaKzoizE2bRzCxKVFf6vNAF2yPG66bwuxqe2Lh6GA4cgU",
-    signature: "0x1682f2788aef801d23ae997aa81faf5b528b1558417402beb24e1018a3f6712b684757470e96d866a457d6e349731320b046eab4096fcf4be08c6bc71ba29ce01b",
+    proofCID: "QmaKzoizE2bRzCxKVFf6vNAF2yPG66bwuxqe2Lh6GA4cgF",
+    signature: "0x897b5bd209ebbe9f80265b1c3fbe7ddc36122cc23633c92ad07af36c61aa269a4dc6d38477fa9204ca5d3c0b2dad196450976169fcc77a51db49a9f7b13ee0ce1b",
   });
 };
 
@@ -71,14 +71,14 @@ export const debugVoid = () => {
       },
       //@ts-ignore
       message: {
-        authorityCID: 'QmaKzoizE2bRzCxKVFf6vNAF2yPG66bwuxqe2Lh6GA4cgU',
+        authorityCID: "QmaKzoizE2bRzCxKVFf6vNAF2yPG66bwuxqe2Lh6GA4cgF",
         app: "daosign",
         timestamp: 1705055133954,
         metadata: "{}",
       },
     },
-    signature: "0xd74c95a151d07d5d69915e5bfc5070768c4ef336cf19b419cf562b7f134e360265960ca9beaf2a2ee5d893bcdd2f1a064e4fb9ddabe457c53b5ef6fd298b64dd1b",
-    proofCID: "QmdRa839ynpkuRLcMTmZZngzWFXmNMKSUypPijs7Fg2Ygj",
+    signature: "0x5637383584118084c3bb4d66a8c2dbe73fb07262201957ab78532234bd780d67578372fefcf7c0212b73816bde80d7bc703530e326a9c5eca776f82991894ecb1b",
+    proofCID: "QmdRa839ynpkuRLcMTmZZngzWFXmNMKSUypPijs7Fg2Ygg",
   });
 };
 const debugSignature = () => {
