@@ -79,14 +79,11 @@ export interface ProofOfAgreementTypedMessage extends MessageTypes {
 
 export interface ProofOfVoidTypedMessage extends MessageTypes {
   EIP712Domain: [{ name: "name"; type: "string" }, { name: "version"; type: "string" }, { name: "chainId"; type: "uint256" }, { name: "verifyingContract"; type: "address" }];
-  ProofOfVoid: [
-    { name: "authorityCID"; type: "string" },
-    { name: "app"; type: "string" },
-    { name: "timestamp"; type: "uint256" },
-    { name: "metadata"; type: "string" },
-
-    //{ name: "signatureCIDs"; type: "string[]" },
-  ];
+  ProofOfVoid: [{ name: "authorityCID"; type: "string" }, { name: "app"; type: "string" }, { name: "timestamp"; type: "uint256" }, { name: "metadata"; type: "string" }];
+}
+export interface ProofOfCancelTypedMessage extends MessageTypes {
+  EIP712Domain: [{ name: "name"; type: "string" }, { name: "version"; type: "string" }, { name: "chainId"; type: "uint256" }, { name: "verifyingContract"; type: "address" }];
+  ProofOfVoid: [{ name: "authorityCIDs"; type: "string[]" }, { name: "app"; type: "string" }, { name: "timestamp"; type: "uint256" }, { name: "metadata"; type: "string" }];
 }
 
 export interface MessageMetadata {
@@ -114,14 +111,15 @@ export interface ProofOfAgreementMessage extends MessageMetadata {
   signatureCIDs: Array<string>;
 }
 export interface ProofOfVoidMessage extends MessageMetadata {
-  name: "Proof-of-Void";
   authorityCID: string;
-  //signatureCIDs: Array<string>;
+}
+export interface ProofOfCancelMessage extends MessageMetadata {
+  authorityCIDs: string[];
 }
 
 export type ProofTypedMessage = TypedMessage<
-  ProofOfAuthorityTypedMessage | ProofOfSignatureTypedMessage | ProofOfAgreementTypedMessage | ProofOfVoidTypedMessage,
-  ProofOfAuthorityMessage | ProofOfSignatureMessage | ProofOfAgreementMessage | ProofOfVoidMessage
+  ProofOfAuthorityTypedMessage | ProofOfSignatureTypedMessage | ProofOfAgreementTypedMessage | ProofOfVoidTypedMessage | ProofOfCancelTypedMessage,
+  ProofOfAuthorityMessage | ProofOfSignatureMessage | ProofOfAgreementMessage | ProofOfVoidMessage | ProofOfCancelMessage
 >;
 
 export interface SignedProof {

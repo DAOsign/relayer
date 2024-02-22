@@ -17,7 +17,8 @@ export enum ProofType {
   AUTHORITY = 1,
   SIGNATURE = 2,
   DOCUMENT = 3,
-  VOID
+  VOID = 4,
+  CANCEL = 5,
 }
 interface RelayerService {
   set(derivationPath: string, proof: SignedProof): Promise<string>;
@@ -168,6 +169,30 @@ export class QueueService {
           }
           const processed = await this.processProof(proof, accounts.shift());
           processedProofs.push(processed);
+        }
+        case ProofType.VOID: {
+          const authorityProcessed = await this.isAuthorityProofProcessed(proof.refId);
+
+          if (!authorityProcessed) {
+            // if authority not processed - skip
+            this.logger.info(`${proof.refId} proof have no processed authority proof. Skipping.`);
+            break;
+          }
+          const processed = await this.processProof(proof, accounts.shift());
+          processedProofs.push(processed);
+          break;
+        }
+        case ProofType.CANCEL: {
+          const authorityProcessed = await this.isAuthorityProofProcessed(proof.refId);
+
+          if (!authorityProcessed) {
+            // if authority not processed - skip
+            this.logger.info(`${proof.refId} proof have no processed authority proof. Skipping.`);
+            break;
+          }
+          const processed = await this.processProof(proof, accounts.shift());
+          processedProofs.push(processed);
+          break;
         }
       }
     }
