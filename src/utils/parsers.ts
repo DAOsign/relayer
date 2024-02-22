@@ -8,6 +8,10 @@ import {
   ProofOfAuthorityMessage,
   ProofOfSignatureMessage,
   ProofOfAgreementMessage,
+  ProofOfVoidTypedMessage,
+  ProofOfVoidMessage,
+  ProofOfCancelTypedMessage,
+  ProofOfCancelMessage,
 } from "../services/proof_provider";
 
 const IPFS_CID_LENGTH = 46;
@@ -62,12 +66,12 @@ export function parseProofTypedMessage(value: any): ProofTypedMessage {
     throw errMsg;
   }
   const primaryType = value.primaryType;
-
   /*   if (typeof value.types !== "object" || typeof value.types.EIP712Domain !== "object" || typeof value.message !== "object") {
     throw errMsg;
   } */
-  let types: ProofOfAuthorityTypedMessage | ProofOfSignatureTypedMessage | ProofOfAgreementTypedMessage;
-  let msg: ProofOfAuthorityMessage | ProofOfSignatureMessage | ProofOfAgreementMessage;
+  let types: ProofOfAuthorityTypedMessage | ProofOfSignatureTypedMessage | ProofOfAgreementTypedMessage | ProofOfVoidTypedMessage | ProofOfCancelTypedMessage;
+  let msg: ProofOfAuthorityMessage | ProofOfSignatureMessage | ProofOfAgreementMessage | ProofOfVoidMessage | ProofOfCancelMessage;
+
   switch (primaryType) {
     case "ProofOfAuthority":
       if (typeof value.types.Signer !== "object" || typeof value.types.ProofOfAuthority !== "object") {
@@ -89,6 +93,20 @@ export function parseProofTypedMessage(value: any): ProofTypedMessage {
       }
       types = value.types as ProofOfAgreementTypedMessage;
       msg = value.message as ProofOfAgreementMessage;
+      break;
+    case "ProofOfVoid":
+      if (typeof value.types.ProofOfVoid !== "object") {
+        throw errMsg;
+      }
+      types = value.types as ProofOfVoidTypedMessage;
+      msg = value.message as ProofOfVoidMessage;
+      break;
+    case "ProofOfCancel":
+      if (typeof value.types.ProofOfCancel !== "object") {
+        throw errMsg;
+      }
+      types = value.types as ProofOfCancelTypedMessage;
+      msg = value.message as ProofOfCancelMessage;
       break;
     default:
       throw errMsg;

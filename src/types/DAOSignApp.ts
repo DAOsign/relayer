@@ -66,6 +66,32 @@ export type SignedProofOfAuthorityStructOutput = [message: ProofOfAuthorityStruc
   proofCID: string;
 };
 
+export type ProofOfCancelStruct = {
+  authorityCIDs: string[];
+  app: string;
+  timestamp: BigNumberish;
+  metadata: string;
+};
+
+export type ProofOfCancelStructOutput = [authorityCIDs: string[], app: string, timestamp: bigint, metadata: string] & {
+  authorityCIDs: string[];
+  app: string;
+  timestamp: bigint;
+  metadata: string;
+};
+
+export type SignedProofOfCancelStruct = {
+  message: ProofOfCancelStruct;
+  signature: BytesLike;
+  proofCID: string;
+};
+
+export type SignedProofOfCancelStructOutput = [message: ProofOfCancelStructOutput, signature: string, proofCID: string] & {
+  message: ProofOfCancelStructOutput;
+  signature: string;
+  proofCID: string;
+};
+
 export type ProofOfSignatureStruct = {
   name: string;
   signer: AddressLike;
@@ -92,6 +118,32 @@ export type SignedProofOfSignatureStruct = {
 
 export type SignedProofOfSignatureStructOutput = [message: ProofOfSignatureStructOutput, signature: string, proofCID: string] & {
   message: ProofOfSignatureStructOutput;
+  signature: string;
+  proofCID: string;
+};
+
+export type ProofOfVoidStruct = {
+  authorityCID: string;
+  app: string;
+  timestamp: BigNumberish;
+  metadata: string;
+};
+
+export type ProofOfVoidStructOutput = [authorityCID: string, app: string, timestamp: bigint, metadata: string] & {
+  authorityCID: string;
+  app: string;
+  timestamp: bigint;
+  metadata: string;
+};
+
+export type SignedProofOfVoidStruct = {
+  message: ProofOfVoidStruct;
+  signature: BytesLike;
+  proofCID: string;
+};
+
+export type SignedProofOfVoidStructOutput = [message: ProofOfVoidStructOutput, signature: string, proofCID: string] & {
+  message: ProofOfVoidStructOutput;
   signature: string;
   proofCID: string;
 };
@@ -142,14 +194,14 @@ export type EIP712DomainStructOutput = [name: string, version: string, chainId: 
   verifyingContract: string;
 };
 
-export type EIP712ProofOfAgreementStruct = {
+export type EIP712ProofOfAgreementDocumentStruct = {
   types: EIP712ProofOfAgreementTypesStruct;
   domain: EIP712DomainStruct;
   primaryType: string;
   message: ProofOfAgreementStruct;
 };
 
-export type EIP712ProofOfAgreementStructOutput = [
+export type EIP712ProofOfAgreementDocumentStructOutput = [
   types: EIP712ProofOfAgreementTypesStructOutput,
   domain: EIP712DomainStructOutput,
   primaryType: string,
@@ -162,10 +214,10 @@ export type EIP712ProofOfAgreementStructOutput = [
 };
 
 export type SignedProofOfAgreementMsgStruct = {
-  message: EIP712ProofOfAgreementStruct;
+  message: EIP712ProofOfAgreementDocumentStruct;
 };
 
-export type SignedProofOfAgreementMsgStructOutput = [message: EIP712ProofOfAgreementStructOutput] & { message: EIP712ProofOfAgreementStructOutput };
+export type SignedProofOfAgreementMsgStructOutput = [message: EIP712ProofOfAgreementDocumentStructOutput] & { message: EIP712ProofOfAgreementDocumentStructOutput };
 
 export type EIP712ProofOfAuthorityTypesStruct = {
   EIP712Domain: [EIP712PropertyTypeStruct, EIP712PropertyTypeStruct];
@@ -183,14 +235,14 @@ export type EIP712ProofOfAuthorityTypesStructOutput = [
   ProofOfAuthority: EIP712PropertyTypeStructOutput[];
 };
 
-export type EIP712ProofOfAuthorityStruct = {
+export type EIP712ProofOfAuthorityDocumentStruct = {
   types: EIP712ProofOfAuthorityTypesStruct;
   domain: EIP712DomainStruct;
   primaryType: string;
   message: ProofOfAuthorityStruct;
 };
 
-export type EIP712ProofOfAuthorityStructOutput = [
+export type EIP712ProofOfAuthorityDocumentStructOutput = [
   types: EIP712ProofOfAuthorityTypesStructOutput,
   domain: EIP712DomainStructOutput,
   primaryType: string,
@@ -203,12 +255,54 @@ export type EIP712ProofOfAuthorityStructOutput = [
 };
 
 export type SignedProofOfAuthorityMsgStruct = {
-  message: EIP712ProofOfAuthorityStruct;
+  message: EIP712ProofOfAuthorityDocumentStruct;
   signature: BytesLike;
 };
 
-export type SignedProofOfAuthorityMsgStructOutput = [message: EIP712ProofOfAuthorityStructOutput, signature: string] & {
-  message: EIP712ProofOfAuthorityStructOutput;
+export type SignedProofOfAuthorityMsgStructOutput = [message: EIP712ProofOfAuthorityDocumentStructOutput, signature: string] & {
+  message: EIP712ProofOfAuthorityDocumentStructOutput;
+  signature: string;
+};
+
+export type EIP712ProofOfCancelTypesStruct = {
+  EIP712Domain: [EIP712PropertyTypeStruct, EIP712PropertyTypeStruct];
+  ProofOfVoid: [EIP712PropertyTypeStruct, EIP712PropertyTypeStruct, EIP712PropertyTypeStruct, EIP712PropertyTypeStruct];
+};
+
+export type EIP712ProofOfCancelTypesStructOutput = [
+  EIP712Domain: [EIP712PropertyTypeStructOutput, EIP712PropertyTypeStructOutput],
+  ProofOfVoid: [EIP712PropertyTypeStructOutput, EIP712PropertyTypeStructOutput, EIP712PropertyTypeStructOutput, EIP712PropertyTypeStructOutput],
+] & {
+  EIP712Domain: [EIP712PropertyTypeStructOutput, EIP712PropertyTypeStructOutput];
+  ProofOfVoid: [EIP712PropertyTypeStructOutput, EIP712PropertyTypeStructOutput, EIP712PropertyTypeStructOutput, EIP712PropertyTypeStructOutput];
+};
+
+export type EIP712ProofOfCancelDocumentStruct = {
+  types: EIP712ProofOfCancelTypesStruct;
+  domain: EIP712DomainStruct;
+  primaryType: string;
+  message: ProofOfCancelStruct;
+};
+
+export type EIP712ProofOfCancelDocumentStructOutput = [
+  types: EIP712ProofOfCancelTypesStructOutput,
+  domain: EIP712DomainStructOutput,
+  primaryType: string,
+  message: ProofOfCancelStructOutput,
+] & {
+  types: EIP712ProofOfCancelTypesStructOutput;
+  domain: EIP712DomainStructOutput;
+  primaryType: string;
+  message: ProofOfCancelStructOutput;
+};
+
+export type SignedProofOfCancelMsgStruct = {
+  message: EIP712ProofOfCancelDocumentStruct;
+  signature: BytesLike;
+};
+
+export type SignedProofOfCancelMsgStructOutput = [message: EIP712ProofOfCancelDocumentStructOutput, signature: string] & {
+  message: EIP712ProofOfCancelDocumentStructOutput;
   signature: string;
 };
 
@@ -225,14 +319,14 @@ export type EIP712ProofOfSignatureTypesStructOutput = [
   ProofOfSignature: EIP712PropertyTypeStructOutput[];
 };
 
-export type EIP712ProofOfSignatureStruct = {
+export type EIP712ProofOfSignatureDocumentStruct = {
   types: EIP712ProofOfSignatureTypesStruct;
   domain: EIP712DomainStruct;
   primaryType: string;
   message: ProofOfSignatureStruct;
 };
 
-export type EIP712ProofOfSignatureStructOutput = [
+export type EIP712ProofOfSignatureDocumentStructOutput = [
   types: EIP712ProofOfSignatureTypesStructOutput,
   domain: EIP712DomainStructOutput,
   primaryType: string,
@@ -245,35 +339,95 @@ export type EIP712ProofOfSignatureStructOutput = [
 };
 
 export type SignedProofOfSignatureMsgStruct = {
-  message: EIP712ProofOfSignatureStruct;
+  message: EIP712ProofOfSignatureDocumentStruct;
   signature: BytesLike;
 };
 
-export type SignedProofOfSignatureMsgStructOutput = [message: EIP712ProofOfSignatureStructOutput, signature: string] & {
-  message: EIP712ProofOfSignatureStructOutput;
+export type SignedProofOfSignatureMsgStructOutput = [message: EIP712ProofOfSignatureDocumentStructOutput, signature: string] & {
+  message: EIP712ProofOfSignatureDocumentStructOutput;
+  signature: string;
+};
+
+export type EIP712ProofOfVoidTypesStruct = {
+  EIP712Domain: [EIP712PropertyTypeStruct, EIP712PropertyTypeStruct];
+  ProofOfVoid: [EIP712PropertyTypeStruct, EIP712PropertyTypeStruct, EIP712PropertyTypeStruct, EIP712PropertyTypeStruct];
+};
+
+export type EIP712ProofOfVoidTypesStructOutput = [
+  EIP712Domain: [EIP712PropertyTypeStructOutput, EIP712PropertyTypeStructOutput],
+  ProofOfVoid: [EIP712PropertyTypeStructOutput, EIP712PropertyTypeStructOutput, EIP712PropertyTypeStructOutput, EIP712PropertyTypeStructOutput],
+] & {
+  EIP712Domain: [EIP712PropertyTypeStructOutput, EIP712PropertyTypeStructOutput];
+  ProofOfVoid: [EIP712PropertyTypeStructOutput, EIP712PropertyTypeStructOutput, EIP712PropertyTypeStructOutput, EIP712PropertyTypeStructOutput];
+};
+
+export type EIP712ProofOfVoidDocumentStruct = {
+  types: EIP712ProofOfVoidTypesStruct;
+  domain: EIP712DomainStruct;
+  primaryType: string;
+  message: ProofOfVoidStruct;
+};
+
+export type EIP712ProofOfVoidDocumentStructOutput = [
+  types: EIP712ProofOfVoidTypesStructOutput,
+  domain: EIP712DomainStructOutput,
+  primaryType: string,
+  message: ProofOfVoidStructOutput,
+] & {
+  types: EIP712ProofOfVoidTypesStructOutput;
+  domain: EIP712DomainStructOutput;
+  primaryType: string;
+  message: ProofOfVoidStructOutput;
+};
+
+export type SignedProofOfVoidMsgStruct = {
+  message: EIP712ProofOfVoidDocumentStruct;
+  signature: BytesLike;
+};
+
+export type SignedProofOfVoidMsgStructOutput = [message: EIP712ProofOfVoidDocumentStructOutput, signature: string] & {
+  message: EIP712ProofOfVoidDocumentStructOutput;
   signature: string;
 };
 
 export interface DAOSignAppInterface extends Interface {
   getFunction(
-    nameOrSignature: "getProofOfAgreement" | "getProofOfAuthority" | "getProofOfSignature" | "storeProofOfAgreement" | "storeProofOfAuthority" | "storeProofOfSignature",
+    nameOrSignature:
+      | "getProofOfAgreement"
+      | "getProofOfAuthority"
+      | "getProofOfCancel"
+      | "getProofOfSignature"
+      | "getProofOfVoid"
+      | "storeProofOfAgreement"
+      | "storeProofOfAuthority"
+      | "storeProofOfCancel"
+      | "storeProofOfSignature"
+      | "storeProofOfVoid",
   ): FunctionFragment;
 
-  getEvent(nameOrSignatureOrTopic: "NewProofOfAgreement" | "NewProofOfAuthority" | "NewProofOfSignature"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "NewProofOfAgreement" | "NewProofOfAuthority" | "NewProofOfCancel" | "NewProofOfSignature" | "NewProofOfVoid"): EventFragment;
 
   encodeFunctionData(functionFragment: "getProofOfAgreement", values: [string]): string;
   encodeFunctionData(functionFragment: "getProofOfAuthority", values: [string]): string;
+  encodeFunctionData(functionFragment: "getProofOfCancel", values: [string]): string;
   encodeFunctionData(functionFragment: "getProofOfSignature", values: [string]): string;
+  encodeFunctionData(functionFragment: "getProofOfVoid", values: [string]): string;
   encodeFunctionData(functionFragment: "storeProofOfAgreement", values: [SignedProofOfAgreementStruct]): string;
   encodeFunctionData(functionFragment: "storeProofOfAuthority", values: [SignedProofOfAuthorityStruct]): string;
+  encodeFunctionData(functionFragment: "storeProofOfCancel", values: [SignedProofOfCancelStruct]): string;
   encodeFunctionData(functionFragment: "storeProofOfSignature", values: [SignedProofOfSignatureStruct]): string;
+  encodeFunctionData(functionFragment: "storeProofOfVoid", values: [SignedProofOfVoidStruct]): string;
 
   decodeFunctionResult(functionFragment: "getProofOfAgreement", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getProofOfAuthority", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getProofOfCancel", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getProofOfSignature", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getProofOfVoid", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "storeProofOfAgreement", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "storeProofOfAuthority", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "storeProofOfCancel", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "storeProofOfSignature", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "storeProofOfVoid", data: BytesLike): Result;
 }
 
 export namespace NewProofOfAgreementEvent {
@@ -300,11 +454,35 @@ export namespace NewProofOfAuthorityEvent {
   export type LogDescription = TypedLogDescription<Event>;
 }
 
+export namespace NewProofOfCancelEvent {
+  export type InputTuple = [data: SignedProofOfCancelStruct];
+  export type OutputTuple = [data: SignedProofOfCancelStructOutput];
+  export interface OutputObject {
+    data: SignedProofOfCancelStructOutput;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
 export namespace NewProofOfSignatureEvent {
   export type InputTuple = [data: SignedProofOfSignatureStruct];
   export type OutputTuple = [data: SignedProofOfSignatureStructOutput];
   export interface OutputObject {
     data: SignedProofOfSignatureStructOutput;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace NewProofOfVoidEvent {
+  export type InputTuple = [data: SignedProofOfVoidStruct];
+  export type OutputTuple = [data: SignedProofOfVoidStructOutput];
+  export interface OutputObject {
+    data: SignedProofOfVoidStructOutput;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -343,26 +521,40 @@ export interface DAOSignApp extends BaseContract {
 
   getProofOfAuthority: TypedContractMethod<[cid: string], [SignedProofOfAuthorityMsgStructOutput], "view">;
 
+  getProofOfCancel: TypedContractMethod<[cid: string], [SignedProofOfCancelMsgStructOutput], "view">;
+
   getProofOfSignature: TypedContractMethod<[cid: string], [SignedProofOfSignatureMsgStructOutput], "view">;
+
+  getProofOfVoid: TypedContractMethod<[cid: string], [SignedProofOfVoidMsgStructOutput], "view">;
 
   storeProofOfAgreement: TypedContractMethod<[data: SignedProofOfAgreementStruct], [void], "nonpayable">;
 
   storeProofOfAuthority: TypedContractMethod<[data: SignedProofOfAuthorityStruct], [void], "nonpayable">;
 
+  storeProofOfCancel: TypedContractMethod<[data: SignedProofOfCancelStruct], [void], "nonpayable">;
+
   storeProofOfSignature: TypedContractMethod<[data: SignedProofOfSignatureStruct], [void], "nonpayable">;
+
+  storeProofOfVoid: TypedContractMethod<[data: SignedProofOfVoidStruct], [void], "nonpayable">;
 
   getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
   getFunction(nameOrSignature: "getProofOfAgreement"): TypedContractMethod<[cid: string], [SignedProofOfAgreementMsgStructOutput], "view">;
   getFunction(nameOrSignature: "getProofOfAuthority"): TypedContractMethod<[cid: string], [SignedProofOfAuthorityMsgStructOutput], "view">;
+  getFunction(nameOrSignature: "getProofOfCancel"): TypedContractMethod<[cid: string], [SignedProofOfCancelMsgStructOutput], "view">;
   getFunction(nameOrSignature: "getProofOfSignature"): TypedContractMethod<[cid: string], [SignedProofOfSignatureMsgStructOutput], "view">;
+  getFunction(nameOrSignature: "getProofOfVoid"): TypedContractMethod<[cid: string], [SignedProofOfVoidMsgStructOutput], "view">;
   getFunction(nameOrSignature: "storeProofOfAgreement"): TypedContractMethod<[data: SignedProofOfAgreementStruct], [void], "nonpayable">;
   getFunction(nameOrSignature: "storeProofOfAuthority"): TypedContractMethod<[data: SignedProofOfAuthorityStruct], [void], "nonpayable">;
+  getFunction(nameOrSignature: "storeProofOfCancel"): TypedContractMethod<[data: SignedProofOfCancelStruct], [void], "nonpayable">;
   getFunction(nameOrSignature: "storeProofOfSignature"): TypedContractMethod<[data: SignedProofOfSignatureStruct], [void], "nonpayable">;
+  getFunction(nameOrSignature: "storeProofOfVoid"): TypedContractMethod<[data: SignedProofOfVoidStruct], [void], "nonpayable">;
 
   getEvent(key: "NewProofOfAgreement"): TypedContractEvent<NewProofOfAgreementEvent.InputTuple, NewProofOfAgreementEvent.OutputTuple, NewProofOfAgreementEvent.OutputObject>;
   getEvent(key: "NewProofOfAuthority"): TypedContractEvent<NewProofOfAuthorityEvent.InputTuple, NewProofOfAuthorityEvent.OutputTuple, NewProofOfAuthorityEvent.OutputObject>;
+  getEvent(key: "NewProofOfCancel"): TypedContractEvent<NewProofOfCancelEvent.InputTuple, NewProofOfCancelEvent.OutputTuple, NewProofOfCancelEvent.OutputObject>;
   getEvent(key: "NewProofOfSignature"): TypedContractEvent<NewProofOfSignatureEvent.InputTuple, NewProofOfSignatureEvent.OutputTuple, NewProofOfSignatureEvent.OutputObject>;
+  getEvent(key: "NewProofOfVoid"): TypedContractEvent<NewProofOfVoidEvent.InputTuple, NewProofOfVoidEvent.OutputTuple, NewProofOfVoidEvent.OutputObject>;
 
   filters: {
     "NewProofOfAgreement(tuple)": TypedContractEvent<NewProofOfAgreementEvent.InputTuple, NewProofOfAgreementEvent.OutputTuple, NewProofOfAgreementEvent.OutputObject>;
@@ -371,7 +563,13 @@ export interface DAOSignApp extends BaseContract {
     "NewProofOfAuthority(tuple)": TypedContractEvent<NewProofOfAuthorityEvent.InputTuple, NewProofOfAuthorityEvent.OutputTuple, NewProofOfAuthorityEvent.OutputObject>;
     NewProofOfAuthority: TypedContractEvent<NewProofOfAuthorityEvent.InputTuple, NewProofOfAuthorityEvent.OutputTuple, NewProofOfAuthorityEvent.OutputObject>;
 
+    "NewProofOfCancel(tuple)": TypedContractEvent<NewProofOfCancelEvent.InputTuple, NewProofOfCancelEvent.OutputTuple, NewProofOfCancelEvent.OutputObject>;
+    NewProofOfCancel: TypedContractEvent<NewProofOfCancelEvent.InputTuple, NewProofOfCancelEvent.OutputTuple, NewProofOfCancelEvent.OutputObject>;
+
     "NewProofOfSignature(tuple)": TypedContractEvent<NewProofOfSignatureEvent.InputTuple, NewProofOfSignatureEvent.OutputTuple, NewProofOfSignatureEvent.OutputObject>;
     NewProofOfSignature: TypedContractEvent<NewProofOfSignatureEvent.InputTuple, NewProofOfSignatureEvent.OutputTuple, NewProofOfSignatureEvent.OutputObject>;
+
+    "NewProofOfVoid(tuple)": TypedContractEvent<NewProofOfVoidEvent.InputTuple, NewProofOfVoidEvent.OutputTuple, NewProofOfVoidEvent.OutputObject>;
+    NewProofOfVoid: TypedContractEvent<NewProofOfVoidEvent.InputTuple, NewProofOfVoidEvent.OutputTuple, NewProofOfVoidEvent.OutputObject>;
   };
 }

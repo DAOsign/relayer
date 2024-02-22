@@ -3,10 +3,7 @@ import { Proof } from "../models/Proof";
 import { Account } from "../models/Account";
 import { CronJob } from "cron";
 import { Network, ProofProvider, SignedProof } from "../services/proof_provider";
-import { BlockchainService } from "../services/blockchainService";
-import { SuiService } from "../services/blockchainService/sui";
-import env from "../env";
-import { EthereumService } from "../services/blockchainService/ethereum";
+
 import Logger from "../services/logger";
 
 export enum Tx_Status {
@@ -20,6 +17,8 @@ export enum ProofType {
   AUTHORITY = 1,
   SIGNATURE = 2,
   DOCUMENT = 3,
+  VOID = 4,
+  CANCEL = 5,
 }
 interface RelayerService {
   set(derivationPath: string, proof: SignedProof): Promise<string>;
@@ -95,7 +94,7 @@ export class QueueService {
 
     const restProofs = await this.getNewProofs({
       where: {
-        type: ProofType.DOCUMENT,
+        type: In([ProofType.DOCUMENT, ProofType.VOID, ProofType.CANCEL]),
         refId: Not(In([...signatureProofRefs, authorityProofRefs])),
       },
       take: take - authorityProofs.length,
@@ -170,6 +169,30 @@ export class QueueService {
           }
           const processed = await this.processProof(proof, accounts.shift());
           processedProofs.push(processed);
+        }
+        case ProofType.VOID: {
+          const authorityProcessed = await this.isAuthorityProofProcessed(proof.refId);
+
+          if (!authorityProcessed) {
+            // if authority not processed - skip
+            this.logger.info(`${proof.refId} proof have no processed authority proof. Skipping.`);
+            break;
+          }
+          const processed = await this.processProof(proof, accounts.shift());
+          processedProofs.push(processed);
+          break;
+        }
+        case ProofType.CANCEL: {
+          const authorityProcessed = await this.isAuthorityProofProcessed(proof.refId);
+
+          if (!authorityProcessed) {
+            // if authority not processed - skip
+            this.logger.info(`${proof.refId} proof have no processed authority proof. Skipping.`);
+            break;
+          }
+          const processed = await this.processProof(proof, accounts.shift());
+          processedProofs.push(processed);
+          break;
         }
       }
     }
