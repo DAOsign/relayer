@@ -94,7 +94,7 @@ export class QueueService {
 
     const restProofs = await this.getNewProofs({
       where: {
-        type: ProofType.DOCUMENT,
+        type: In([ProofType.DOCUMENT, ProofType.VOID, ProofType.CANCEL]),
         refId: Not(In([...signatureProofRefs, authorityProofRefs])),
       },
       take: take - authorityProofs.length,

@@ -15,6 +15,7 @@ export enum PROOF_TYPE {
   PROOF_OF_AUTHORITY,
   PROOF_OF_AGREEMENT,
   PROOF_OF_VOID,
+  PROOF_OF_CANCEL,
 }
 
 export interface MessageTypeProperty {

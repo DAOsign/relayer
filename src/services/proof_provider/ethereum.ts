@@ -39,7 +39,7 @@ export class EthereumProofProvider implements ProofProvider {
 
     const contractPayload = createContractPayload(proof);
 
-    let storeProof: typeof contract.storeProofOfSignature | typeof contract.storeProofOfAuthority | typeof contract.storeProofOfAgreement;
+    let storeProof: typeof contract.storeProofOfSignature | typeof contract.storeProofOfAuthority | typeof contract.storeProofOfAgreement | typeof contract.storeProofOfVoid | typeof contract.storeProofOfCancel;
     switch (proofType) {
       case PROOF_TYPE.PROOF_OF_SIGNATURE: {
         storeProof = contract.storeProofOfSignature;
@@ -58,6 +58,11 @@ export class EthereumProofProvider implements ProofProvider {
       }
       case PROOF_TYPE.PROOF_OF_VOID: {
         storeProof = contract.storeProofOfVoid;
+        break;
+      }
+      case PROOF_TYPE.PROOF_OF_CANCEL: {
+        storeProof = contract.storeProofOfCancel;
+        break;
       }
     }
 
