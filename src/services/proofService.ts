@@ -1,5 +1,5 @@
 import { DataSource, Repository } from "typeorm";
-import { Network, ProofOfCancelMessage, ProofOfSignatureMessage, ProofOfVoidMessage, ProofProvider, SignedProof, Tx_Status } from "./proof_provider";
+import { Network, ProofOfAgreementMessage, ProofOfCancelMessage, ProofOfSignatureMessage, ProofOfVoidMessage, ProofProvider, SignedProof, Tx_Status } from "./proof_provider";
 import { Tx } from "../models/Tx";
 import { Account } from "../models/Account";
 import { Proof } from "../models/Proof";
@@ -40,6 +40,12 @@ export class ProofService {
         });
       }
 
+      //TODO type recognition
+      if ((data.message.message as ProofOfAgreementMessage).name === "Proof-of-Agreement") {
+        const message = data.message.message as ProofOfAgreementMessage;
+        proof = this.proofRepository.create({ refId: message.authorityCID, network, status: 1, type: ProofType.DOCUMENT, cid: data.proofCID, payload: data });
+      }
+
       if (data.message.primaryType === "ProofOfVoid") {
         const message = data.message.message as ProofOfVoidMessage;
         proof = this.proofRepository.create({
@@ -63,6 +69,7 @@ export class ProofService {
       console.log(e);
     }
 
+    console.log("proof", proof);
     await this.proofRepository.save(proof);
     return proof;
   }
