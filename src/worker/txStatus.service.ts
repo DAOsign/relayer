@@ -29,6 +29,8 @@ export class TxStatusService {
       case 2:
         this.blockchainService = new SuiService(env.SUI_RPC_TYPE);
         break;
+      case 4:
+        this.blockchainService = new EthereumService(env.OASIS_RPC_URL);
     }
 
     this.checkStatusCron = new CronJob("*/1 * * * *", () => this.checkTransactionStatus(), null, true, "", null, true);

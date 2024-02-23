@@ -7,18 +7,21 @@ import { getProofType } from "./utils";
 import { createContractPayload } from "../../utils/transformers";
 
 export class EthereumProofProvider implements ProofProvider {
-  network = Network.ETHEREUM;
+  network: Network;
+  contractAddress: string;
 
   provider: ethers.JsonRpcProvider;
   contract: DAOSignApp;
 
   mnemonic = ethers.Mnemonic.fromPhrase("test test test test test test test test test test test junk");
 
-  constructor(rpcUrl: string) {
+  constructor(rpcUrl: string, network = Network.ETHEREUM) {
+    this.contractAddress = Network.ETHEREUM === network ? env.ETH_CONTRACT_ADDRESS : env.OASIS_CONTRACT_ADDRESS;
+    console.log(network)
+    this.network = network;
     this.provider = new ethers.JsonRpcProvider(rpcUrl);
     const signer = new ethers.Wallet(env.ETH_PRIVATE_KEY, this.provider);
-
-    this.contract = new ethers.Contract(env.ETH_CONTRACT_ADDRESS, abi, signer) as unknown as DAOSignApp;
+    this.contract = new ethers.Contract(this.contractAddress, abi, signer) as unknown as DAOSignApp;
   }
 
   public async get(proofCID: string): Promise<SignedProof> {
@@ -76,6 +79,6 @@ export class EthereumProofProvider implements ProofProvider {
   }
 
   getContract(signer: ethers.ContractRunner) {
-    return new ethers.Contract(env.ETH_CONTRACT_ADDRESS, abi, signer) as unknown as DAOSignApp;
+    return new ethers.Contract(this.contractAddress, abi, signer) as unknown as DAOSignApp;
   }
 }
