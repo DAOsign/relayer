@@ -22,6 +22,10 @@ export default envalid.cleanEnv(process.env, {
   ETH_PRIVATE_KEY: envalid.str(),
   ETH_CONTRACT_ADDRESS: envalid.str(),
 
+  OASIS_RPC_URL: envalid.str(),
+  OASIS_CONTRACT_ADDRESS: envalid.str(),
+  OASIS_PRIVATE_KEY: envalid.str(),
+
   SUI_PACKAGE_ID: envalid.str(),
   SUI_BAG_ID: envalid.str(),
   SUI_RPC_TYPE: envalid.str(),

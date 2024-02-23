@@ -19,8 +19,10 @@ AppDataSource.initialize()
     const proofRepository = datasource.getRepository(Proof);
     new TxStatusService(accountRepository, proofRepository, Network.SUI);
     new TxStatusService(accountRepository, proofRepository, Network.ETHEREUM);
+    new TxStatusService(accountRepository, proofRepository, Network.OASIS);
     new QueueService(accountRepository, proofRepository, new SuiProofProvider("testnet")).start();
     new QueueService(accountRepository, proofRepository, new EthereumProofProvider(env.ETH_RPC_URL)).start();
+    new QueueService(accountRepository, proofRepository, new EthereumProofProvider(env.OASIS_RPC_URL, Network.OASIS)).start();
   })
   .catch((err) => {
     console.error("Error during Data Source initialization:", err);
