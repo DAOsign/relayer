@@ -95,13 +95,26 @@ export class TxStatusService {
           this.logger.info(`Tx:${proof.txHash} successed`);
 
           this.proofRepository.update({ txHash: proof.txHash }, { status: Tx_Status.SUCCESS });
-          this.accountRepository.update({ currentProof: { id: proof.id } }, { currentProof: null });
         }
       })
       .catch((e) => {
         console.log(e);
         this.proofRepository.update({ txHash: proof.txHash }, { status: Tx_Status.ERROR });
-        this.accountRepository.update({ currentProof: { id: proof.id } }, { currentProof: null });
+      })
+      .finally(async () => {
+        const account = await this.accountRepository.findOneBy({ currentProof: { id: proof.id } });
+        this.updateAccount(account);
       });
+  }
+
+  updateAccount(account: Account) {
+    if (!account) return;
+    this.accountRepository.update({ account_id: account.account_id }, { currentProof: null });
+    this.updateAccountBalance(account);
+  }
+
+  async updateAccountBalance(account: Account) {
+    const balance = await this.blockchainService.getWalletBalance(account.address);
+    this.accountRepository.update({ account_id: account.account_id }, { balance: balance });
   }
 }

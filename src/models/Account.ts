@@ -24,4 +24,7 @@ export class Account extends BaseEntity {
   @OneToOne(() => Proof, (proof) => proof.id, { eager: true })
   @JoinColumn([{ name: "current_proof", referencedColumnName: "id" }])
   currentProof: Proof;
+
+  @Column({ type: "bigint", nullable: false, default: 0 })
+  balance: String;
 }
