@@ -17,7 +17,7 @@ export class EthereumProofProvider implements ProofProvider {
 
   constructor(rpcUrl: string, network = Network.ETHEREUM) {
     this.contractAddress = Network.ETHEREUM === network ? env.ETH_CONTRACT_ADDRESS : env.OASIS_CONTRACT_ADDRESS;
-    console.log(network)
+    console.log(network);
     this.network = network;
     this.provider = new ethers.JsonRpcProvider(rpcUrl);
     const signer = new ethers.Wallet(env.ETH_PRIVATE_KEY, this.provider);
@@ -42,7 +42,12 @@ export class EthereumProofProvider implements ProofProvider {
 
     const contractPayload = createContractPayload(proof);
 
-    let storeProof: typeof contract.storeProofOfSignature | typeof contract.storeProofOfAuthority | typeof contract.storeProofOfAgreement | typeof contract.storeProofOfVoid | typeof contract.storeProofOfCancel;
+    let storeProof:
+      | typeof contract.storeProofOfSignature
+      | typeof contract.storeProofOfAuthority
+      | typeof contract.storeProofOfAgreement
+      | typeof contract.storeProofOfVoid
+      | typeof contract.storeProofOfCancel;
     switch (proofType) {
       case PROOF_TYPE.PROOF_OF_SIGNATURE: {
         storeProof = contract.storeProofOfSignature;

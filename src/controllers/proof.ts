@@ -8,7 +8,11 @@ import { ProofService } from "../services/proofService";
 import { SuiProofProvider } from "../services/proof_provider/sui";
 import { Network } from "../services/proof_provider";
 
-const proofService = new ProofService(AppDataSource, [new EthereumProofProvider(env.ETH_RPC_URL), new SuiProofProvider("testnet"), new EthereumProofProvider(env.OASIS_RPC_URL, Network.OASIS)]);
+const proofService = new ProofService(AppDataSource, [
+  new EthereumProofProvider(env.ETH_RPC_URL),
+  new SuiProofProvider("testnet"),
+  new EthereumProofProvider(env.OASIS_RPC_URL, Network.OASIS),
+]);
 export default class ProofController {
   public async get(req: Request, res: Response) {
     const network = parseNetwork(req.query.network as string);
