@@ -67,7 +67,7 @@ export class QueueService {
 
     const processedProofs = await this.processProofs(proofs, unlockedAccounts);
 
-    this.logger.info(`Processed ${processedProofs.length} ${this.networkName} proofs.`);
+    this.logger.info(`Processed ${processedProofs.filter(Boolean).length} ${this.networkName} proofs.`);
   }
 
   async getUnlockedAccounts() {
@@ -169,6 +169,7 @@ export class QueueService {
           }
           const processed = await this.processProof(proof, accounts.shift());
           processedProofs.push(processed);
+          break;
         }
         case ProofType.VOID: {
           const authorityProcessed = await this.isAuthorityProofProcessed(proof.refId);
@@ -201,7 +202,10 @@ export class QueueService {
   }
 
   async processProof(proof: Proof, account: Account) {
-    this.logger.info(JSON.stringify(account, null, 2))
+    if (!account) {
+      this.logger.info(`Tried to process proof with empty account ${proof.id} Skipping.`);
+      return;
+    }
     try {
       const txHash = await this.relayerService.set(account.hd_path, proof.payload as SignedProof);
       proof.txHash = txHash;
