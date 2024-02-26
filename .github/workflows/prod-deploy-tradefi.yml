@@ -44,7 +44,7 @@ jobs:
       DB_PORT: "25060"
       DATABASE: "tradefi-relayer-prod"
       LOGGING: "false"
-      ETH_RPC_URL: "https://rpc.ankr.com/eth_goerli"
+      ETH_RPC_URL: "https://ethereum-sepolia.publicnode.com"
       SUI_RPC_TYPE: "testnet"
       GRAYLOG_HOST: "45.55.98.77"
       GRAYLOG_PORT: "12201"
