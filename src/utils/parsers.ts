@@ -25,6 +25,8 @@ export function parseNetwork(value?: string): Network {
       return Network.ASTAR;
     case "sui":
       return Network.SUI;
+    case "oasis":
+      return Network.OASIS;
   }
   throw new Error("invalid network value");
 }
