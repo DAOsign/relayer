@@ -201,6 +201,7 @@ export class QueueService {
   }
 
   async processProof(proof: Proof, account: Account) {
+    this.logger.info(JSON.stringify(account, null, 2))
     try {
       const txHash = await this.relayerService.set(account.hd_path, proof.payload as SignedProof);
       proof.txHash = txHash;
