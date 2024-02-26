@@ -71,6 +71,7 @@ export class QueueService {
   }
 
   async getUnlockedAccounts() {
+    //TODO balance suggested logic
     return this.accountRepository.find({
       where: { network: { network_id: this.relayerService.network }, currentProof: IsNull() },
     });

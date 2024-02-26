@@ -29,4 +29,9 @@ export class EthereumService implements BlockchainService {
     const wallet0 = ethers.HDNodeWallet.fromMnemonic(mnemonic, hdPath);
     return wallet0.address;
   }
+
+  async getWalletBalance(address: string) {
+    const balance = await this.provider.getBalance(address);
+    return balance.toString();
+  }
 }

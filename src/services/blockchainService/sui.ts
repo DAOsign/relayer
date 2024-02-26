@@ -32,4 +32,9 @@ export class SuiService implements BlockchainService {
       return Tx_Status.ERROR;
     }
   }
+
+  async getWalletBalance(address: string) {
+    const balance = await this.client.getBalance({ owner: address });
+    return balance.totalBalance;
+  }
 }
