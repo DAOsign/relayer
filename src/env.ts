@@ -31,4 +31,7 @@ export default envalid.cleanEnv(process.env, {
   SUI_RPC_TYPE: envalid.str(),
   SUI_MNEMONIC: envalid.str(),
   GRAYLOG_HOST: envalid.str("localhost"),
+
+  STORAGE_CONTRACT_ADDRESS: envalid.str({ default: "0x9dd45EEf0cE1C3E92b540AC0DAAb68B6FE3fC77E" }),
+  STORAGE_ADMIN_PRIVATE_KEY: envalid.str({ default: "" }),
 });
