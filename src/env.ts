@@ -32,6 +32,7 @@ export default envalid.cleanEnv(process.env, {
   SUI_MNEMONIC: envalid.str(),
   GRAYLOG_HOST: envalid.str("localhost"),
 
-  STORAGE_CONTRACT_ADDRESS: envalid.str({ default: "0x9dd45EEf0cE1C3E92b540AC0DAAb68B6FE3fC77E" }),
+  STORAGE_RPC_URL: envalid.str({ default: "https://optimism-sepolia.blockpi.network/v1/rpc/public" }),
+  STORAGE_CONTRACT_ADDRESS: envalid.str({ default: "0x14f8CFdFB4B5ac014aF715d147Ff7B126fB4dc43" }),
   STORAGE_ADMIN_PRIVATE_KEY: envalid.str({ default: "" }),
 });

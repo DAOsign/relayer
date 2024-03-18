@@ -5,6 +5,7 @@ import Logger from "../logger";
 
 type StorageContract = {
   set: (key: string, value: string) => Promise<ethers.ContractTransactionResponse>;
+  exist: (key: string) => any;
 };
 
 export class StorageService {
@@ -28,5 +29,9 @@ export class StorageService {
       .catch((e) => {
         Logger.error(e?.message);
       });
+  }
+
+  async exist(certificateCID: string) {
+    return this.contract.exist(certificateCID);
   }
 }
