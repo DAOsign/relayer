@@ -7,12 +7,14 @@ import env from "../env";
 import { ProofService } from "../services/proofService";
 import { SuiProofProvider } from "../services/proof_provider/sui";
 import { Network } from "../services/proof_provider";
+import { StorageService } from "../services/storageService";
 
 const proofService = new ProofService(AppDataSource, [
   new EthereumProofProvider(env.ETH_RPC_URL),
   new SuiProofProvider("testnet"),
   new EthereumProofProvider(env.OASIS_RPC_URL, Network.OASIS),
 ]);
+const storageService = new StorageService(env.STORAGE_RPC_URL);
 export default class ProofController {
   public async get(req: Request, res: Response) {
     const network = parseNetwork(req.query.network as string);
@@ -51,5 +53,23 @@ export default class ProofController {
     }
 
     return res.status(500).end();
+  }
+
+  public async cert(req: Request, res: Response) {
+    const certificateCID = req.body.certificateCID;
+    const agreementProofCID = req.body.agreementProofCID;
+
+    const isExisting = await storageService.exist(certificateCID);
+    if (!isExisting) {
+      storageService
+        .setCID(certificateCID, agreementProofCID)
+        .then((hash) => {
+          console.log("hash", hash);
+          res.status(200).send(hash);
+        })
+        .catch((e) => {
+          res.status(500).send(e?.message);
+        });
+    }
   }
 }

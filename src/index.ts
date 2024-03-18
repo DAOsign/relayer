@@ -8,6 +8,7 @@ import { SuiProofProvider } from "./services/proof_provider/sui";
 import { EthereumProofProvider } from "./services/proof_provider/ethereum";
 import { TxStatusService } from "./worker/txStatus.service";
 import { Network } from "./services/proof_provider";
+import { StorageService } from "./services/storageService";
 
 const port = env.PORT;
 
