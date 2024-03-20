@@ -117,6 +117,10 @@ export class TxStatusService {
 
   async updateAccountBalance(account: Account) {
     const balance = await this.blockchainService.getWalletBalance(account.address);
-    this.accountRepository.update({ account_id: account.account_id }, { balance: balance });
+    try {
+      this.accountRepository.update({ account_id: account.account_id }, { balance: balance });
+    } catch (e) {
+      this.logger.info("Error writing balance");
+    }
   }
 }
