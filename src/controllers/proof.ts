@@ -14,7 +14,7 @@ const proofService = new ProofService(AppDataSource, [
   new SuiProofProvider("testnet"),
   new EthereumProofProvider(env.OASIS_RPC_URL, Network.OASIS),
 ]);
-const storageService = new StorageService(env.STORAGE_RPC_URL);
+
 export default class ProofController {
   public async get(req: Request, res: Response) {
     const network = parseNetwork(req.query.network as string);
@@ -58,6 +58,14 @@ export default class ProofController {
   public async cert(req: Request, res: Response) {
     const certificateCID = req.body.certificateCID;
     const agreementProofCID = req.body.agreementProofCID;
+
+    if (!env.STORAGE_ADMIN_PRIVATE_KEY || !env.STORAGE_RPC_URL || !env.STORAGE_CONTRACT_ADDRESS) {
+      // storage should not be on every relayer
+      res.status(404).end();
+      return;
+    }
+
+    const storageService = new StorageService(env.STORAGE_RPC_URL);
 
     const isExisting = await storageService.exist(certificateCID);
     if (!isExisting) {
