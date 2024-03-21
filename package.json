@@ -35,6 +35,7 @@
   },
   "dependencies": {
     "@mysten/sui.js": "^0.49.1",
+    "axios": "^1.6.8",
     "cors": "^2.8.5",
     "cron": "^3.1.6",
     "envalid": "^8.0.0",
