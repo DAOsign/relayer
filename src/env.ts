@@ -35,4 +35,7 @@ export default envalid.cleanEnv(process.env, {
   STORAGE_RPC_URL: envalid.str({ default: "https://optimism-sepolia.blockpi.network/v1/rpc/public" }),
   STORAGE_CONTRACT_ADDRESS: envalid.str({ default: "0x14f8CFdFB4B5ac014aF715d147Ff7B126fB4dc43" }),
   STORAGE_ADMIN_PRIVATE_KEY: envalid.str({ default: "" }),
+
+  APP_NAME: envalid.str(),
+  APP_SLACK_WEBHOOK_LINK: envalid.str(),
 });
