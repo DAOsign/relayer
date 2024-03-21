@@ -4,6 +4,14 @@ export enum Network {
   ASTAR = 3,
   OASIS = 4,
 }
+
+export const NetworkMinBalance = {
+  [Network.ETHEREUM]: 801399062,
+  [Network.SUI]: 15000000,
+  [Network.ASTAR]: 0,
+  [Network.OASIS]: 700000,
+};
+
 export enum Tx_Status {
   NEW = 1,
   IN_PROGRESS = 2,

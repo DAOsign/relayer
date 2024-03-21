@@ -2,7 +2,7 @@ import { FindManyOptions, In, Repository, Not, IsNull } from "typeorm";
 import { Proof } from "../models/Proof";
 import { Account } from "../models/Account";
 import { CronJob } from "cron";
-import { Network, ProofProvider, SignedProof } from "../services/proof_provider";
+import { Network, NetworkMinBalance, ProofProvider, SignedProof } from "../services/proof_provider";
 
 import Logger from "../services/logger";
 
@@ -48,6 +48,7 @@ export class QueueService {
     this.logger.info(`${this.networkName} queue processor started`);
 
     const unlockedAccounts = await this.getUnlockedAccounts();
+    console.log(unlockedAccounts);
 
     if (!unlockedAccounts.length) {
       this.logger.info(`No unlocked ${this.networkName} accounts found. Skipping ${this.networkName} queue processing`);
@@ -71,10 +72,13 @@ export class QueueService {
   }
 
   async getUnlockedAccounts() {
-    //TODO balance suggested logic
-    return this.accountRepository.find({
-      where: { network: { network_id: this.relayerService.network }, currentProof: IsNull() },
-    });
+    return this.accountRepository
+      .createQueryBuilder("account")
+      //take accounts with balances > minBalance for network transaction fee
+      .where("CAST(account.balance AS numeric) > :minBalance", { minBalance: NetworkMinBalance[this.relayerService.network] })
+      .andWhere("account.network = :network", { network: this.relayerService.network })
+      .andWhere("account.currentProof IS NULL")
+      .getMany();
   }
 
   async getProcessableProofs(take: number) {
