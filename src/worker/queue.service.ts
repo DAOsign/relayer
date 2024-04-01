@@ -5,6 +5,7 @@ import { CronJob } from "cron";
 import { Network, NetworkMinBalance, ProofProvider, SignedProof } from "../services/proof_provider";
 
 import Logger from "../services/logger";
+import {sendTxErrorMessage} from "../services/slackWebhookService";
 
 export enum Tx_Status {
   NEW = 1,
@@ -219,6 +220,7 @@ export class QueueService {
       return await this.proofRepository.save(proof);
     } catch (e) {
       this.logger.info(e);
+      await sendTxErrorMessage(proof.id, this.networkName, e);
       proof.status = Tx_Status.ERROR;
       //Error handling
       return await this.proofRepository.save(proof);

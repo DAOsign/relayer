@@ -9,7 +9,7 @@ import { FindManyOptions, In, Not, Repository } from "typeorm";
 import { ProofType, Tx_Status } from "./queue.service";
 import { Proof } from "../models/Proof";
 import { Account } from "../models/Account";
-import { sendMessage } from "../services/slackWebhookService";
+import {sendLowBalanceMessage, sendTxErrorMessage} from "../services/slackWebhookService";
 
 export class TxStatusService {
   private networkName: string;
@@ -100,8 +100,9 @@ export class TxStatusService {
           this.proofRepository.update({ txHash: proof.txHash }, { status: Tx_Status.SUCCESS });
         }
       })
-      .catch((e) => {
+      .catch( (e) => {
         console.log(e);
+        sendTxErrorMessage(proof.id, this.networkName, e);
         this.proofRepository.update({ txHash: proof.txHash }, { status: Tx_Status.ERROR });
       })
       .finally(async () => {
@@ -118,7 +119,7 @@ export class TxStatusService {
 
   async updateAccountBalance(account: Account) {
     const balance = await this.blockchainService.getWalletBalance(account.address);
-    if (Number(balance) < NetworkMinBalance[this.network]) await sendMessage(account.address, balance.toString(), NetworkMinBalance[this.network], this.networkName);
+    if (Number(balance) < NetworkMinBalance[this.network]) await sendLowBalanceMessage(account.address, balance.toString(), NetworkMinBalance[this.network], this.networkName);
     try {
       this.accountRepository.update({ account_id: account.account_id }, { balance: balance.toString() });
     } catch (e) {
