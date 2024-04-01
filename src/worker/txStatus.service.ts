@@ -2,13 +2,14 @@ import { BlockchainService } from "../services/blockchainService";
 import { EthereumService } from "../services/blockchainService/ethereum";
 import env from "../env";
 import { SuiService } from "../services/blockchainService/sui";
-import { Network } from "../services/proof_provider";
+import { Network, NetworkMinBalance } from "../services/proof_provider";
 import { CronJob } from "cron";
 import Logger from "../services/logger";
 import { FindManyOptions, In, Not, Repository } from "typeorm";
 import { ProofType, Tx_Status } from "./queue.service";
 import { Proof } from "../models/Proof";
 import { Account } from "../models/Account";
+import { sendMessage } from "../services/slackWebhookService";
 
 export class TxStatusService {
   private networkName: string;
@@ -105,20 +106,21 @@ export class TxStatusService {
       })
       .finally(async () => {
         const account = await this.accountRepository.findOneBy({ currentProof: { id: proof.id } });
-        this.updateAccount(account);
+        await this.updateAccount(account);
       });
   }
 
-  updateAccount(account: Account) {
+  async updateAccount(account: Account) {
     if (!account) return;
-    this.accountRepository.update({ account_id: account.account_id }, { currentProof: null });
-    this.updateAccountBalance(account);
+    await this.accountRepository.update({ account_id: account.account_id }, { currentProof: null });
+    await this.updateAccountBalance(account);
   }
 
   async updateAccountBalance(account: Account) {
     const balance = await this.blockchainService.getWalletBalance(account.address);
+    if (Number(balance) < NetworkMinBalance[this.network]) await sendMessage(account.address, balance.toString(), NetworkMinBalance[this.network], this.networkName);
     try {
-      this.accountRepository.update({ account_id: account.account_id }, { balance: balance });
+      this.accountRepository.update({ account_id: account.account_id }, { balance: balance.toString() });
     } catch (e) {
       this.logger.info("Error writing balance");
     }
