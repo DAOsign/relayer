@@ -50,7 +50,7 @@ jobs:
       GRAYLOG_PORT: "12201"
       OASIS_RPC_URL: "https://testnet.sapphire.oasis.dev"
       STORAGE_RPC_URL: "https://optimism-sepolia.blockpi.network/v1/rpc/public"
-      APP_NAME: "tradeFi"
+      APP_NAME: "tradeFi-prod"
     steps:
       - uses: actions/checkout@v3
       - name: Create & View .env.yaml file
