@@ -53,4 +53,3 @@ export async function sendTxErrorMessage(id: number, chain: string, message: str
     console.error("Error sending message:", error);
   }
 }
-

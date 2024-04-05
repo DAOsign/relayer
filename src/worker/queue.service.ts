@@ -5,7 +5,7 @@ import { CronJob } from "cron";
 import { Network, NetworkMinBalance, ProofProvider, SignedProof } from "../services/proof_provider";
 
 import Logger from "../services/logger";
-import {sendTxErrorMessage} from "../services/slackWebhookService";
+import { sendTxErrorMessage } from "../services/slackWebhookService";
 
 export enum Tx_Status {
   NEW = 1,
@@ -73,13 +73,15 @@ export class QueueService {
   }
 
   async getUnlockedAccounts() {
-    return this.accountRepository
-      .createQueryBuilder("account")
-      //take accounts with balances > minBalance for network transaction fee
-      .where("CAST(account.balance AS numeric) > :minBalance", { minBalance: NetworkMinBalance[this.relayerService.network] })
-      .andWhere("account.network = :network", { network: this.relayerService.network })
-      .andWhere("account.currentProof IS NULL")
-      .getMany();
+    return (
+      this.accountRepository
+        .createQueryBuilder("account")
+        //take accounts with balances > minBalance for network transaction fee
+        .where("CAST(account.balance AS numeric) > :minBalance", { minBalance: NetworkMinBalance[this.relayerService.network] })
+        .andWhere("account.network = :network", { network: this.relayerService.network })
+        .andWhere("account.currentProof IS NULL")
+        .getMany()
+    );
   }
 
   async getProcessableProofs(take: number) {

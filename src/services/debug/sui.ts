@@ -47,7 +47,6 @@ const debugAuthority = () => {
             metadata: "some metadata",
           },
         ],
-        app: "daosign",
         timestamp: 1706195505,
         metadata: "proof metadata",
       },
@@ -83,7 +82,6 @@ const debugSignature = () => {
         name: "Proof-of-Signature",
         signer: "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
         authorityCID: "QmdRa839ynpkuRLcMTmZZngzWFXmNMKSUypPijs7Fg1116", //proof of authority CID
-        app: "daosign",
         timestamp: 1706193686,
         metadata: "proof metadata",
       },
@@ -132,7 +130,6 @@ const debugAgreement = () => {
       //@ts-ignore
       message: {
         name: "Proof-of-Agreement",
-        app: "daosign",
         metadata: "proof metadata",
         timestamp: 1706193686,
         authorityCID: "QmdRa839ynpkuRLcMTmZZngzWFXmNMKSUypPijs7Fg1116",

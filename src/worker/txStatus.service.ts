@@ -9,7 +9,7 @@ import { FindManyOptions, In, Not, Repository } from "typeorm";
 import { ProofType, Tx_Status } from "./queue.service";
 import { Proof } from "../models/Proof";
 import { Account } from "../models/Account";
-import {sendLowBalanceMessage, sendTxErrorMessage} from "../services/slackWebhookService";
+import { sendLowBalanceMessage, sendTxErrorMessage } from "../services/slackWebhookService";
 
 export class TxStatusService {
   private networkName: string;
@@ -100,7 +100,7 @@ export class TxStatusService {
           this.proofRepository.update({ txHash: proof.txHash }, { status: Tx_Status.SUCCESS });
         }
       })
-      .catch( (e) => {
+      .catch((e) => {
         console.log(e);
         sendTxErrorMessage(proof.id, this.networkName, e);
         this.proofRepository.update({ txHash: proof.txHash }, { status: Tx_Status.ERROR });
