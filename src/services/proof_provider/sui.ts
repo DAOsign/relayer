@@ -92,7 +92,6 @@ export class SuiProofProvider implements ProofProvider {
       from: hex2vec(message.from),
       agreementCID: message.agreementCID,
       signers: serializeSigner(message.signers),
-      app: message.app,
       timestamp: message.timestamp,
       metadata: message.metadata,
     });
@@ -103,7 +102,6 @@ export class SuiProofProvider implements ProofProvider {
       name: message.name,
       signer: hex2vec(message.signer),
       authorityCID: message.authorityCID,
-      app: message.app,
       timestamp: message.timestamp,
       metadata: message.metadata,
     });
@@ -113,7 +111,6 @@ export class SuiProofProvider implements ProofProvider {
     return bcs.ser("ProofOfAgreement", {
       authorityCID: message.authorityCID,
       signatureCIDs: message.signatureCIDs,
-      app: message.app,
       timestamp: message.timestamp,
       metadata: message.metadata,
     });

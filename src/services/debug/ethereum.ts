@@ -19,33 +19,65 @@ export const debugAuthority = () => {
       //@ts-ignore
       types: {
         Signer: [
-          { name: "addr", type: "address" },
-          { name: "metadata", type: "string" },
+          {
+            name: "addr",
+            type: "address",
+          },
+          {
+            name: "metadata",
+            type: "string",
+          },
         ],
         ProofOfAuthority: [
-          { name: "name", type: "string" },
-          { name: "from", type: "address" },
-          { name: "agreementCID", type: "string" },
-          { name: "signers", type: "Signer[]" },
-          { name: "app", type: "string" },
-          { name: "timestamp", type: "uint256" },
-          { name: "metadata", type: "string" },
+          {
+            name: "name",
+            type: "string",
+          },
+          {
+            name: "from",
+            type: "address",
+          },
+          {
+            name: "agreementCID",
+            type: "string",
+          },
+          {
+            name: "signers",
+            type: "Signer[]",
+          },
+          {
+            name: "timestamp",
+            type: "uint256",
+          },
+          {
+            name: "metadata",
+            type: "string",
+          },
         ],
       },
-      domain: { name: "daosign", chainId: 1, version: "0.1.0", verifyingContract: "0x0000000000000000000000000000000000000000" },
+      domain: {
+        name: "daosign",
+        chainId: 1,
+        version: "0.1.0",
+        verifyingContract: "0x0000000000000000000000000000000000000000",
+      },
       message: {
-        app: "daosign",
-        from: "0xd405aebF7b60eD2cb2Ac4497Bddd292DEe534E82",
+        from: "0xd405aebf7b60ed2cb2ac4497bddd292dee534e82",
         name: "Proof-of-Authority",
-        signers: [{ addr: "0xd405aebF7b60eD2cb2Ac4497Bddd292DEe534E82", metadata: "{}" }],
+        signers: [
+          {
+            addr: "0xd405aebf7b60ed2cb2ac4497bddd292dee534e82",
+            metadata: "{}",
+          },
+        ],
         metadata: "{}",
-        timestamp: 1707315859337,
-        agreementCID: "QmRhBMrsMXBEbMNRWLrjhmdCPaY4qc6kxGuwfLm1PhWUZf",
+        timestamp: 1712308340511,
+        agreementCID: "QmaYtLzyAcDNFiBPkFXhBcwePpG6E7L35xJu572iYQiSTc",
       },
       primaryType: "ProofOfAuthority",
     },
-    proofCID: "QmaKzoizE2bRzCxKVFf6vNAF2yPG66bwuxqe2Lh6GA4cgF",
-    signature: "0x897b5bd209ebbe9f80265b1c3fbe7ddc36122cc23633c92ad07af36c61aa269a4dc6d38477fa9204ca5d3c0b2dad196450976169fcc77a51db49a9f7b13ee0ce1b",
+    proofCID: "QmZeoZURVcFoY1BNK4xFNQoUW7aPSg6nz2dEC16uCYvFB4",
+    signature: "0x5f878e6cfd819ee62e8cfb01f64514a33c9ceb96cb33a0261be340a6e0c726b50b6f9cdf899e137181368bc8e41c4336f5d4266e31b81c5b2b253748ffa19dff1c",
   });
 };
 
@@ -72,7 +104,6 @@ export const debugVoid = () => {
       //@ts-ignore
       message: {
         authorityCID: "QmaKzoizE2bRzCxKVFf6vNAF2yPG66bwuxqe2Lh6GA4cgF",
-        app: "daosign",
         timestamp: 1705055133954,
         metadata: "{}",
       },
@@ -107,7 +138,6 @@ const debugSignature = () => {
         name: "Proof-of-Signature",
         signer: "0x4300bc1Ed00706E5386C6B938382d37eDB31d143",
         authorityCID: "QmdRa839ynpkuRLcMTmZZngzWFXmNMKSUypPijs7Fg2Ygj", //proof of authority CID
-        app: "daosign",
         timestamp: 1703580673701,
         metadata: "{}",
       },
@@ -155,7 +185,6 @@ const debugAgreement = () => {
       },
       //@ts-ignore
       message: {
-        app: "daosign",
         metadata: "{}",
         timestamp: 1705932865834,
         authorityCID: "QmZ6SFuANGA4pEydXeVmM4RzRhdijpfa1aMHGWHDapY17S",

@@ -50,7 +50,6 @@ export interface ProofOfAuthorityTypedMessage extends MessageTypes {
     { name: "from"; type: "address" },
     { name: "agreementCID"; type: "string" },
     { name: "signers"; type: "Signer[]" },
-    { name: "app"; type: "string" },
     { name: "timestamp"; type: "uint256" },
     { name: "metadata"; type: "string" },
   ];
@@ -62,7 +61,6 @@ export interface ProofOfSignatureTypedMessage extends MessageTypes {
     { name: "name"; type: "string" },
     { name: "signer"; type: "address" },
     { name: "authorityCID"; type: "string" },
-    { name: "app"; type: "string" },
     { name: "timestamp"; type: "uint256" },
     { name: "metadata"; type: "string" },
   ];
@@ -73,7 +71,6 @@ export interface ProofOfAgreementTypedMessage extends MessageTypes {
   ProofOfAgreement: [
     { name: "authorityCID"; type: "string" },
     { name: "signatureCIDs"; type: "string[]" },
-    { name: "app"; type: "string" },
     { name: "timestamp"; type: "uint256" },
     { name: "metadata"; type: "string" },
   ];
@@ -81,15 +78,14 @@ export interface ProofOfAgreementTypedMessage extends MessageTypes {
 
 export interface ProofOfVoidTypedMessage extends MessageTypes {
   EIP712Domain: [{ name: "name"; type: "string" }, { name: "version"; type: "string" }, { name: "chainId"; type: "uint256" }, { name: "verifyingContract"; type: "address" }];
-  ProofOfVoid: [{ name: "authorityCID"; type: "string" }, { name: "app"; type: "string" }, { name: "timestamp"; type: "uint256" }, { name: "metadata"; type: "string" }];
+  ProofOfVoid: [{ name: "authorityCID"; type: "string" }, { name: "timestamp"; type: "uint256" }, { name: "metadata"; type: "string" }];
 }
 export interface ProofOfCancelTypedMessage extends MessageTypes {
   EIP712Domain: [{ name: "name"; type: "string" }, { name: "version"; type: "string" }, { name: "chainId"; type: "uint256" }, { name: "verifyingContract"; type: "address" }];
-  ProofOfVoid: [{ name: "authorityCIDs"; type: "string[]" }, { name: "app"; type: "string" }, { name: "timestamp"; type: "uint256" }, { name: "metadata"; type: "string" }];
+  ProofOfVoid: [{ name: "authorityCIDs"; type: "string[]" }, { name: "timestamp"; type: "uint256" }, { name: "metadata"; type: "string" }];
 }
 
 export interface MessageMetadata {
-  app: "daosign";
   timestamp: number;
   metadata: string;
 }
