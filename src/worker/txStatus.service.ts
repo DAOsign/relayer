@@ -10,6 +10,7 @@ import { ProofType, Tx_Status } from "./queue.service";
 import { Proof } from "../models/Proof";
 import { Account } from "../models/Account";
 import { sendLowBalanceMessage, sendTxErrorMessage } from "../services/slackWebhookService";
+import { PolkadotService } from "../services/blockchainService/polkadot";
 
 export class TxStatusService {
   private networkName: string;
@@ -32,6 +33,10 @@ export class TxStatusService {
         break;
       case 4:
         this.blockchainService = new EthereumService(env.OASIS_RPC_URL);
+        break;
+      case 5:
+        this.blockchainService = new PolkadotService();
+        break;
     }
 
     this.checkStatusCron = new CronJob("*/1 * * * *", () => this.checkTransactionStatus(), null, true, "", null, true);

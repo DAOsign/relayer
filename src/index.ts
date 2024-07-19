@@ -8,7 +8,7 @@ import { SuiProofProvider } from "./services/proof_provider/sui";
 import { EthereumProofProvider } from "./services/proof_provider/ethereum";
 import { TxStatusService } from "./worker/txStatus.service";
 import { Network } from "./services/proof_provider";
-import { StorageService } from "./services/storageService";
+import { PolkadotProofProvider } from "./services/proof_provider/polkadot";
 
 const port = env.PORT;
 
@@ -21,9 +21,11 @@ AppDataSource.initialize()
     new TxStatusService(accountRepository, proofRepository, Network.SUI);
     new TxStatusService(accountRepository, proofRepository, Network.ETHEREUM);
     new TxStatusService(accountRepository, proofRepository, Network.OASIS);
+    new TxStatusService(accountRepository, proofRepository, Network.POLKADOT);
     new QueueService(accountRepository, proofRepository, new SuiProofProvider("testnet")).start();
     new QueueService(accountRepository, proofRepository, new EthereumProofProvider(env.ETH_RPC_URL)).start();
     new QueueService(accountRepository, proofRepository, new EthereumProofProvider(env.OASIS_RPC_URL, Network.OASIS)).start();
+    new QueueService(accountRepository, proofRepository, new PolkadotProofProvider(env.POLKADOT_RPC_URL, Network.POLKADOT)).start();
   })
   .catch((err) => {
     console.error("Error during Data Source initialization:", err);
