@@ -1,6 +1,6 @@
 import { BlockchainService } from ".";
 import { Tx_Status } from "../proof_provider";
-import { DaosignPolkadotContractInteractor } from "daosign-polkadot";
+import { DaosignPolkadotContractInteractor } from "@daosign/polkadot";
 import abi from "../proof_provider/polkadot_abi.json";
 import env from "../../env";
 

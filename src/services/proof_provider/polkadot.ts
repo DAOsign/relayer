@@ -4,7 +4,7 @@ import { DAOSignApp } from "../../types/DAOSignApp";
 import abi from "./polkadot_abi.json";
 import { getProofType } from "./utils";
 import { createContractPayload } from "../../utils/transformers";
-import { DaosignPolkadotContractInteractor } from "daosign-polkadot";
+import { DaosignPolkadotContractInteractor } from "@daosign/polkadot";
 import env from "../../env";
 
 export class PolkadotProofProvider implements ProofProvider {
