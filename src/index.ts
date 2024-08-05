@@ -9,6 +9,7 @@ import { EthereumProofProvider } from "./services/proof_provider/ethereum";
 import { TxStatusService } from "./worker/txStatus.service";
 import { Network } from "./services/proof_provider";
 import { StorageService } from "./services/storageService";
+import {NearProofProvider} from "./services/proof_provider/near";
 
 const port = env.PORT;
 
@@ -21,9 +22,11 @@ AppDataSource.initialize()
     new TxStatusService(accountRepository, proofRepository, Network.SUI);
     new TxStatusService(accountRepository, proofRepository, Network.ETHEREUM);
     new TxStatusService(accountRepository, proofRepository, Network.OASIS);
+    new TxStatusService(accountRepository, proofRepository, Network.NEAR);
     new QueueService(accountRepository, proofRepository, new SuiProofProvider("testnet")).start();
     new QueueService(accountRepository, proofRepository, new EthereumProofProvider(env.ETH_RPC_URL)).start();
     new QueueService(accountRepository, proofRepository, new EthereumProofProvider(env.OASIS_RPC_URL, Network.OASIS)).start();
+    new QueueService(accountRepository, proofRepository, new NearProofProvider(env.NEAR_RPC_NET)).start();
   })
   .catch((err) => {
     console.error("Error during Data Source initialization:", err);
