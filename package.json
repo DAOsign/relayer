@@ -34,6 +34,7 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
+    "@daosign/near": "^0.0.1",
     "@mysten/sui.js": "^0.49.1",
     "axios": "^1.6.8",
     "cors": "^2.8.5",

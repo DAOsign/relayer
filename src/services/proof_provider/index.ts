@@ -3,6 +3,7 @@ export enum Network {
   SUI = 2,
   ASTAR = 3,
   OASIS = 4,
+  NEAR = 6,
 }
 
 export const NetworkMinBalance = {
@@ -10,6 +11,7 @@ export const NetworkMinBalance = {
   [Network.SUI]: 15000000,
   [Network.ASTAR]: 0,
   [Network.OASIS]: 700000,
+  [Network.NEAR]: 3000000000000000000000,
 };
 
 export enum Tx_Status {
