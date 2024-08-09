@@ -88,7 +88,7 @@ jobs:
               "appSlackWebhookLink": "${{ secrets.APP_SLACK_WEBHOOK_LINK_DEV }}",
               "nearRpcNet": "${{ env.NEAR_RPC_NET }}",
               "nearContractAddress": "${{ secrets.NEAR_CONTRACT_ADDRESS_DEV }}",
-              "nearMnemonic": "${{ secrets.NEAR_MNEMONIC_DEV }}
+              "nearMnemonic": "${{ secrets.NEAR_MNEMONIC_DEV }}"
             }
           }
           EOF
