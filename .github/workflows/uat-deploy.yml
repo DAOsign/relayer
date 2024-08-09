@@ -51,6 +51,7 @@ jobs:
       OASIS_RPC_URL: "https://testnet.sapphire.oasis.dev"
       STORAGE_RPC_URL: "https://optimism-sepolia.blockpi.network/v1/rpc/public"
       APP_NAME: "daoSign-uat"
+      NEAR_RPC_NET: "testnet"
     steps:
       - uses: actions/checkout@v3
       - name: Create & View .env.yaml file
@@ -84,7 +85,10 @@ jobs:
               "storageContractAddress": "${{ secrets.STORAGE_CONTRACT_ADDRESS_DEV }}",
               "storageAdminPrivateKey": "${{ secrets.STORAGE_ADMIN_PRIVATE_KEY_DEV }}",
               "appName": "${{ env.APP_NAME }}",
-              "appSlackWebhookLink": "${{ secrets.APP_SLACK_WEBHOOK_LINK_DEV }}"
+              "appSlackWebhookLink": "${{ secrets.APP_SLACK_WEBHOOK_LINK_DEV }}",
+              "nearRpcNet": "${{ env.NEAR_RPC_NET }}",
+              "nearContractAddress": "${{ secrets.NEAR_CONTRACT_ADDRESS_DEV }}",
+              "nearMnemonic": "${{ secrets.NEAR_MNEMONIC_DEV }}
             }
           }
           EOF
@@ -97,7 +101,7 @@ jobs:
       - name: Helm deploy the latest image
         env:
           NAMESPACE: "uat"
-          HELM_VERSION: 0.1.6
+          HELM_VERSION: 0.1.7
         run: |
           doctl registry login --expiry-seconds 600 && \
           kubectl get pods -n ${{ env.NAMESPACE }} && helm ls -n ${{ env.NAMESPACE }} && \
