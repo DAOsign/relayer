@@ -1,7 +1,6 @@
 import { Network, PROOF_TYPE, ProofOfAgreementMessage, ProofOfAuthorityMessage, ProofOfSignatureMessage, ProofProvider, SignedProof } from "./index";
 import { ethers } from "ethers";
 import { DAOSignApp } from "../../types/DAOSignApp";
-import abi from "./polkadot_abi.json";
 import { getProofType } from "./utils";
 import { createContractPayload } from "../../utils/transformers";
 import { DaosignPolkadotContractInteractor } from "@daosign/polkadot";
@@ -28,7 +27,7 @@ export class PolkadotProofProvider implements ProofProvider {
   }
 
   public async set(derivationPath: string, proof: SignedProof): Promise<string> {
-    const polkadotInteractor = new DaosignPolkadotContractInteractor(this.contractAddress, abi, env.POLKADOT_RPC_URL);
+    const polkadotInteractor = new DaosignPolkadotContractInteractor(this.contractAddress, env.POLKADOT_RPC_URL);
     const proofType = getProofType(proof);
 
     const connectedWallet = await polkadotInteractor.connectWallet(this.mnemonic, derivationPath);
