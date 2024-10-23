@@ -26,6 +26,10 @@ export default envalid.cleanEnv(process.env, {
   OASIS_CONTRACT_ADDRESS: envalid.str(),
   OASIS_PRIVATE_KEY: envalid.str(),
 
+  POLKADOT_RPC_URL: envalid.str(),
+  POLKADOT_CONTRACT_ADDRESS: envalid.str(),
+  POLKADOT_MNEMONIC: envalid.str(),
+
   SUI_PACKAGE_ID: envalid.str(),
   SUI_BAG_ID: envalid.str(),
   SUI_RPC_TYPE: envalid.str(),

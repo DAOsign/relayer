@@ -10,6 +10,7 @@ import { ProofType, Tx_Status } from "./queue.service";
 import { Proof } from "../models/Proof";
 import { Account } from "../models/Account";
 import { sendLowBalanceMessage, sendTxErrorMessage } from "../services/slackWebhookService";
+import { PolkadotService } from "../services/blockchainService/polkadot";
 import {NearService} from "../services/blockchainService/near";
 
 export class TxStatusService {
@@ -34,6 +35,8 @@ export class TxStatusService {
       case 4:
         this.blockchainService = new EthereumService(env.OASIS_RPC_URL);
         break;
+      case 5:
+        this.blockchainService = new PolkadotService();
       case 6:
         this.blockchainService = new NearService(env.NEAR_RPC_NET);
         break;
