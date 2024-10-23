@@ -4,6 +4,7 @@ export enum Network {
   ASTAR = 3,
   OASIS = 4,
   POLKADOT = 5,
+  NEAR = 6,
 }
 
 export const NetworkMinBalance = {
@@ -12,6 +13,7 @@ export const NetworkMinBalance = {
   [Network.ASTAR]: 0,
   [Network.OASIS]: 700000,
   [Network.POLKADOT]: 150000000, // TODO change to actual value
+  [Network.NEAR]: 3000000000000000000000,
 };
 
 export enum Tx_Status {

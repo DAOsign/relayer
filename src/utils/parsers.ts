@@ -1,17 +1,17 @@
 import {
   Network,
-  ProofTypedMessage,
-  SignedProof,
-  ProofOfAuthorityTypedMessage,
-  ProofOfSignatureTypedMessage,
+  ProofOfAgreementMessage,
   ProofOfAgreementTypedMessage,
   ProofOfAuthorityMessage,
-  ProofOfSignatureMessage,
-  ProofOfAgreementMessage,
-  ProofOfVoidTypedMessage,
-  ProofOfVoidMessage,
-  ProofOfCancelTypedMessage,
+  ProofOfAuthorityTypedMessage,
   ProofOfCancelMessage,
+  ProofOfCancelTypedMessage,
+  ProofOfSignatureMessage,
+  ProofOfSignatureTypedMessage,
+  ProofOfVoidMessage,
+  ProofOfVoidTypedMessage,
+  ProofTypedMessage,
+  SignedProof,
 } from "../services/proof_provider";
 
 const IPFS_CID_LENGTH = 46;
@@ -29,6 +29,8 @@ export function parseNetwork(value?: string): Network {
       return Network.OASIS;
     case "polkadot":
       return Network.POLKADOT;
+    case "near":
+      return Network.NEAR;
   }
   throw new Error("invalid network value");
 }
