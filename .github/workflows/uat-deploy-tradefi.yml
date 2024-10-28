@@ -40,19 +40,6 @@ jobs:
     env:
       # Ingress
       HOST: "relayer.uat.tradefi.daosign.org"
-      # Secrets
-      DB_PORT: "25060"
-      DATABASE: "tradefi-relayer-uat"
-      LOGGING: "false"
-      ETH_RPC_URL: "https://ethereum-sepolia.publicnode.com"
-      SUI_RPC_TYPE: "testnet"
-      GRAYLOG_HOST: "45.55.98.77"
-      GRAYLOG_PORT: "12201"
-      OASIS_RPC_URL: "https://testnet.sapphire.oasis.dev"
-      STORAGE_RPC_URL: "https://optimism-sepolia.blockpi.network/v1/rpc/public"
-      APP_NAME: "tradeFi-uat"
-      NEAR_RPC_NET: "testnet"
-      POLKADOT_RPC_URL: "wss://aleph-zero-testnet-rpc.dwellir.com"
     steps:
       - uses: actions/checkout@v3
       - name: Create & View .env.yaml file
@@ -64,33 +51,33 @@ jobs:
               "host": "${{ env.HOST }}"
             },
             "secrets": {
-              "dbPort": "${{ env.DB_PORT }}",
-              "database": "${{ env.DATABASE }}",
+              "dbPort": "${{ secrets.DO_DB_PORT_DEV }}",
+              "database": "${{ secrets.DO_DB_DATABASE_TRADEFI_UAT }}",
               "host": "${{ secrets.DO_DB_HOST_DEV }}",
               "username": "${{ secrets.DO_DB_USERNAME_DEV }}",
               "password": "${{ secrets.DO_DB_PASSWORD_DEV }}",
-              "logging": "${{ env.LOGGING }}",
-              "ethRpcUrl": "${{ env.ETH_RPC_URL }}",
+              "logging": "${{ secrets.DO_DB_LOGGING_DEV }}",
+              "ethRpcUrl": "${{ secrets.ETH_RPC_URL_TRADEFI_DEV }}",
               "ethPrivateKey": "${{ secrets.ETH_PRIVATE_KEY_DEV }}",
               "ethContractAddress": "${{ secrets.ETH_CONTRACT_ADDRESS_TRADEFI_DEV }}",
-              "suiRpcType": "${{ env.SUI_RPC_TYPE }}",
+              "suiRpcType": "${{ secrets.SUI_RPC_TYPE_DEV }}",
               "suiPackageId": "${{ secrets.SUI_PACKAGE_ID_DEV }}",
               "suiBagId": "${{ secrets.SUI_BAG_ID_DEV }}",
               "suiMnemonic": "${{ secrets.SUI_MNEMONIC_DEV }}",
-              "graylogHost": "${{ env.GRAYLOG_HOST }}",
-              "graylogPort": "${{ env.GRAYLOG_PORT }}",
-              "oasisRpcUrl": "${{ env.OASIS_RPC_URL }}",
+              "graylogHost": "${{ secrets.GRAYLOG_HOST_DEV }}",
+              "graylogPort": "${{ secrets.GRAYLOG_PORT_DEV }}",
+              "oasisRpcUrl": "${{ secrets.OASIS_RPC_URL_DEV }}",
               "oasisContractAddress": "${{ secrets.OASIS_CONTRACT_ADDRESS_DEV }}",
               "oasisPrivateKey": "${{ secrets.OASIS_PRIVATE_KEY_DEV }}",
-              "storageRpcUrl": "${{ env.STORAGE_RPC_URL }}",
+              "storageRpcUrl": "${{ secrets.STORAGE_RPC_URL_DEV }}",
               "storageContractAddress": "${{ secrets.STORAGE_CONTRACT_ADDRESS_DEV }}",
               "storageAdminPrivateKey": "${{ secrets.STORAGE_ADMIN_PRIVATE_KEY_DEV }}",
-              "appName": "${{ env.APP_NAME }}",
+              "appName": "${{ secrets.APP_NAME_TRADEFI_UAT }}",
               "appSlackWebhookLink": "${{ secrets.APP_SLACK_WEBHOOK_LINK_DEV }}",
-              "nearRpcNet": "${{ env.NEAR_RPC_NET }}",
+              "nearRpcNet": "${{ secrets.NEAR_RPC_NET_DEV }}",
               "nearContractAddress": "${{ secrets.NEAR_CONTRACT_ADDRESS_DEV }}",
               "nearMnemonic": "${{ secrets.NEAR_MNEMONIC_DEV }}",
-              "polkadotRpcUrl": "${{ env.POLKADOT_RPC_URL }}",
+              "polkadotRpcUrl": "${{ secrets.POLKADOT_RPC_URL_DEV }}",
               "polkadotContractAddress": "${{ secrets.POLKADOT_CONTRACT_ADDRESS_DEV }}",
               "polkadotMnemonic": "${{ secrets.POLKADOT_MNEMONIC_DEV }}"
             }
