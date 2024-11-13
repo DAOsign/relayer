@@ -1,13 +1,6 @@
 import { DataSource, Repository } from "typeorm";
 import { ProofService } from "../services/proofService";
-import {
-  Network,
-  ProofOfAgreementMessage,
-  ProofOfSignatureMessage,
-  SignedProof,
-  ProofOfAuthorityMessage,
-  ProofOfVoidMessage
-} from "../services/proof_provider";
+import { Network, ProofOfAgreementMessage, ProofOfSignatureMessage, SignedProof, ProofOfVoidMessage } from "../services/proof_provider";
 import { Tx } from "../models/Tx";
 import { Account } from "../models/Account";
 import { Proof } from "../models/Proof";
