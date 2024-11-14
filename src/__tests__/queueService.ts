@@ -4,6 +4,8 @@ import { Account } from "../models/Account";
 import { CronJob } from "cron";
 import { Network, ProofProvider } from "../services/proof_provider";
 import { Repository } from "typeorm";
+import { sendTxErrorMessage } from "../services/slackWebhookService";
+jest.mock("../services/slackWebhookService");
 
 describe("QueueService", () => {
   let queueService: QueueService;
@@ -12,6 +14,8 @@ describe("QueueService", () => {
   let mockRelayerService: Partial<ProofProvider>;
 
   beforeEach(() => {
+    (sendTxErrorMessage as jest.Mock).mockClear();
+
     mockAccountRepository = {
       createQueryBuilder: jest.fn().mockReturnValue({
         where: jest.fn().mockReturnThis(),
