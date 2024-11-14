@@ -58,10 +58,10 @@ describe("QueueService", () => {
       jest.spyOn(queueService, "isAuthorityProofProcessed").mockResolvedValue(true);
       jest.spyOn(queueService, "isSignatureProofsProcessed").mockResolvedValue(true);
 
-      const result = await queueService.processProofs(mockProofs, mockAccounts);
+      const resultPromise = queueService.processProofs(mockProofs, mockAccounts);
 
+      await expect(resultPromise).resolves.toHaveLength(3);
       expect(queueService.isAuthorityProofProcessed).toHaveBeenCalledWith("auth1");
-      expect(result).toHaveLength(3);
     });
 
     it("should skip processing if authority proof is not processed", async () => {
@@ -117,9 +117,9 @@ describe("QueueService", () => {
     it("should not process proof if account is undefined", async () => {
       const mockProof = { id: 8, type: ProofType.AUTHORITY, payload: { proofCID: "proof8" } } as Proof;
 
-      const result = await queueService.processProof(mockProof, undefined as unknown as Account);
+      const result = queueService.processProof(mockProof, undefined as unknown as Account);
 
-      expect(result).toBeUndefined();
+      await expect(result).resolves.toBeUndefined();
       expect(mockProofRepository.save).not.toHaveBeenCalled();
     });
 
@@ -129,7 +129,7 @@ describe("QueueService", () => {
 
       (mockRelayerService.set as jest.Mock).mockRejectedValue(new Error("Test error"));
 
-      const result = await queueService.processProof(mockProof, mockAccount);
+      await queueService.processProof(mockProof, mockAccount);
 
       expect(mockProof.status).toBe(Tx_Status.ERROR);
       expect(mockProofRepository.save).toHaveBeenCalledWith(mockProof);

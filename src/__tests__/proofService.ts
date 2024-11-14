@@ -70,7 +70,7 @@ describe("ProofService", () => {
       (mockProofRepository.create as jest.Mock).mockReturnValue(expectedProof);
       (mockProofRepository.save as jest.Mock).mockResolvedValue(expectedProof);
 
-      const result = await proofService.set(Network.ETHEREUM, mockSignedProof);
+      const result = proofService.set(Network.ETHEREUM, mockSignedProof);
 
       expect(mockProofRepository.create).toHaveBeenCalledWith({
         refId: "authorityCID",
@@ -82,7 +82,7 @@ describe("ProofService", () => {
         payload: mockSignedProof,
       });
       expect(mockProofRepository.save).toHaveBeenCalledWith(expectedProof);
-      expect(result).toEqual(expectedProof);
+      await expect(result).resolves.toEqual(expectedProof);
     });
 
     it("should create and save Proof with ProofOfAgreement type", async () => {
@@ -121,7 +121,7 @@ describe("ProofService", () => {
       (mockProofRepository.create as jest.Mock).mockReturnValue(expectedProof);
       (mockProofRepository.save as jest.Mock).mockResolvedValue(expectedProof);
 
-      const result = await proofService.set(Network.ETHEREUM, mockSignedProof);
+      const result = proofService.set(Network.ETHEREUM, mockSignedProof);
 
       expect(mockProofRepository.create).toHaveBeenCalledWith({
         refId: "authorityCID",
@@ -132,7 +132,7 @@ describe("ProofService", () => {
         payload: mockSignedProof,
       });
       expect(mockProofRepository.save).toHaveBeenCalledWith(expectedProof);
-      expect(result).toEqual(expectedProof);
+      await expect(result).resolves.toEqual(expectedProof);
     });
 
     it("should handle errors and return undefined when proof creation fails", async () => {
@@ -167,7 +167,7 @@ describe("ProofService", () => {
         signature: "testSignature",
       };
 
-      mockProofRepository.create= jest.fn().mockRejectedValue(new Error("Creation error"));
+      mockProofRepository.create = jest.fn().mockRejectedValue(new Error("Creation error"));
 
       const resultPromise = proofService.set(Network.ETHEREUM, mockSignedProof);
 
@@ -213,7 +213,7 @@ describe("ProofService", () => {
       (mockProofRepository.create as jest.Mock).mockReturnValue(expectedProof);
       (mockProofRepository.save as jest.Mock).mockResolvedValue(expectedProof);
 
-      const result = await proofService.set(Network.ETHEREUM, mockSignedProof);
+      const resultPromise = proofService.set(Network.ETHEREUM, mockSignedProof);
 
       expect(mockProofRepository.create).toHaveBeenCalledWith({
         refId: "authorityCID",
@@ -225,7 +225,7 @@ describe("ProofService", () => {
         payload: mockSignedProof,
       });
       expect(mockProofRepository.save).toHaveBeenCalledWith(expectedProof);
-      expect(result).toEqual(expectedProof);
+      await expect(resultPromise).resolves.toEqual(expectedProof);
     });
   });
 
@@ -235,19 +235,19 @@ describe("ProofService", () => {
 
       (mockProofRepository.findOneBy as jest.Mock).mockResolvedValue(mockProof);
 
-      const result = await proofService.getTxById(1);
+      const resultPromise = proofService.getTxById(1);
 
       expect(mockProofRepository.findOneBy).toHaveBeenCalledWith({ id: 1 });
-      expect(result).toEqual(mockProof);
+      await expect(resultPromise).resolves.toEqual(mockProof);
     });
 
     it("should return null if no transaction is found", async () => {
       (mockProofRepository.findOneBy as jest.Mock).mockResolvedValue(null);
 
-      const result = await proofService.getTxById(999);
+      const resultPromise = proofService.getTxById(999);
 
       expect(mockProofRepository.findOneBy).toHaveBeenCalledWith({ id: 999 });
-      expect(result).toBeNull();
+      await expect(resultPromise).resolves.toBeNull();
     });
   });
 });
