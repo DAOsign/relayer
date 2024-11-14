@@ -9,14 +9,14 @@ Before starting, make sure you have [Node.js](https://nodejs.org/) installed.
 1. Clone the repository:
 
    ```bash
-   git clone <repository URL>
-   cd blockchain-relayer
+   git clone git@github.com:DAOsign/relayer.git
+   cd relayer
    ```
 
 2. Install dependencies:
 
    ```bash
-   npm install
+   yarn install
    ```
 
 3. Configure the `.env` file using the example in [Configuration](#configuration).
@@ -90,8 +90,23 @@ Fill in each environment variable with values that match your infrastructure and
 2. Based on the received data, the relayer prepares and performs transactions for the respective blockchains.
 3. Upon successful completion of the transaction, the relayer returns the `txid` — the transaction identifier that confirms it has been processed.
 
-## Dependencies
+## Testing
 
-- **Node.js** — JavaScript runtime environment
-- **TypeORM** — ORM for database interaction
-- **Axios** — for handling HTTP requests to the `daosign backend` and blockchains
+Run following command to execute unit tests:
+
+```shell
+cp .env.example .env
+yarn test
+```
+
+You should see output like that:
+
+```shell
+Test Suites: 3 passed, 3 total
+Tests:       28 passed, 28 total
+Snapshots:   0 total
+Time:        5.075 s
+Ran all test suites matching /test/i.
+Done in 5.54s.
+
+```

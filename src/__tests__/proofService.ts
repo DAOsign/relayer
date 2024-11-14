@@ -167,12 +167,12 @@ describe("ProofService", () => {
         signature: "testSignature",
       };
 
-      (mockProofRepository.create as jest.Mock).mockImplementation(() => { throw new Error("Creation error"); });
+      mockProofRepository.create= jest.fn().mockRejectedValue(new Error("Creation error"));
 
-      const result = await proofService.set(Network.ETHEREUM, mockSignedProof);
+      const resultPromise = proofService.set(Network.ETHEREUM, mockSignedProof);
 
       expect(mockProofRepository.create).toHaveBeenCalled();
-      expect(result).toBeUndefined();
+      await expect(resultPromise).rejects.toThrow();
     });
 
     it("should create and save Proof with ProofOfVoid type", async () => {
