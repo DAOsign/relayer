@@ -86,27 +86,30 @@ export class QueueService {
 
   async getProcessableProofs(take: number) {
     //authority is prioritized
-    const authorityProofs = await this.getNewProofs({
-      where: { type: ProofType.AUTHORITY },
-      take: take,
-    });
+    const authorityProofs =
+      (await this.getNewProofs({
+        where: { type: ProofType.AUTHORITY },
+        take: take,
+      })) || [];
 
     const authorityProofRefs = authorityProofs.map((p) => p.refId);
 
-    const signatureProofs = await this.getNewProofs({
-      where: { type: ProofType.SIGNATURE, refId: Not(In(authorityProofRefs)) },
-      take: take,
-    });
+    const signatureProofs =
+      (await this.getNewProofs({
+        where: { type: ProofType.SIGNATURE, refId: Not(In(authorityProofRefs)) },
+        take: take,
+      })) || [];
 
     const signatureProofRefs = signatureProofs.map((p) => p.refId);
 
-    const restProofs = await this.getNewProofs({
-      where: {
-        type: In([ProofType.DOCUMENT, ProofType.VOID, ProofType.CANCEL]),
-        refId: Not(In([...signatureProofRefs, authorityProofRefs])),
-      },
-      take: take - authorityProofs.length,
-    });
+    const restProofs =
+      (await this.getNewProofs({
+        where: {
+          type: In([ProofType.DOCUMENT, ProofType.VOID, ProofType.CANCEL]),
+          refId: Not(In([...signatureProofRefs, authorityProofRefs])),
+        },
+        take: take - authorityProofs.length,
+      })) || [];
 
     return [...authorityProofs, ...signatureProofs, ...restProofs];
   }
