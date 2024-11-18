@@ -27,6 +27,19 @@ Before starting, make sure you have [Node.js](https://nodejs.org/) installed.
    npm start
    ```
 
+### With docker
+
+* Build docker: 
+```shell
+docker build -t daosign-relayer .
+```
+
+* Run relayer docker image:
+```shell
+docker run --env-file .env daosign-relayer
+```
+
+
 ## Configuration
 
 The blockchain relayer requires a `.env` file with settings to connect to various blockchain nodes and databases. An example `.env` file is provided below.
