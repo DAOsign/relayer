@@ -72,7 +72,6 @@ export default class ProofController {
       storageService
         .setCID(certificateCID, agreementProofCID)
         .then((hash) => {
-          console.log("hash", hash);
           res.status(200).send(hash);
         })
         .catch((e) => {

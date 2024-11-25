@@ -69,7 +69,6 @@ export class ProofService {
       console.log(e);
     }
 
-    console.log("proof", proof);
     await this.proofRepository.save(proof);
     return proof;
   }

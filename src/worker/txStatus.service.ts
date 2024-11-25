@@ -109,7 +109,6 @@ export class TxStatusService {
         }
       })
       .catch((e) => {
-        console.log(e);
         sendTxErrorMessage(proof.id, this.networkName, e);
         this.proofRepository.update({ txHash: proof.txHash }, { status: Tx_Status.ERROR });
       })

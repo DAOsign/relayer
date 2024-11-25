@@ -1,0 +1,36 @@
+version: '3.6'
+# https://docs.docker.com/compose/compose-file/
+
+services:
+  db:
+    image: postgres:14-alpine
+    volumes:
+      - db_lbp:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=db_name
+      - POSTGRES_USER=db_user
+      - POSTGRES_PASSWORD=db_password
+    ports:
+      - '25434:5432'
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=local
+      - DATABASE_HOST=db
+      - DATABASE_PORT=5432
+      - DATABASE_USER=db_user
+      - DATABASE_PASSWORD=db_password
+      - DATABASE_NAME=db_name
+    depends_on:
+      - db
+
+
+volumes:
+  db_lbp:
