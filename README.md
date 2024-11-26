@@ -64,11 +64,11 @@ APP_NAME=daosign||tradefi
 APP_SLACK_WEBHOOK_LINK=<Your Slack webhook URL>
 
 # Database settings
-TYPEORM_HOST=127.0.0.1
+TYPEORM_HOST=127.0.0.1||postgres
 TYPEORM_USERNAME=db_user
-TYPEORM_PASSWORD=db_password
+TYPEORM_PASSWORD=db_pass
 TYPEORM_DATABASE=db_name
-TYPEORM_PORT=25433
+TYPEORM_PORT=25433||5432
 TYPEORM_LOGGING=false
 
 # Ethereum settings
