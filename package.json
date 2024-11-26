@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "npm exec node ./dist/index.js",
+    "start:local": "NODE_ENV=local npm exec node ./dist/index.js",
     "test": "jest test",
     "build": "tsc",
     "lint": "npm run prettier-check && npm run eslint-check",

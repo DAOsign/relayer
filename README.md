@@ -29,7 +29,7 @@ Before starting, make sure you have [Node.js](https://nodejs.org/) installed.
 
 ### With docker
 
-* Build docker: 
+* Build docker:
 ```shell
 docker build -t daosign-relayer .
 ```
@@ -39,6 +39,17 @@ docker build -t daosign-relayer .
 docker run --env-file .env daosign-relayer
 ```
 
+### With docker-compose
+
+* Build and run the services:
+```shell
+docker-compose up --build
+```
+
+* Build and run the services in detached mode (in the background):
+```shell
+docker-compose up --build -d
+```
 
 ## Configuration
 
