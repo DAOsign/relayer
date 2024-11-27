@@ -17,4 +17,4 @@ ENV NODE_ENV local
 RUN yarn build
 EXPOSE 3000
 
-CMD ["yarn", "start:local"]
+CMD ["yarn", "start"]
