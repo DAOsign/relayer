@@ -60,7 +60,7 @@ The blockchain relayer requires a `.env` file with settings to connect to variou
 ```dotenv
 # Basic settings
 PORT=8000
-APP_NAME=daosign||tradefi
+APP_NAME=daosign||tradefi||local
 APP_SLACK_WEBHOOK_LINK=<Your Slack webhook URL>
 
 # Database settings
