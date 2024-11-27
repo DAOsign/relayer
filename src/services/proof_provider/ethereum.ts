@@ -17,7 +17,6 @@ export class EthereumProofProvider implements ProofProvider {
 
   constructor(rpcUrl: string, network = Network.ETHEREUM) {
     this.contractAddress = Network.ETHEREUM === network ? env.ETH_CONTRACT_ADDRESS : env.OASIS_CONTRACT_ADDRESS;
-    console.log(network);
     this.network = network;
     this.provider = new ethers.JsonRpcProvider(rpcUrl);
     const signer = new ethers.Wallet(env.ETH_PRIVATE_KEY, this.provider);

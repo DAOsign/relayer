@@ -49,7 +49,6 @@ export class QueueService {
     this.logger.info(`${this.networkName} queue processor started`);
 
     const unlockedAccounts = await this.getUnlockedAccounts();
-    console.log(unlockedAccounts);
 
     if (!unlockedAccounts.length) {
       this.logger.info(`No unlocked ${this.networkName} accounts found. Skipping ${this.networkName} queue processing`);
@@ -224,7 +223,6 @@ export class QueueService {
       await this.accountRepository.save({ ...account, currentProof: proof });
       return await this.proofRepository.save(proof);
     } catch (e) {
-      this.logger.info(e);
       await sendTxErrorMessage(proof.id, this.networkName, e);
       proof.status = Tx_Status.ERROR;
       //Error handling
