@@ -29,7 +29,7 @@ Before starting, make sure you have [Node.js](https://nodejs.org/) installed.
 
 ### With docker
 
-* Build docker: 
+* Build docker:
 ```shell
 docker build -t daosign-relayer .
 ```
@@ -39,6 +39,17 @@ docker build -t daosign-relayer .
 docker run --env-file .env daosign-relayer
 ```
 
+### With docker-compose
+
+* Build and run the services:
+```shell
+docker-compose up --build
+```
+
+* Build and run the services in detached mode (in the background):
+```shell
+docker-compose up --build -d
+```
 
 ## Configuration
 
@@ -49,15 +60,15 @@ The blockchain relayer requires a `.env` file with settings to connect to variou
 ```dotenv
 # Basic settings
 PORT=8000
-APP_NAME=daosign||tradefi
+APP_NAME=daosign||tradefi||local
 APP_SLACK_WEBHOOK_LINK=<Your Slack webhook URL>
 
 # Database settings
-TYPEORM_HOST=127.0.0.1
+TYPEORM_HOST=127.0.0.1||postgres
 TYPEORM_USERNAME=db_user
-TYPEORM_PASSWORD=db_password
+TYPEORM_PASSWORD=db_pass
 TYPEORM_DATABASE=db_name
-TYPEORM_PORT=25433
+TYPEORM_PORT=25433||5432
 TYPEORM_LOGGING=false
 
 # Ethereum settings
